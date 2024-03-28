@@ -2,7 +2,8 @@ class Game {
     canvas;
     ctx;
     air;
-    levelWidth = 2500;
+    cameraX = 0;
+    levelWidth = 720;
     renderInterval = -1;
 
     backgrounds = [];
@@ -18,6 +19,19 @@ class Game {
     }
 
 
+    startCameraTest() {
+        setInterval(() => {
+            if (this.movement.Left) {
+                this.cameraX -= 10;
+                if (this.cameraX < 0) this.cameraX = 0;
+            } else if (this.movement.Right) {
+                this.cameraX += 10;
+                if (this.cameraX > (this.levelWidth - this.canvas.width)) this.cameraX = this.levelWidth - this.canvas.width;
+            } else return;
+        }, 1000 / 60);
+    }
+
+
     start() {
         this.renderInterval = setInterval(() => {
             this.drawFrame();
@@ -28,6 +42,7 @@ class Game {
         this.backgrounds.forEach((background) => {
             background.start();
         });
+        this.startCameraTest();
     }
 
 
@@ -55,11 +70,7 @@ class Game {
 
     drawFrame() {
         this.renderAir();
-        this.clouds.forEach((cloud) => {
-            cloud.draw(this.ctx);
-        });
-        this.backgrounds.forEach((background) => {
-            background.draw(this.ctx);
-        });
+        this.clouds.forEach((cloud) => cloud.draw());
+        this.backgrounds.forEach((background) => background.draw());
     }
 }

@@ -15,7 +15,7 @@ class Interval extends DrawableObject {
     }
 
 
-    addInterval(id, intervalFunction, interval) {
+    addInterval(id, intervalFunction, interval = 1000 / 60) {
         let newInterval = setInterval(intervalFunction, interval);
         this.intervalObjects[id] = newInterval;
     }

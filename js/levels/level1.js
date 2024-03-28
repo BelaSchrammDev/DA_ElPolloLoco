@@ -1,18 +1,33 @@
 const BACKGROUNDS = [
     {
         type: 'background',
+        init_x: 0,
         src: './img_pollo_locco/img/5_background/layers/3_third_layer/full.png',
-        z_index: 100
+        z_index: 0.15
     },
     {
         type: 'background',
+        init_x: 0,
         src: './img_pollo_locco/img/5_background/layers/2_second_layer/full.png',
-        z_index: 50
+        z_index: 0.4
     },
     {
         type: 'background',
+        init_x: 1706,
+        src: './img_pollo_locco/img/5_background/layers/2_second_layer/full.png',
+        z_index: 0.4
+    },
+    {
+        type: 'background',
+        init_x: 0,
         src: './img_pollo_locco/img/5_background/layers/1_first_layer/full.png',
-        z_index: 30
+        z_index: 1
+    },
+    {
+        type: 'background',
+        init_x: 1706,
+        src: './img_pollo_locco/img/5_background/layers/1_first_layer/full.png',
+        z_index: 1
     },
 ]
 
@@ -51,16 +66,18 @@ const CLOUDS = [
     },
 ]
 
+
 function initLevel1(gameObject) {
+    gameObject.levelWidth = 3400;
     BACKGROUNDS.forEach((background) => {
-        gameObject.backgrounds.push(new BackgroundObject(0, 0, background.src, background.z_index));
+        gameObject.backgrounds.push(new BackgroundObject(background.init_x, 0, background.src, background.z_index));
     });
     addClouds(gameObject);
 }
 
 
 function addClouds(gameObject) {
-    let offsetX = [0, 800, 1600, 2400];
+    let offsetX = [0, 800, 1600, 2400, 3200];
     for (let index = 0; index < offsetX.length; index++) {
         const currentXOffset = offsetX[index];
         CLOUDS.forEach((cloud) => {

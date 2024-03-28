@@ -5,7 +5,7 @@
  * 
  */
 class DrawableObject {
-    gameObject = null;
+    gameObject;
     x;
     y;
     width;
@@ -72,15 +72,21 @@ class DrawableObject {
      * Draws the object on the canvas.
      * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
      */
-    draw(ctx) {
+    draw() {
+        let ctx = this.gameObject.ctx;
         if (this.img == undefined) return;
         if (this.flipdrawing) {
             ctx.save();
             ctx.translate(this.width, 0);
             ctx.scale(-1, 1);
-            ctx.drawImage(this.img, -this.x, this.y, this.width, this.height);
+            ctx.drawImage(this.img, -this.getX(), this.y, this.width, this.height);
             ctx.restore();
         }
-        else ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        else ctx.drawImage(this.img, this.getX(), this.y, this.width, this.height);
+    }
+
+
+    getX() {
+        return this.x - this.gameObject.cameraX;
     }
 }

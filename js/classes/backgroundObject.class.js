@@ -6,4 +6,9 @@ class BackgroundObject extends Interval {
         this.setImageWithScaleToCanvasHeight(imgpath);
         this.z_index = z;
     }
+
+
+    getX() {
+        return this.x - this.gameObject.cameraX * this.z_index;
+    }
 }

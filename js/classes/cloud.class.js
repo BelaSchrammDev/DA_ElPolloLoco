@@ -7,13 +7,17 @@ class Cloud extends Interval {
         this.setImageWithScale(imgpath, scale);
     }
 
+    getX() {
+        return this.x - this.gameObject.cameraX * (this.speed / 4);
+    }
+
 
     start() {
         this.addInterval('cloudanim', () => {
             this.x -= this.speed;
             if (this.x < -this.width) {
-                this.x = this.gameObject.levelwidth;
+                this.x = this.gameObject.levelWidth;
             }
-        }, 1000 / 60);
+        });
     }
 }
