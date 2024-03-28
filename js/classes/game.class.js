@@ -2,9 +2,11 @@ class Game {
     canvas;
     ctx;
     air;
+    levelWidth = 2500;
     renderInterval = -1;
 
     backgrounds = [];
+    clouds = [];
 
     movement;
 
@@ -20,10 +22,22 @@ class Game {
         this.renderInterval = setInterval(() => {
             this.drawFrame();
         }, 1000 / 60);
+        this.clouds.forEach((cloud) => {
+            cloud.start();
+        });
+        this.backgrounds.forEach((background) => {
+            background.start();
+        });
     }
 
 
     stop() {
+        this.clouds.forEach((cloud) => {
+            cloud.stop();
+        });
+        this.backgrounds.forEach((background) => {
+            background.stop();
+        });
         clearInterval(this.renderInterval);
     }
 
@@ -41,6 +55,9 @@ class Game {
 
     drawFrame() {
         this.renderAir();
+        this.clouds.forEach((cloud) => {
+            cloud.draw(this.ctx);
+        });
         this.backgrounds.forEach((background) => {
             background.draw(this.ctx);
         });

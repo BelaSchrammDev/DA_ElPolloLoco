@@ -28,17 +28,23 @@ class DrawableObject {
     }
 
 
+    setImageWithScale(imgPath, scale) {
+        this.setImage(imgPath);
+        this.img.onload = () => {
+            this.setDimensions(this.img.width * scale, this.img.height * scale);
+        };
+    }
+
+
     /**
      * Sets the image of the drawable object and scales it to the canvas height.
      * @param {string} imgPath - The path to the image file.
      */
-    setImageWithScaleToHeight(imgPath) {
-        this.img = new Image();
-        this.img.src = imgPath;
+    setImageWithScaleToCanvasHeight(imgPath) {
+        this.setImage(imgPath);
         this.img.onload = () => {
             const scale = this.gameObject.canvas.height / this.img.height;
-            this.width = this.img.width * scale;
-            this.height = this.img.height * scale;
+            this.setDimensions(this.img.width * scale, this.img.height * scale);
         };
     }
 

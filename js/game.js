@@ -4,6 +4,7 @@ let picture;
 function init() {
     game = new Game();
     initLevel1(game);
+    game.start();
 }
 
 

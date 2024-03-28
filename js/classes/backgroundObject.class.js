@@ -1,9 +1,9 @@
-class BackgroundObject extends DrawableObject {
+class BackgroundObject extends Interval {
     z_index;
-    constructor(x, y, img, z) {
+    constructor(x, y, imgpath, z) {
         super();
         this.setKoords(x, y);
-        this.setImageWithScaleToHeight(img);
+        this.setImageWithScaleToCanvasHeight(imgpath);
         this.z_index = z;
     }
 }
