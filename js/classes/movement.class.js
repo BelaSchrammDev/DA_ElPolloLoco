@@ -1,11 +1,12 @@
-class KeyBoard {
+class Movement {
     KEY_RIGHT = 'ArrowRight';
     KEY_LEFT = 'ArrowLeft';
+    KEY_UP = 'ArrowUp';
     KEY_SPACE = ' ';
 
     Right = false;
     Left = false;
-    Space = false;
+    Jump = false;
 
     constructor() {
         window.addEventListener('keydown', (e) => {
@@ -26,7 +27,8 @@ class KeyBoard {
                 this.Left = value;
                 break;
             case this.KEY_SPACE:
-                this.Space = value;
+            case this.KEY_UP:
+                this.Jump = value;
                 break;
             default: return;
         }

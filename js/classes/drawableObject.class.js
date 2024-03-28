@@ -1,5 +1,8 @@
 /**
  * Represents a drawable object on the canvas.
+ * @class
+ * @classdesc Represents a drawable object on the canvas.
+ * 
  */
 class DrawableObject {
     gameObject = null;

@@ -6,12 +6,12 @@ class Game {
 
     backgrounds = [];
 
-    keyBoard;
+    movement;
 
     constructor() {
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.keyBoard = new KeyBoard();
+        this.movement = new Movement();
         this.getAir();
     }
 
