@@ -10,6 +10,7 @@ class DrawableObject {
     y;
     width;
     height;
+    z_index = 1;
     flipdrawing = false;
     img = undefined;
 
@@ -28,6 +29,11 @@ class DrawableObject {
     }
 
 
+    /**
+     * Sets the image of the drawable object and scales it.
+     * @param {string} imgPath - The path to the image.
+     * @param {number} scale - The scale factor to apply to the image.
+     */
     setImageWithScale(imgPath, scale) {
         this.setImage(imgPath);
         this.img.onload = () => {
@@ -73,8 +79,8 @@ class DrawableObject {
      * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
      */
     draw() {
-        let ctx = this.gameObject.ctx;
         if (this.img == undefined) return;
+        let ctx = this.gameObject.ctx;
         if (this.flipdrawing) {
             ctx.save();
             ctx.translate(this.width, 0);
@@ -86,7 +92,11 @@ class DrawableObject {
     }
 
 
+    /**
+     * Get the x-coordinate adjusted for the camera and z-index.
+     * @returns {number} The adjusted x-coordinate.
+     */
     getX() {
-        return this.x - this.gameObject.cameraX;
+        return this.x - this.gameObject.cameraX * this.z_index;
     }
 }

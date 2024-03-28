@@ -3,12 +3,9 @@ class Cloud extends Interval {
     constructor(x, y, scale, imgpath, speed) {
         super();
         this.speed = speed;
+        this.z_index = this.speed / 6;
         this.setKoords(x, y);
         this.setImageWithScale(imgpath, scale);
-    }
-
-    getX() {
-        return this.x - this.gameObject.cameraX * (this.speed / 4);
     }
 
 

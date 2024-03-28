@@ -39,9 +39,6 @@ class Game {
         this.clouds.forEach((cloud) => {
             cloud.start();
         });
-        this.backgrounds.forEach((background) => {
-            background.start();
-        });
         this.startCameraTest();
     }
 
@@ -49,9 +46,6 @@ class Game {
     stop() {
         this.clouds.forEach((cloud) => {
             cloud.stop();
-        });
-        this.backgrounds.forEach((background) => {
-            background.stop();
         });
         clearInterval(this.renderInterval);
     }
