@@ -1,13 +1,5 @@
-class Interval extends DrawableObject {
+class Interval {
     intervalObjects = {};
-
-
-    constructor() {
-        super();
-    }
-
-
-    start() { }
 
 
     stop() {

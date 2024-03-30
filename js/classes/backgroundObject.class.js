@@ -1,4 +1,4 @@
-class BackgroundObject extends Interval {
+class BackgroundObject extends DrawableObject {
     constructor(x, y, imgpath, z) {
         super();
         this.setKoords(x, y);

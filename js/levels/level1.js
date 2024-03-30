@@ -73,6 +73,7 @@ function initLevel1(gameObject) {
         gameObject.backgrounds.push(new BackgroundObject(background.init_x, 0, background.src, background.z_index));
     });
     addClouds(gameObject);
+    addPlayer(gameObject);
 }
 
 
@@ -85,4 +86,9 @@ function addClouds(gameObject) {
         });
     }
     gameObject.clouds.sort((a, b) => a.speed - b.speed);
+}
+
+
+function addPlayer(gameObject) {
+    gameObject.player = new Player(0, 140);
 }

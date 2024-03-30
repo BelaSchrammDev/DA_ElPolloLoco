@@ -9,6 +9,8 @@ class Game {
     backgrounds = [];
     clouds = [];
 
+    player;
+
     movement;
 
     constructor() {
@@ -32,6 +34,13 @@ class Game {
     }
 
 
+    moveCamera(offset) {
+        this.cameraX += offset;
+        if (this.cameraX < 0) this.cameraX = 0;
+        if (this.cameraX > (this.levelWidth - this.canvas.width)) this.cameraX = this.levelWidth - this.canvas.width;
+    }
+
+
     start() {
         this.renderInterval = setInterval(() => {
             this.drawFrame();
@@ -39,7 +48,8 @@ class Game {
         this.clouds.forEach((cloud) => {
             cloud.start();
         });
-        this.startCameraTest();
+        this.player.start();
+        // this.startCameraTest();
     }
 
 
@@ -66,5 +76,6 @@ class Game {
         this.renderAir();
         this.clouds.forEach((cloud) => cloud.draw());
         this.backgrounds.forEach((background) => background.draw());
+        this.player.draw();
     }
 }

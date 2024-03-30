@@ -4,7 +4,7 @@
  * @classdesc Represents a drawable object on the canvas.
  * 
  */
-class DrawableObject {
+class DrawableObject extends Interval {
     gameObject;
     x;
     y;
@@ -15,6 +15,7 @@ class DrawableObject {
     img = undefined;
 
     constructor() {
+        super();
         this.gameObject = game;
     }
 

@@ -1,4 +1,4 @@
-class Cloud extends Interval {
+class Cloud extends DrawableObject {
     speed;
     constructor(x, y, scale, imgpath, speed) {
         super();
