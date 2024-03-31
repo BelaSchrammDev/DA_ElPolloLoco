@@ -30,7 +30,7 @@ class ChickenSmall extends Enemy {
             if (this.x < -this.width) {
                 this.x = this.gameObject.levelWidth;
             }
-            if (Math.random() > 0.80) this.addGroundParticles(1);
+            this.addGroundParticles(1);
         });
     }
 }
@@ -53,7 +53,7 @@ class Chicken extends Enemy {
             if (this.x < -this.width) {
                 this.x = this.gameObject.levelWidth;
             }
-            if (Math.random() > 0.60) this.addGroundParticles(1);
+            this.addGroundParticles(2);
         });
     }
 }

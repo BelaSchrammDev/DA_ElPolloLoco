@@ -21,6 +21,7 @@ class MovingObject extends DrawableObject {
 
 
     start() {
+        // start particles animation
         this.animateParticles();
         // start falling behavior
         this.addInterval('falling', () => {
@@ -103,7 +104,7 @@ class MovingObject extends DrawableObject {
                 particle.size *= 0.95;
                 if (particle.size < 0.5) this.particles.splice(index, 1);
             });
-        }, 100);
+        }, 50);
     }
 
 

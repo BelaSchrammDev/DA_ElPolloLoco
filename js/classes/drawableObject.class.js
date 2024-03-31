@@ -96,7 +96,7 @@ class DrawableObject extends Interval {
 
 
     /**
-     * Get the x-coordinate adjusted for the camera and z-index.
+     * Get the x-coordinate for this object adjusted for the camera and z-index.
      * @returns {number} The adjusted x-coordinate.
      */
     getX() {
@@ -105,7 +105,7 @@ class DrawableObject extends Interval {
 
 
     /**
-     * Get the x-coordinate adjusted for the camera and z-index.
+     * Get the real x-coordinate adjusted for the camera and z-index.
      * @returns {number} The adjusted x-coordinate.
      */
     getRealXPosition(x) {
