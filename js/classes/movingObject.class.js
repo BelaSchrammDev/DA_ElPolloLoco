@@ -11,6 +11,9 @@ class MovingObject extends DrawableObject {
     fallingSpeed = 0;
     gravity = 0.5;
 
+    particles = [];
+    maxParticles = 100;
+
 
     constructor() {
         super();
@@ -18,6 +21,7 @@ class MovingObject extends DrawableObject {
 
 
     start() {
+        this.animateParticles();
         // start falling behavior
         this.addInterval('falling', () => {
             if (this.isOnGround() && this.fallingSpeed === 0) return;
@@ -73,5 +77,53 @@ class MovingObject extends DrawableObject {
 
     stopAnimation() {
         this.removeInterval('animation');
+    }
+
+    draw() {
+        super.draw();
+        this.drawGroundLine();
+        this.drawParticles();
+    }
+
+
+    drawGroundLine() {
+        this.gameObject.ctx.fillStyle = 'black';
+        this.gameObject.ctx.beginPath();
+        this.gameObject.ctx.moveTo(this.getX(), this.y + this.offsetGroundFromTopOfSprite);
+        this.gameObject.ctx.lineTo(this.getX() + this.width, this.y + this.offsetGroundFromTopOfSprite);
+        this.gameObject.ctx.stroke();
+    }
+
+
+    animateParticles() {
+        this.addInterval('particles', () => {
+            this.particles.forEach((particle, index) => {
+                particle.posX += Math.random() * 2 - 1;
+                particle.posY += Math.random() * 2 - 2;
+                particle.size *= 0.95;
+                if (particle.size < 0.5) this.particles.splice(index, 1);
+            });
+        }, 100);
+    }
+
+
+    addGroundParticles(count) {
+        for (let index = 0; index < count; index++) {
+            this.particles.push({
+                color: 'rgba(0, 0, 0, 0.02)',
+                size: 10,
+                posX: this.x + this.width / 2 + (Math.random() * 20 - 10),
+                posY: this.y + this.offsetGroundFromTopOfSprite,
+            });
+        }
+    }
+
+    drawParticles() {
+        this.particles.forEach(particle => {
+            this.gameObject.ctx.fillStyle = particle.color;
+            this.gameObject.ctx.beginPath();
+            this.gameObject.ctx.arc(this.getRealXPosition(particle.posX), particle.posY, particle.size, 0, 2 * Math.PI);
+            this.gameObject.ctx.fill();
+        });
     }
 }

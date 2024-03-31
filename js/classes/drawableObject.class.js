@@ -100,6 +100,15 @@ class DrawableObject extends Interval {
      * @returns {number} The adjusted x-coordinate.
      */
     getX() {
-        return this.x - this.gameObject.cameraX * this.z_index;
+        return this.getRealXPosition(this.x);
+    }
+
+
+    /**
+     * Get the x-coordinate adjusted for the camera and z-index.
+     * @returns {number} The adjusted x-coordinate.
+     */
+    getRealXPosition(x) {
+        return x - this.gameObject.cameraX * this.z_index;
     }
 }

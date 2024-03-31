@@ -18,7 +18,7 @@ class ChickenSmall extends Enemy {
 
     constructor(x, speed) {
         super(x, 50, 50);
-        this.offsetGroundFromTopOfSprite = 10;
+        this.offsetGroundFromTopOfSprite = 45;
         this.walkSpeed = speed;
     }
 
@@ -30,6 +30,7 @@ class ChickenSmall extends Enemy {
             if (this.x < -this.width) {
                 this.x = this.gameObject.levelWidth;
             }
+            if (Math.random() > 0.80) this.addGroundParticles(1);
         });
     }
 }
@@ -40,7 +41,7 @@ class Chicken extends Enemy {
 
     constructor(x, speed) {
         super(x, 80, 80);
-        this.offsetGroundFromTopOfSprite = 35;
+        this.offsetGroundFromTopOfSprite = 70;
         this.walkSpeed = speed;
     }
 
@@ -52,6 +53,7 @@ class Chicken extends Enemy {
             if (this.x < -this.width) {
                 this.x = this.gameObject.levelWidth;
             }
+            if (Math.random() > 0.60) this.addGroundParticles(1);
         });
     }
 }

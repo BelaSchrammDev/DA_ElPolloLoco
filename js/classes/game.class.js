@@ -3,16 +3,15 @@ class Game {
     ctx;
     air;
     cameraX = 0;
-    groundLevel = 400;
+    groundLevel = 435;
     levelWidth = 720;
     renderInterval = -1;
 
     backgrounds = [];
     clouds = [];
+    enemies = [];
 
     player;
-
-    enemies = [];
 
     movement;
 

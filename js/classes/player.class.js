@@ -7,7 +7,7 @@ class Player extends MovingObject {
         this.setKoords(x, y);
         this.setDimensions(150, 300);
         this.offsetFromGround = 200;
-        this.offsetGroundFromTopOfSprite = 250;
+        this.offsetGroundFromTopOfSprite = 285;
         this.fallingAnimID = 'pepe_falling';
         this.landingAnimID = 'pepe_landing';
     }
@@ -63,7 +63,10 @@ class Player extends MovingObject {
     setWalkAnimation(leftDirection) {
         this.flipdrawing = leftDirection;
         this.setLastMovementTime();
-        if (this.isOnGround()) this.startAnimation('pepe_walk', 80);
+        if (this.isOnGround()) {
+            this.startAnimation('pepe_walk', 80);
+            this.addGroundParticles(5);
+        }
     }
 
 

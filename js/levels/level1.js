@@ -69,13 +69,19 @@ const CLOUDS = [
 
 function initLevel1(gameObject) {
     gameObject.levelWidth = 3400;
-    BACKGROUNDS.forEach((background) => {
-        gameObject.backgrounds.push(new BackgroundObject(background.init_x, 0, background.src, background.z_index));
-    });
+    addBackGrounds(gameObject);
     addClouds(gameObject);
     addEnemies(gameObject);
     addPlayer(gameObject);
 }
+
+
+function addBackGrounds(gameObject) {
+    BACKGROUNDS.forEach((background) => {
+        gameObject.backgrounds.push(new BackgroundObject(background.init_x, 0, background.src, background.z_index));
+    });
+}
+
 
 
 function addClouds(gameObject) {
