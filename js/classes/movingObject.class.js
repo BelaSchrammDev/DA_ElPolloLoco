@@ -12,7 +12,7 @@ class MovingObject extends DrawableObject {
     gravity = 0.5;
 
     particles = [];
-    maxParticles = 100;
+    maxParticles = 150;
     particleShrinkSpeed = 0.85;
 
 
@@ -22,9 +22,12 @@ class MovingObject extends DrawableObject {
 
 
     start() {
-        // start particles animation
-        this.animateParticles();
-        // start falling behavior
+        this.addParticleAnimation();
+        this.addGravityBehavior();
+    }
+
+
+    addGravityBehavior() {
         this.addInterval('falling', () => {
             if (this.isOnGround() && this.fallingSpeed === 0) return;
             this.fallingSpeed += this.gravity;
@@ -38,7 +41,6 @@ class MovingObject extends DrawableObject {
             this.y = this.gameObject.groundLevel - this.offsetGroundFromTopOfSprite - this.offsetFromGround;
         });
     }
-
 
     isOnGround() {
         return this.offsetFromGround == 0;
@@ -83,21 +85,11 @@ class MovingObject extends DrawableObject {
 
     draw() {
         super.draw();
-        // this.drawGroundLine();
         this.drawParticles();
     }
 
 
-    drawGroundLine() {
-        this.gameObject.ctx.fillStyle = 'black';
-        this.gameObject.ctx.beginPath();
-        this.gameObject.ctx.moveTo(this.getX(), this.y + this.offsetGroundFromTopOfSprite);
-        this.gameObject.ctx.lineTo(this.getX() + this.width, this.y + this.offsetGroundFromTopOfSprite);
-        this.gameObject.ctx.stroke();
-    }
-
-
-    animateParticles() {
+    addParticleAnimation() {
         this.addInterval('particles', () => {
             this.particles.forEach((particle, index) => {
                 particle.posX += Math.random() * 2 - 1;
@@ -115,7 +107,7 @@ class MovingObject extends DrawableObject {
     addGroundParticles(count) {
         for (let index = 0; index < count; index++) {
             this.particles.push({
-                color: 'rgba(0, 0, 0, 0.02)',
+                color: 'rgba(0, 0, 0, 0.05)',
                 size: 8,
                 posX: this.x + this.width / 2 + (Math.random() * 20 - 10),
                 posY: this.y + this.offsetGroundFromTopOfSprite,

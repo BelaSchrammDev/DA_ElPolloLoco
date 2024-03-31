@@ -9,7 +9,7 @@ class CollidingObject extends MovingObject {
 
     draw() {
         super.draw();
-        // this.drawCollisionBox();
+        this.drawCollisionBox();
     }
 
     setHitBox(left, top, right, bottom) {

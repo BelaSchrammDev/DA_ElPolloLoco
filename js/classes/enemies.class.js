@@ -33,7 +33,6 @@ class Enemy extends CollidingObject {
 
 
     enemyDead() {
-        console.log('enemy dead ');
         this.dead = true;
         this.startAnimation(this.animationDead, 200, true);
         this.removeInterval('walk');
@@ -43,12 +42,13 @@ class Enemy extends CollidingObject {
 
 class ChickenSmall extends Enemy {
 
-    constructor(x, speed) {
+    constructor(x, speed, damage) {
         super(x, 50, 50, 'chicken_small_walk', 'chicken_small_dead', 1);
         this.setHitBox(5, 5, 5, 5);
         this.offsetGroundFromTopOfSprite = 45;
         this.walkSpeed = speed;
-        this.playerDamage = 5;
+        this.playerDamage = damage;
+
     }
 
 }
@@ -56,12 +56,12 @@ class ChickenSmall extends Enemy {
 
 class Chicken extends Enemy {
 
-    constructor(x, speed) {
+    constructor(x, speed, damage) {
         super(x, 80, 80, 'chicken_walk', 'chicken_dead', 2);
         this.setHitBox(5, 5, 5, 10);
         this.offsetGroundFromTopOfSprite = 70;
         this.walkSpeed = speed;
-        this.playerDamage = 10;
+        this.playerDamage = damage;
     }
 
 }

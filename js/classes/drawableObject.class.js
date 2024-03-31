@@ -34,6 +34,7 @@ class DrawableObject extends Interval {
 
     /**
      * Sets the image of the drawable object and scales it.
+     * Return it as an object for later use.
      * @param {string} imgPath - The path to the image.
      * @param {number} scale - The scale factor to apply to the image.
      */
@@ -51,6 +52,7 @@ class DrawableObject extends Interval {
 
     /**
      * Sets the image of the drawable object and scales it to the canvas height.
+     * special for background images.
      * @param {string} imgPath - The path to the image file.
      */
     setImageWithScaleToCanvasHeight(imgPath) {

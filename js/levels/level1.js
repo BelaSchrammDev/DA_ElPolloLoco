@@ -67,12 +67,51 @@ const CLOUDS = [
 ]
 
 
+const enemies_level_1 = [
+    {
+        type: 'chicken_small',
+        count: 15,
+        positionFrom: 500,
+        positionTo: 3000,
+        speed: 0.3,
+        damage: 5
+    },
+    {
+        type: 'chicken',
+        count: 3,
+        positionFrom: 1500,
+        positionTo: 3200,
+        speed: 0.3,
+        damage: 10
+    }
+]
+
+const enemies_level_2 = [
+    {
+        type: 'chicken_small',
+        count: 10,
+        positionFrom: 500,
+        positionTo: 2000,
+        speed: 0.7,
+        damage: 10
+    },
+    {
+        type: 'chicken',
+        count: 12,
+        positionFrom: 1000,
+        positionTo: 3200,
+        speed: 0.5,
+        damage: 20
+    }
+]
+
+
 function initLevel1(gameObject) {
     gameObject.levelWidth = 3400;
     gameObject.cameraX = 0;
     addBackGrounds(gameObject);
     addClouds(gameObject);
-    addEnemies(gameObject, 10, 5);
+    addEnemies(gameObject, enemies_level_1);
     addPlayer(gameObject);
     addUIElements(gameObject);
 }
@@ -113,12 +152,26 @@ function addPlayer(gameObject) {
 }
 
 
-function addEnemies(gameObject, countSmall, countNormal) {
+function addEnemies(gameObject, enemiesArray) {
     gameObject.enemies = [];
-    for (let index = 0; index < countSmall; index++) {
-        gameObject.enemies.push(new ChickenSmall(500 + Math.random() * 3000, Math.random() * 0.5 + 0.5));
+    for (let index = 0; index < enemiesArray.length; index++) {
+        const enemyPropertys = enemiesArray[index];
+        switch (enemyPropertys.type) {
+            case 'chicken_small':
+                for (let index = 0; index < enemyPropertys.count; index++) {
+                    gameObject.enemies.push(new ChickenSmall(getSpawnPosition(enemyPropertys.positionFrom, enemyPropertys.positionTo), Math.random() * 0.5 + enemyPropertys.speed, enemyPropertys.damage));
+                }
+                break;
+            case 'chicken':
+                for (let index = 0; index < enemyPropertys.count; index++) {
+                    gameObject.enemies.push(new Chicken(getSpawnPosition(enemyPropertys.positionFrom, enemyPropertys.positionTo), Math.random() * 0.5 + enemyPropertys.speed, enemyPropertys.damage));
+                }
+                break;
+        }
     }
-    for (let index = 0; index < countNormal; index++) {
-        gameObject.enemies.push(new Chicken(500 + Math.random() * 3000, Math.random() * 0.5 + 0.5));
-    }
+}
+
+
+function getSpawnPosition(minPos, maxPos) {
+    return Math.random() * (maxPos - minPos) + minPos;
 }

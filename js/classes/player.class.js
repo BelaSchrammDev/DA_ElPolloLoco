@@ -8,7 +8,7 @@ class Player extends CollidingObject {
         super();
         this.setKoords(x, y);
         this.setDimensions(150, 300);
-        this.setHitBox(30, 120, 30, 15);
+        this.setHitBox(40, 120, 40, 15);
         this.offsetFromGround = 200;
         this.offsetGroundFromTopOfSprite = 285;
         this.fallingAnimID = 'pepe_falling';
@@ -32,7 +32,7 @@ class Player extends CollidingObject {
             else if (game.movement.Right) this.moveRight(moveSpeed);
             else if (game.movement.Left) this.moveLeft(moveSpeed);
             else if (this.animIdle || this.currentAnimID === 'pepe_walk') {
-                if (this.lastMovementTime + 2000 < Date.now()) {
+                if (this.lastMovementTime + 5000 < Date.now()) {
                     this.startAnimation('pepe_longidle', 200);
                 } else {
                     this.startAnimation('pepe_idle', 200);
