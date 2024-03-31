@@ -69,14 +69,16 @@ const CLOUDS = [
 
 function initLevel1(gameObject) {
     gameObject.levelWidth = 3400;
+    gameObject.cameraX = 0;
     addBackGrounds(gameObject);
     addClouds(gameObject);
-    addEnemies(gameObject);
+    addEnemies(gameObject, 10, 5);
     addPlayer(gameObject);
 }
 
 
 function addBackGrounds(gameObject) {
+    gameObject.backgrounds = [];
     BACKGROUNDS.forEach((background) => {
         gameObject.backgrounds.push(new BackgroundObject(background.init_x, 0, background.src, background.z_index));
     });
@@ -85,6 +87,7 @@ function addBackGrounds(gameObject) {
 
 
 function addClouds(gameObject) {
+    gameObject.clouds = [];
     let offsetX = [0, 800, 1600, 2400, 3200];
     for (let index = 0; index < offsetX.length; index++) {
         const currentXOffset = offsetX[index];
@@ -101,11 +104,12 @@ function addPlayer(gameObject) {
 }
 
 
-function addEnemies(gameObject) {
-    for (let index = 0; index < 10; index++) {
+function addEnemies(gameObject, countSmall, countNormal) {
+    gameObject.enemies = [];
+    for (let index = 0; index < countSmall; index++) {
         gameObject.enemies.push(new ChickenSmall(500 + Math.random() * 3000, Math.random() * 0.5 + 0.5));
     }
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < countNormal; index++) {
         gameObject.enemies.push(new Chicken(500 + Math.random() * 3000, Math.random() * 0.5 + 0.5));
     }
 }

@@ -1,11 +1,11 @@
-class Player extends MovingObject {
+class Player extends CollidingObject {
     lastMovementTime = 0;
-    fallingState = 'grounded';
 
     constructor(x, y) {
         super();
         this.setKoords(x, y);
         this.setDimensions(150, 300);
+        this.setHitBox(30, 120, 30, 15);
         this.offsetFromGround = 200;
         this.offsetGroundFromTopOfSprite = 285;
         this.fallingAnimID = 'pepe_falling';
@@ -25,12 +25,25 @@ class Player extends MovingObject {
             if (game.movement.Jump && this.isOnGround()) this.Jump();
             else if (game.movement.Right) this.moveRight(moveSpeed);
             else if (game.movement.Left) this.moveLeft(moveSpeed);
-            else if (!this.isOnGround()) return;
             else if (this.animIdle || this.currentAnimID === 'pepe_walk') {
                 if (this.lastMovementTime + 2000 < Date.now()) {
                     this.startAnimation('pepe_longidle', 200);
                 } else {
                     this.startAnimation('pepe_idle', 200);
+                }
+            }
+            this.checkEnemyCollision();
+        });
+    }
+
+    checkEnemyCollision() {
+        this.gameObject.enemies.forEach((enemy) => {
+            if (!enemy.dead && this.isCollidingWith(enemy)) {
+                if (!this.isOnGround() && this.fallingSpeed > 0) {
+                    enemy.enemyDead();
+                }
+                else {
+                    this.startAnimation('pepe_hurt', 200, true);
                 }
             }
         });

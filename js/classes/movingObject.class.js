@@ -13,6 +13,7 @@ class MovingObject extends DrawableObject {
 
     particles = [];
     maxParticles = 100;
+    particleShrinkSpeed = 0.85;
 
 
     constructor() {
@@ -82,7 +83,7 @@ class MovingObject extends DrawableObject {
 
     draw() {
         super.draw();
-        this.drawGroundLine();
+        // this.drawGroundLine();
         this.drawParticles();
     }
 
@@ -101,9 +102,12 @@ class MovingObject extends DrawableObject {
             this.particles.forEach((particle, index) => {
                 particle.posX += Math.random() * 2 - 1;
                 particle.posY += Math.random() * 2 - 2;
-                particle.size *= 0.95;
+                particle.size *= this.particleShrinkSpeed;
                 if (particle.size < 0.5) this.particles.splice(index, 1);
             });
+            if (this.particles.length > this.maxParticles) {
+                this.particles.splice(this.maxParticles, this.particles.length - this.maxParticles);
+            }
         }, 50);
     }
 
@@ -112,7 +116,7 @@ class MovingObject extends DrawableObject {
         for (let index = 0; index < count; index++) {
             this.particles.push({
                 color: 'rgba(0, 0, 0, 0.02)',
-                size: 10,
+                size: 8,
                 posX: this.x + this.width / 2 + (Math.random() * 20 - 10),
                 posY: this.y + this.offsetGroundFromTopOfSprite,
             });

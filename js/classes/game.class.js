@@ -62,6 +62,10 @@ class Game {
         this.clouds.forEach((cloud) => {
             cloud.stop();
         });
+        this.enemies.forEach((enemy) => {
+            enemy.stop();
+        });
+        this.player.stop();
         clearInterval(this.renderInterval);
     }
 
@@ -81,7 +85,7 @@ class Game {
         this.renderAir();
         this.clouds.forEach((cloud) => cloud.draw());
         this.backgrounds.forEach((background) => background.draw());
-        this.player.draw();
         this.enemies.forEach((enemy) => enemy.draw());
+        this.player.draw();
     }
 }

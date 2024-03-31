@@ -64,6 +64,10 @@ const CHICKEN_SMALL_WALK = [
     './img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
 ]
 
+const CHICKEN_SMALL_DEAD = [
+    'img_pollo_locco/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
+]
+
 
 const CHICKEN_WALK = [
     './img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -71,6 +75,9 @@ const CHICKEN_WALK = [
     './img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png',
 ]
 
+const CHICKEN_DEAD = [
+    './img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
+]
 
 let animFramesKordsOffset = {
     pepe_jump: { x: -12, y: 0 },
@@ -88,7 +95,9 @@ const animFrames = {
     'pepe_longidle': getImages(PEPE_LONGIDLE),
     'pepe_hurt': getImages(PEPE_HURT),
     'chicken_small_walk': getImages(CHICKEN_SMALL_WALK),
+    'chicken_small_dead': getImages(CHICKEN_SMALL_DEAD),
     'chicken_walk': getImages(CHICKEN_WALK),
+    'chicken_dead': getImages(CHICKEN_DEAD),
 }
 
 
