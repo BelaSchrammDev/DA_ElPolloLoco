@@ -3,6 +3,7 @@ class Game {
     ctx;
     air;
     cameraX = 0;
+    groundLevel = 400;
     levelWidth = 720;
     renderInterval = -1;
 
@@ -10,6 +11,8 @@ class Game {
     clouds = [];
 
     player;
+
+    enemies = [];
 
     movement;
 
@@ -48,6 +51,9 @@ class Game {
         this.clouds.forEach((cloud) => {
             cloud.start();
         });
+        this.enemies.forEach((enemy) => {
+            enemy.start();
+        });
         this.player.start();
         // this.startCameraTest();
     }
@@ -77,5 +83,6 @@ class Game {
         this.clouds.forEach((cloud) => cloud.draw());
         this.backgrounds.forEach((background) => background.draw());
         this.player.draw();
+        this.enemies.forEach((enemy) => enemy.draw());
     }
 }

@@ -1,12 +1,19 @@
-class Player extends AnimationObject {
+class Player extends MovingObject {
     lastMovementTime = 0;
+    fallingState = 'grounded';
+
     constructor(x, y) {
         super();
         this.setKoords(x, y);
         this.setDimensions(150, 300);
+        this.offsetFromGround = 200;
+        this.offsetGroundFromTopOfSprite = 250;
+        this.fallingAnimID = 'pepe_falling';
+        this.landingAnimID = 'pepe_landing';
     }
 
     start() {
+        super.start();
         this.startAnimation('pepe_idle', 200);
         this.setLastMovementTime();
         this.startKeyTracking();
@@ -14,42 +21,49 @@ class Player extends AnimationObject {
 
     startKeyTracking() {
         this.addInterval('keytracking', () => {
-            if (game.movement.Right) this.moveRight();
-            else if (game.movement.Left) this.moveLeft();
-            else if (game.movement.Jump) this.Jump();
-            else if (this.lastMovementTime + 2000 < Date.now()) {
-                this.startAnimation('pepe_longidle', 200);
-            }
-            else {
-                this.startAnimation('pepe_idle', 200);
+            let moveSpeed = this.isOnGround() ? 5 : 2.5;
+            if (game.movement.Jump && this.isOnGround()) this.Jump();
+            else if (game.movement.Right) this.moveRight(moveSpeed);
+            else if (game.movement.Left) this.moveLeft(moveSpeed);
+            else if (!this.isOnGround()) return;
+            else if (this.animIdle || this.currentAnimID === 'pepe_walk') {
+                if (this.lastMovementTime + 2000 < Date.now()) {
+                    this.startAnimation('pepe_longidle', 200);
+                } else {
+                    this.startAnimation('pepe_idle', 200);
+                }
             }
         });
     }
 
 
     Jump() {
-        this.startAnimation('pepe_jump', 200);
+        this.fallingSpeed = -16;
+        this.startAnimation('pepe_jump', 50, true);
         this.setLastMovementTime();
     }
 
 
-    moveLeft() {
-        this.x -= 5;
+    moveLeft(moveSpeed) {
+        this.x -= moveSpeed;
         if (this.x < 0) this.x = 0;
-        if (this.getX() < 0) this.gameObject.moveCamera(-5);
-        this.flipdrawing = true;
-        this.startAnimation('pepe_walk', 100);
-        this.setLastMovementTime();
+        if (this.getX() < 0) this.gameObject.moveCamera(-moveSpeed);
+        this.setWalkAnimation(true);
     }
 
 
-    moveRight() {
-        this.x += 5;
+    moveRight(moveSpeed) {
+        this.x += moveSpeed;
         if (this.x > this.gameObject.levelWidth - this.width) this.x = this.gameObject.levelWidth - this.width;
-        if (this.getX() > this.gameObject.canvas.width / 2) this.gameObject.moveCamera(5);
-        this.flipdrawing = false;
-        this.startAnimation('pepe_walk', 100);
+        if (this.getX() > this.gameObject.canvas.width / 2) this.gameObject.moveCamera(moveSpeed);
+        this.setWalkAnimation(false);
+    }
+
+
+    setWalkAnimation(leftDirection) {
+        this.flipdrawing = leftDirection;
         this.setLastMovementTime();
+        if (this.isOnGround()) this.startAnimation('pepe_walk', 80);
     }
 
 

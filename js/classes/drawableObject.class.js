@@ -8,6 +8,8 @@ class DrawableObject extends Interval {
     gameObject;
     x;
     y;
+    diffX = 0;
+    diffY = 0;
     width;
     height;
     z_index = 1;
@@ -86,10 +88,10 @@ class DrawableObject extends Interval {
             ctx.save();
             ctx.translate(this.width, 0);
             ctx.scale(-1, 1);
-            ctx.drawImage(this.img, -this.getX(), this.y, this.width, this.height);
+            ctx.drawImage(this.img, -this.getX() + this.diffX, this.y + this.diffY, this.width, this.height);
             ctx.restore();
         }
-        else ctx.drawImage(this.img, this.getX(), this.y, this.width, this.height);
+        else ctx.drawImage(this.img, this.getX() + this.diffX, this.y + this.diffY, this.width, this.height);
     }
 
 

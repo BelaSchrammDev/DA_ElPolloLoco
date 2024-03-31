@@ -73,6 +73,7 @@ function initLevel1(gameObject) {
         gameObject.backgrounds.push(new BackgroundObject(background.init_x, 0, background.src, background.z_index));
     });
     addClouds(gameObject);
+    addEnemies(gameObject);
     addPlayer(gameObject);
 }
 
@@ -91,4 +92,14 @@ function addClouds(gameObject) {
 
 function addPlayer(gameObject) {
     gameObject.player = new Player(0, 140);
+}
+
+
+function addEnemies(gameObject) {
+    for (let index = 0; index < 10; index++) {
+        gameObject.enemies.push(new ChickenSmall(500 + Math.random() * 3000, Math.random() * 0.5 + 0.5));
+    }
+    for (let index = 0; index < 5; index++) {
+        gameObject.enemies.push(new Chicken(500 + Math.random() * 3000, Math.random() * 0.5 + 0.5));
+    }
 }
