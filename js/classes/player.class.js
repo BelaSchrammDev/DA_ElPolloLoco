@@ -1,5 +1,9 @@
 class Player extends CollidingObject {
     lastMovementTime = 0;
+    lastHitTime = 0;
+    invulnerable = 0;
+
+    health = 100;
 
     constructor(x, y) {
         super();
@@ -37,13 +41,21 @@ class Player extends CollidingObject {
     }
 
     checkEnemyCollision() {
+        if (this.invulnerable > 0) {
+            this.invulnerable--;
+        }
         this.gameObject.enemies.forEach((enemy) => {
             if (!enemy.dead && this.isCollidingWith(enemy)) {
                 if (!this.isOnGround() && this.fallingSpeed > 0) {
                     enemy.enemyDead();
                 }
                 else {
-                    this.startAnimation('pepe_hurt', 200, true);
+                    if (this.invulnerable == 0) {
+                        this.invulnerable = 60;
+                        this.lastHitTime = new Date();
+                        this.health -= enemy.playerDamage;
+                        this.startAnimation('pepe_hurt', 200, true);
+                    }
                 }
             }
         });

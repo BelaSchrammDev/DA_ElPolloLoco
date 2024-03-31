@@ -13,6 +13,8 @@ class Game {
 
     player;
 
+    ui_elements = [];
+
     movement;
 
     constructor() {
@@ -87,5 +89,6 @@ class Game {
         this.backgrounds.forEach((background) => background.draw());
         this.enemies.forEach((enemy) => enemy.draw());
         this.player.draw();
+        this.ui_elements.forEach((ui_element) => ui_element.draw());
     }
 }

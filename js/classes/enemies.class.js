@@ -4,6 +4,7 @@ class Enemy extends CollidingObject {
     animationDead = '';
     particlesAtWalk = 1;
     walkSpeed = 0.1;
+    playerDamage = 1;
     dead = false;
 
     constructor(x, width, height, animWalk, animDead, particlesAtWalk) {
@@ -47,6 +48,7 @@ class ChickenSmall extends Enemy {
         this.setHitBox(5, 5, 5, 5);
         this.offsetGroundFromTopOfSprite = 45;
         this.walkSpeed = speed;
+        this.playerDamage = 5;
     }
 
 }
@@ -59,6 +61,7 @@ class Chicken extends Enemy {
         this.setHitBox(5, 5, 5, 10);
         this.offsetGroundFromTopOfSprite = 70;
         this.walkSpeed = speed;
+        this.playerDamage = 10;
     }
 
 }

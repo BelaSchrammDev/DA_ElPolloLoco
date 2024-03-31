@@ -74,6 +74,15 @@ function initLevel1(gameObject) {
     addClouds(gameObject);
     addEnemies(gameObject, 10, 5);
     addPlayer(gameObject);
+    addUIElements(gameObject);
+}
+
+
+function addUIElements(gameObject) {
+    gameObject.ui_elements = [];
+    gameObject.ui_elements.push(new Helth());
+    gameObject.ui_elements.push(new Coins());
+    gameObject.ui_elements.push(new Bottles());
 }
 
 

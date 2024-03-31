@@ -39,9 +39,13 @@ class DrawableObject extends Interval {
      */
     setImageWithScale(imgPath, scale) {
         this.setImage(imgPath);
+        let imgJSON = { img: this.img, width: this.width, height: this.height }
         this.img.onload = () => {
             this.setDimensions(this.img.width * scale, this.img.height * scale);
+            imgJSON.width = imgJSON.img.width * scale;
+            imgJSON.height = imgJSON.img.height * scale;
         };
+        return imgJSON;
     }
 
 
