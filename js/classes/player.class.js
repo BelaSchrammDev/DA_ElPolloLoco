@@ -27,6 +27,10 @@ class Player extends CollidingObject {
     startKeyTracking() {
         this.addInterval('keytracking', () => {
             let moveSpeed = this.isOnGround() ? 5 : 2.5;
+            if (this.isOnGround() && this.jumping) {
+                this.jumping = false;
+                this.addGroundParticles(30, 30);
+            }
             if (this.invulnerable > 30) {
                 this.startAnimation('pepe_hurt', 200, true);
                 this.setLastMovementTime();
@@ -35,10 +39,6 @@ class Player extends CollidingObject {
             else if (game.movement.Right) this.moveRight(moveSpeed);
             else if (game.movement.Left) this.moveLeft(moveSpeed);
             else if (this.animIdle || this.currentAnimationID === 'pepe_walk') this.setIdleAnimation();
-            else if (this.isOnGround() && this.jumping) {
-                this.jumping = false;
-                this.addGroundParticles(30, 30);
-            }
             this.checkEnemyCollision();
         });
     }
@@ -79,6 +79,7 @@ class Player extends CollidingObject {
     Jump() {
         this.fallingSpeed = -16;
         this.startAnimation('pepe_jump', 50, true);
+        this.addGroundParticles(20, 25);
         this.setLastMovementTime();
         this.jumping = true;
     }
