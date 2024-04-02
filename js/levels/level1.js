@@ -13,19 +13,7 @@ const BACKGROUNDS = [
     },
     {
         type: 'background',
-        init_x: 1706,
-        src: './img_pollo_locco/img/5_background/layers/2_second_layer/full.png',
-        z_index: 0.4
-    },
-    {
-        type: 'background',
         init_x: 0,
-        src: './img_pollo_locco/img/5_background/layers/1_first_layer/full.png',
-        z_index: 1
-    },
-    {
-        type: 'background',
-        init_x: 1706,
         src: './img_pollo_locco/img/5_background/layers/1_first_layer/full.png',
         z_index: 1
     },
@@ -128,7 +116,7 @@ function addUIElements(gameObject) {
 function addBackGrounds(gameObject) {
     gameObject.backgrounds = [];
     BACKGROUNDS.forEach((background) => {
-        gameObject.backgrounds.push(new BackgroundObject(background.init_x, 0, background.src, background.z_index));
+        gameObject.backgrounds.push(new BackgroundObject(background.src, background.z_index));
     });
 }
 

@@ -79,7 +79,7 @@ class Player extends CollidingObject {
     moveLeft(moveSpeed) {
         this.x -= moveSpeed;
         if (this.x < 0) this.x = 0;
-        if (this.getX() < 0) this.gameObject.moveCamera(-moveSpeed);
+        if (this.getX(this.x) < 0) this.gameObject.moveCamera(-moveSpeed);
         this.setWalkAnimation(true);
     }
 
@@ -87,7 +87,7 @@ class Player extends CollidingObject {
     moveRight(moveSpeed) {
         this.x += moveSpeed;
         if (this.x > this.gameObject.levelWidth - this.width) this.x = this.gameObject.levelWidth - this.width;
-        if (this.getX() > this.gameObject.canvas.width / 2) this.gameObject.moveCamera(moveSpeed);
+        if (this.getX(this.x) > this.gameObject.canvas.width / 2) this.gameObject.moveCamera(moveSpeed);
         this.setWalkAnimation(false);
     }
 

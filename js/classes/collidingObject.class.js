@@ -30,7 +30,7 @@ class CollidingObject extends MovingObject {
         this.gameObject.ctx.fillStyle = 'black';
         this.gameObject.ctx.beginPath();
         this.gameObject.ctx.rect(
-            this.getX() + this.hitBox.offsetleft,
+            this.getX(this.x) + this.hitBox.offsetleft,
             this.y + this.hitBox.offsettop,
             this.width - this.hitBox.offsetright - this.hitBox.offsetleft,
             this.height - this.hitBox.offsettop - this.hitBox.offsetbottom

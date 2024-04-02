@@ -94,10 +94,10 @@ class DrawableObject extends Interval {
             ctx.save();
             ctx.translate(this.width, 0);
             ctx.scale(-1, 1);
-            ctx.drawImage(this.img, -this.getX() + this.diffX, this.y + this.diffY, this.width, this.height);
+            ctx.drawImage(this.img, -this.getX(this.x) + this.diffX, this.y + this.diffY, this.width, this.height);
             ctx.restore();
         }
-        else ctx.drawImage(this.img, this.getX() + this.diffX, this.y + this.diffY, this.width, this.height);
+        else ctx.drawImage(this.img, this.getX(this.x) + this.diffX, this.y + this.diffY, this.width, this.height);
     }
 
 
@@ -105,7 +105,7 @@ class DrawableObject extends Interval {
      * Get the x-coordinate for this object adjusted for the camera and z-index.
      * @returns {number} The adjusted x-coordinate.
      */
-    getX() {
-        return this.x - this.gameObject.cameraX * this.z_index;
+    getX(x) {
+        return x - this.gameObject.cameraX * this.z_index;
     }
 }
