@@ -13,7 +13,7 @@ class MovingObject extends DrawableObject {
 
     particles = [];
     maxParticles = 150;
-    particleShrinkSpeed = 0.85;
+    particleShrinkSpeed = 0.95;
 
 
     constructor() {
@@ -96,24 +96,24 @@ class MovingObject extends DrawableObject {
 
     addParticleAnimation() {
         this.addInterval('particles', () => {
+            if (this.particles.length > this.maxParticles) {
+                this.particles.splice(0, this.particles.length - this.maxParticles);
+            }
             this.particles.forEach((particle, index) => {
                 particle.posX += Math.random() * 2 - 1;
                 particle.posY += Math.random() * 2 - 2;
                 particle.size *= this.particleShrinkSpeed;
-                if (particle.size < 0.5) this.particles.splice(index, 1);
+                if (particle.size < 1) this.particles.splice(index, 1);
             });
-            if (this.particles.length > this.maxParticles) {
-                this.particles.splice(this.maxParticles, this.particles.length - this.maxParticles);
-            }
         }, 50);
     }
 
 
-    addGroundParticles(count) {
+    addGroundParticles(count, init_size) {
         for (let index = 0; index < count; index++) {
             this.particles.push({
-                color: 'rgba(0, 0, 0, 0.05)',
-                size: 8,
+                color: 'rgba(256, 200, 120, 0.05)',
+                size: init_size,
                 posX: this.x + this.width / 2 + (Math.random() * 20 - 10),
                 posY: this.y + this.offsetGroundFromTopOfSprite,
             });
@@ -121,11 +121,13 @@ class MovingObject extends DrawableObject {
     }
 
     drawParticles() {
+        const ctx = this.gameObject.ctx;
+        const cameraX = this.gameObject.cameraX;
         this.particles.forEach(particle => {
-            this.gameObject.ctx.fillStyle = particle.color;
-            this.gameObject.ctx.beginPath();
-            this.gameObject.ctx.arc(this.getRealXPosition(particle.posX), particle.posY, particle.size, 0, 2 * Math.PI);
-            this.gameObject.ctx.fill();
+            ctx.fillStyle = particle.color;
+            ctx.beginPath();
+            ctx.arc(particle.posX - cameraX, particle.posY, particle.size, 0, 2 * Math.PI);
+            ctx.fill();
         });
     }
 }

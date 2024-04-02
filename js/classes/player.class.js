@@ -89,7 +89,7 @@ class Player extends CollidingObject {
         this.setLastMovementTime();
         if (this.isOnGround()) {
             this.startAnimation('pepe_walk', 80);
-            this.addGroundParticles(5);
+            this.addGroundParticles(5, 10);
         }
     }
 

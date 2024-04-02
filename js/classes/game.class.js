@@ -3,7 +3,7 @@ class Game {
     ctx;
     air;
     cameraX = 0;
-    groundLevel = 435;
+    groundLevel = 420;
     levelWidth = 720;
     renderInterval = -1;
 

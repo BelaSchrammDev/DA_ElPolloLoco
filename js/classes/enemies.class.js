@@ -3,6 +3,7 @@ class Enemy extends CollidingObject {
     animationWalk = '';
     animationDead = '';
     particlesAtWalk = 1;
+    particlesSize = 1;
     walkSpeed = 0.1;
     playerDamage = 1;
     dead = false;
@@ -26,7 +27,7 @@ class Enemy extends CollidingObject {
                 if (this.x < -this.width) {
                     this.x = this.gameObject.levelWidth;
                 }
-                if (this.isOnGround()) this.addGroundParticles(this.particlesAtWalk);
+                if (this.isOnGround()) this.addGroundParticles(this.particlesAtWalk, this.particlesSize);
             });
         }
     }
@@ -48,7 +49,8 @@ class ChickenSmall extends Enemy {
         this.offsetGroundFromTopOfSprite = 45;
         this.walkSpeed = speed;
         this.playerDamage = damage;
-
+        this.particlesAtWalk = 3;
+        this.particlesSize = 5;
     }
 
 }
@@ -62,6 +64,8 @@ class Chicken extends Enemy {
         this.offsetGroundFromTopOfSprite = 70;
         this.walkSpeed = speed;
         this.playerDamage = damage;
+        this.particlesAtWalk = 6;
+        this.particlesSize = 8;
     }
 
 }
