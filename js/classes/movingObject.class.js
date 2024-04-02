@@ -1,9 +1,9 @@
 class MovingObject extends DrawableObject {
-    currentAnimID = '';
+    currentAnimationID = '';
     currentFrames = [];
     currentFrame = 0;
-    fallingAnimID = '';
-    landingAnimID = '';
+    fallingAnimationID = '';
+    landingAnimationID = '';
     animIdle = true;
     playOnlyOne = false;
     offsetGroundFromTopOfSprite = 0;
@@ -32,8 +32,8 @@ class MovingObject extends DrawableObject {
             if (this.isOnGround() && this.fallingSpeed === 0) return;
             this.fallingSpeed += this.gravity;
             this.offsetFromGround -= this.fallingSpeed;
-            if (this.offsetFromGround < 5) this.startAnimation(this.landingAnimID, 100, true);
-            else if (this.fallingSpeed >= -2) this.startAnimation(this.fallingAnimID, 200, true);
+            if (this.offsetFromGround < 10) this.startAnimation(this.landingAnimationID, 100, true);
+            else if (this.fallingSpeed >= -2) this.startAnimation(this.fallingAnimationID, 200, true);
             if (this.offsetFromGround < 0) {
                 this.offsetFromGround = 0;
                 this.fallingSpeed = 0;
@@ -47,31 +47,36 @@ class MovingObject extends DrawableObject {
     }
 
 
-    startAnimation(animID, interval, playonlyone = false) {
-        if (animID === '' || this.currentAnimID === animID) return;
-        // console.log('start animation = ', animID);
+    startAnimation(animationID, interval, playonlyone = false) {
+        if (animationID === '' || this.currentAnimationID === animationID) return;
+        // console.log('start animation = ', animationID);
         this.stopAnimation();
-        this.currentAnimID = animID;
-        this.currentFrames = animFrames[animID];
+        this.currentAnimationID = animationID;
+        this.currentFrames = animFrames[animationID];
         this.currentFrame = 0;
+        this.setFramesKordsOffset(animationID);
         this.animIdle = false;
         this.playOnlyOne = playonlyone;
         this.addInterval('animation', () => {
             this.currentFrame++;
             if (this.currentFrame >= this.currentFrames.length) {
                 this.currentFrame = this.playOnlyOne ? this.currentFrames.length - 1 : 0;
-                this.animIdle = true;
+                if (this.isNotGravityAnimation()) this.animIdle = true;
             }
-            this.setFramesKordsOffset();
             this.img = this.currentFrames[this.currentFrame];
         }, interval);
     }
 
 
-    setFramesKordsOffset(animID) {
-        if (animFramesKordsOffset[this.currentAnimID]) {
-            this.diffX = animFramesKordsOffset[this.currentAnimID].x;
-            this.diffY = animFramesKordsOffset[this.currentAnimID].y;
+    isNotGravityAnimation() {
+        return this.currentAnimationID != this.fallingAnimationID && this.currentAnimationID != this.landingAnimationID;
+    }
+
+
+    setFramesKordsOffset(animationID) {
+        if (animFramesKordsOffset[animationID]) {
+            this.diffX = animFramesKordsOffset[this.currentAnimationID].x;
+            this.diffY = animFramesKordsOffset[this.currentAnimationID].y;
         } else {
             this.diffX = 0;
             this.diffY = 0;

@@ -11,8 +11,8 @@ class Player extends CollidingObject {
         this.setHitBox(40, 120, 40, 15);
         this.offsetFromGround = 200;
         this.offsetGroundFromTopOfSprite = 285;
-        this.fallingAnimID = 'pepe_falling';
-        this.landingAnimID = 'pepe_landing';
+        this.fallingAnimationID = 'pepe_falling';
+        this.landingAnimationID = 'pepe_landing';
     }
 
     start() {
@@ -27,11 +27,12 @@ class Player extends CollidingObject {
             let moveSpeed = this.isOnGround() ? 5 : 2.5;
             if (this.invulnerable > 30) {
                 this.startAnimation('pepe_hurt', 200, true);
+                this.setLastMovementTime();
             }
             else if (game.movement.Jump && this.isOnGround()) this.Jump();
             else if (game.movement.Right) this.moveRight(moveSpeed);
             else if (game.movement.Left) this.moveLeft(moveSpeed);
-            else if (this.animIdle || this.currentAnimID === 'pepe_walk') {
+            else if (this.animIdle || this.currentAnimationID === 'pepe_walk') {
                 if (this.lastMovementTime + 5000 < Date.now()) {
                     this.startAnimation('pepe_longidle', 200);
                 } else {
