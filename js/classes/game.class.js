@@ -12,9 +12,11 @@ class Game extends Interval {
     enemies = [];
 
     player;
+    score = 0;
 
     ui_elements = [];
     flytext = [];
+    scoreText;
 
     movement;
 
@@ -23,6 +25,8 @@ class Game extends Interval {
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.movement = new Movement();
+        this.scoreText = new Score(this);
+        this.flytext.push(this.scoreText);
         this.getAir();
     }
 

@@ -2,6 +2,7 @@ class Player extends CollidingObject {
     lastMovementTime = 0;
     invulnerable = 0;
     enemyDeadByJump = 0;
+    scoreByJump = 0;
     jumping = false;
 
     health = 100;
@@ -29,7 +30,7 @@ class Player extends CollidingObject {
             let moveSpeed = this.isOnGround() ? 5 : 2.5;
             if (this.isOnGround() && this.jumping) {
                 this.jumping = false;
-                this.addGroundParticles(30, 30);
+                this.addGroundParticles(40, 35);
             }
             if (this.invulnerable > 30) {
                 this.startAnimation('pepe_hurt', 200, true);
@@ -57,12 +58,21 @@ class Player extends CollidingObject {
                 if (!enemy.dead && this.isCollidingWith(enemy) && this.fallingSpeed > 0) {
                     enemy.enemyDead();
                     this.enemyDeadByJump++;
+                    this.scoreByJump += enemy.playerScore;
                 }
             });
         } else {
             if (this.enemyDeadByJump > 0) {
-                this.gameObject.flytext.push(new FlyingText('+' + this.enemyDeadByJump, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop));
+                this.gameObject.flytext.push(new FlyingText('+' + this.scoreByJump, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
+                let enemyByJumping = this.enemyDeadByJump;
+                if (enemyByJumping > 1) {
+                    setTimeout(() => {
+                        this.gameObject.flytext.push(new FlyingText('*' + enemyByJumping, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
+                    }, 100);
+                }
+                this.gameObject.score += this.enemyDeadByJump * this.scoreByJump;
                 this.enemyDeadByJump = 0;
+                this.scoreByJump = 0;
             }
         }
     }
@@ -79,7 +89,7 @@ class Player extends CollidingObject {
     Jump() {
         this.fallingSpeed = -16;
         this.startAnimation('pepe_jump', 50, true);
-        this.addGroundParticles(20, 25);
+        this.addGroundParticles(15, 20);
         this.setLastMovementTime();
         this.jumping = true;
     }
