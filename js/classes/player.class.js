@@ -1,6 +1,8 @@
 class Player extends CollidingObject {
     lastMovementTime = 0;
     invulnerable = 0;
+    enemyDeadByJump = 0;
+    jumping = false;
 
     health = 100;
 
@@ -32,32 +34,37 @@ class Player extends CollidingObject {
             else if (game.movement.Jump && this.isOnGround()) this.Jump();
             else if (game.movement.Right) this.moveRight(moveSpeed);
             else if (game.movement.Left) this.moveLeft(moveSpeed);
-            else if (this.animIdle || this.currentAnimationID === 'pepe_walk') {
-                if (this.lastMovementTime + 5000 < Date.now()) {
-                    this.startAnimation('pepe_longidle', 200);
-                } else {
-                    this.startAnimation('pepe_idle', 200);
-                }
+            else if (this.animIdle || this.currentAnimationID === 'pepe_walk') this.setIdleAnimation();
+            else if (this.isOnGround() && this.jumping) {
+                this.jumping = false;
+                this.addGroundParticles(30, 30);
             }
             this.checkEnemyCollision();
         });
     }
 
+
+    setIdleAnimation() {
+        if (this.lastMovementTime + 5000 < Date.now()) this.startAnimation('pepe_longidle', 200);
+        else this.startAnimation('pepe_idle', 200);
+    }
+
+
     checkEnemyCollision() {
         if (this.invulnerable > 0) this.invulnerable--;
-        this.gameObject.enemies.forEach((enemy) => {
-            if (!enemy.dead && this.isCollidingWith(enemy)) {
-                if (!this.isOnGround() && this.fallingSpeed > 0) {
+        if (!this.isOnGround()) {
+            this.gameObject.enemies.forEach((enemy) => {
+                if (!enemy.dead && this.isCollidingWith(enemy) && this.fallingSpeed > 0) {
                     enemy.enemyDead();
+                    this.enemyDeadByJump++;
                 }
-                else {
-                    // if (this.invulnerable == 0) {
-                    //     this.invulnerable = 60;
-                    //     this.health -= enemy.playerDamage;
-                    // }
-                }
+            });
+        } else {
+            if (this.enemyDeadByJump > 0) {
+                console.log('enemys dead = ', this.enemyDeadByJump);
+                this.enemyDeadByJump = 0;
             }
-        });
+        }
     }
 
 
@@ -73,6 +80,7 @@ class Player extends CollidingObject {
         this.fallingSpeed = -16;
         this.startAnimation('pepe_jump', 50, true);
         this.setLastMovementTime();
+        this.jumping = true;
     }
 
 
