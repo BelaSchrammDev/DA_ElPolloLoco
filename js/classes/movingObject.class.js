@@ -42,6 +42,11 @@ class MovingObject extends DrawableObject {
         });
     }
 
+
+    setPositionOverGround(position) {
+        if (position > 0) this.offsetFromGround = position;
+    }
+
     isOnGround() {
         return this.offsetFromGround == 0;
     }
@@ -51,12 +56,12 @@ class MovingObject extends DrawableObject {
         if (animationID === '' || this.currentAnimationID === animationID) return;
         // console.log('start animation = ', animationID);
         this.stopAnimation();
-        this.currentAnimationID = animationID;
-        this.currentFrames = animFrames[animationID];
-        this.currentFrame = 0;
-        this.setFramesKordsOffset(animationID);
-        this.animIdle = false;
-        this.playOnlyOne = playonlyone;
+        this.setCurrentAnimation(animationID, playonlyone);
+        this.setAnimationInterval(interval);
+    }
+
+
+    setAnimationInterval(interval) {
         this.addInterval('animation', () => {
             this.currentFrame++;
             if (this.currentFrame >= this.currentFrames.length) {
@@ -65,6 +70,16 @@ class MovingObject extends DrawableObject {
             }
             this.img = this.currentFrames[this.currentFrame];
         }, interval);
+    }
+
+
+    setCurrentAnimation(animationID, playonlyone) {
+        this.currentAnimationID = animationID;
+        this.currentFrames = animFrames[animationID];
+        this.currentFrame = 0;
+        this.setFramesKordsOffset(animationID);
+        this.animIdle = false;
+        this.playOnlyOne = playonlyone;
     }
 
 
@@ -114,7 +129,7 @@ class MovingObject extends DrawableObject {
             this.particles.push({
                 color: 'rgba(256, 200, 120, 0.05)',
                 size: init_size,
-                posX: this.x + this.width / 2 + (Math.random() * 20 - 10),
+                posX: this.x + this.width / 2 + (Math.random() * (2 * init_size) - init_size),
                 posY: this.y + this.offsetGroundFromTopOfSprite,
             });
         }

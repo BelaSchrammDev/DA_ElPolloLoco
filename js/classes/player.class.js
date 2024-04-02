@@ -12,7 +12,7 @@ class Player extends CollidingObject {
         this.setKoords(x, y);
         this.setDimensions(150, 300);
         this.setHitBox(40, 120, 40, 15);
-        this.offsetFromGround = 200;
+        this.setPositionOverGround(200);
         this.offsetGroundFromTopOfSprite = 285;
         this.fallingAnimationID = 'pepe_falling';
         this.landingAnimationID = 'pepe_landing';
@@ -28,53 +28,59 @@ class Player extends CollidingObject {
     startKeyTracking() {
         this.addInterval('keytracking', () => {
             let moveSpeed = this.isOnGround() ? 5 : 2.5;
-            if (this.isOnGround() && this.jumping) {
-                this.jumping = false;
-                this.addGroundParticles(40, 35);
-            }
-            if (this.invulnerable > 30) {
-                this.startAnimation('pepe_hurt', 200, true);
-                this.setLastMovementTime();
-            }
+            if (this.isOnGround() && this.jumping) this.Landing();
+            else if (this.invulnerable > 30) this.startHurtAnimation();
             else if (game.movement.Jump && this.isOnGround()) this.Jump();
             else if (game.movement.Right) this.moveRight(moveSpeed);
             else if (game.movement.Left) this.moveLeft(moveSpeed);
-            else if (this.animIdle || this.currentAnimationID === 'pepe_walk') this.setIdleAnimation();
-            this.checkEnemyCollision();
+            else if (this.isIdleState()) this.setIdleAnimation();
+            this.checkScoreAndCollision();
         });
     }
 
 
-    setIdleAnimation() {
-        if (this.lastMovementTime + 5000 < Date.now()) this.startAnimation('pepe_longidle', 200);
-        else this.startAnimation('pepe_idle', 200);
+    isIdleState() {
+        return !this.jumping && (this.animIdle || this.currentAnimationID === 'pepe_walk');
+    }
+
+
+    checkScoreAndCollision() {
+        if (this.invulnerable > 0) this.invulnerable--;
+        if (this.isOnGround()) this.checkScoreByJump();
+        else this.checkEnemyCollision();
     }
 
 
     checkEnemyCollision() {
-        if (this.invulnerable > 0) this.invulnerable--;
-        if (!this.isOnGround()) {
-            this.gameObject.enemies.forEach((enemy) => {
-                if (!enemy.dead && this.isCollidingWith(enemy) && this.fallingSpeed > 0) {
-                    enemy.enemyDead();
-                    this.enemyDeadByJump++;
-                    this.scoreByJump += enemy.playerScore;
-                }
-            });
-        } else {
-            if (this.enemyDeadByJump > 0) {
-                this.gameObject.flytext.push(new FlyingText('+' + this.scoreByJump, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
-                let enemyByJumping = this.enemyDeadByJump;
-                if (enemyByJumping > 1) {
-                    setTimeout(() => {
-                        this.gameObject.flytext.push(new FlyingText('*' + enemyByJumping, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
-                    }, 100);
-                }
-                this.gameObject.score += this.enemyDeadByJump * this.scoreByJump;
-                this.enemyDeadByJump = 0;
-                this.scoreByJump = 0;
+        this.gameObject.enemies.forEach((enemy) => {
+            if (!enemy.dead && this.isCollidingWith(enemy) && this.fallingSpeed > 0) {
+                enemy.enemyDead();
+                this.enemyDeadByJump++;
+                this.scoreByJump += enemy.playerScore;
             }
+        });
+    }
+
+
+    checkScoreByJump() {
+        if (this.enemyDeadByJump > 0) {
+            this.gameObject.flytext.push(new FlyingText('+' + this.scoreByJump, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
+            let enemyByJumping = this.enemyDeadByJump;
+            if (enemyByJumping > 1) {
+                setTimeout(() => {
+                    this.gameObject.flytext.push(new FlyingText('*' + enemyByJumping, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
+                }, 100);
+            }
+            this.gameObject.score += this.enemyDeadByJump * this.scoreByJump;
+            this.enemyDeadByJump = 0;
+            this.scoreByJump = 0;
         }
+    }
+
+
+    startHurtAnimation() {
+        this.startAnimation('pepe_hurt', 200, true);
+        this.setLastMovementTime();
     }
 
 
@@ -86,12 +92,24 @@ class Player extends CollidingObject {
     }
 
 
+    setIdleAnimation() {
+        if (this.lastMovementTime + 5000 < Date.now()) this.startAnimation('pepe_longidle', 200);
+        else this.startAnimation('pepe_idle', 200);
+    }
+
+
     Jump() {
         this.fallingSpeed = -16;
         this.startAnimation('pepe_jump', 50, true);
         this.addGroundParticles(15, 20);
         this.setLastMovementTime();
         this.jumping = true;
+    }
+
+
+    Landing() {
+        this.jumping = false;
+        this.addGroundParticles(40, 35);
     }
 
 
