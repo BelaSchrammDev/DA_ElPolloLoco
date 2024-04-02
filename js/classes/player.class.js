@@ -51,13 +51,21 @@ class Player extends CollidingObject {
                     enemy.enemyDead();
                 }
                 else {
-                    if (this.invulnerable == 0) {
-                        this.invulnerable = 60;
-                        this.health -= enemy.playerDamage;
-                    }
+                    // if (this.invulnerable == 0) {
+                    //     this.invulnerable = 60;
+                    //     this.health -= enemy.playerDamage;
+                    // }
                 }
             }
         });
+    }
+
+
+    setPlayerDamage(damage) {
+        if (this.invulnerable == 0) {
+            this.invulnerable = 60;
+            this.health -= damage;
+        }
     }
 
 

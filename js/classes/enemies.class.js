@@ -28,6 +28,7 @@ class Enemy extends CollidingObject {
                     this.x = this.gameObject.levelWidth;
                 }
                 if (this.isOnGround()) this.addGroundParticles(this.particlesAtWalk, this.particlesSize);
+                if (this.isCollidingWith(this.gameObject.player)) this.gameObject.player.setPlayerDamage(this.playerDamage);
             });
         }
     }
@@ -35,8 +36,8 @@ class Enemy extends CollidingObject {
 
     enemyDead() {
         this.dead = true;
-        this.startAnimation(this.animationDead, 200, true);
         this.removeInterval('walk');
+        this.startAnimation(this.animationDead, 200, true);
     }
 }
 
