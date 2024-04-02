@@ -1,10 +1,10 @@
-class Game {
+class Game extends Interval {
     canvas;
     ctx;
     air;
     cameraX = 0;
     groundLevel = 420;
-    levelWidth = 720;
+    levelWidth = 0;
     renderInterval = -1;
 
     backgrounds = [];
@@ -14,27 +14,16 @@ class Game {
     player;
 
     ui_elements = [];
+    flytext = [];
 
     movement;
 
     constructor() {
+        super();
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.movement = new Movement();
         this.getAir();
-    }
-
-
-    startCameraTest() {
-        setInterval(() => {
-            if (this.movement.Left) {
-                this.cameraX -= 10;
-                if (this.cameraX < 0) this.cameraX = 0;
-            } else if (this.movement.Right) {
-                this.cameraX += 10;
-                if (this.cameraX > (this.levelWidth - this.canvas.width)) this.cameraX = this.levelWidth - this.canvas.width;
-            } else return;
-        }, 1000 / 60);
     }
 
 
@@ -46,29 +35,19 @@ class Game {
 
 
     start() {
-        this.renderInterval = setInterval(() => {
-            this.drawFrame();
-        }, 1000 / 60);
-        this.clouds.forEach((cloud) => {
-            cloud.start();
-        });
-        this.enemies.forEach((enemy) => {
-            enemy.start();
-        });
+        this.addInterval('render', () => this.drawFrame());
+        this.addInterval('updateFlyItems', () => this.updateFlyItems());
+        this.clouds.forEach((cloud) => cloud.start());
+        this.enemies.forEach((enemy) => enemy.start());
         this.player.start();
-        // this.startCameraTest();
     }
 
 
     stop() {
-        this.clouds.forEach((cloud) => {
-            cloud.stop();
-        });
-        this.enemies.forEach((enemy) => {
-            enemy.stop();
-        });
+        this.clouds.forEach((cloud) => cloud.stop());
+        this.enemies.forEach((enemy) => enemy.stop());
         this.player.stop();
-        clearInterval(this.renderInterval);
+        super.stop();
     }
 
 
@@ -83,6 +62,14 @@ class Game {
     }
 
 
+    updateFlyItems() {
+        this.flytext.forEach((text, index) => {
+            text.update();
+            if (text.remove) this.flytext.splice(index, 1);
+        });
+    }
+
+
     drawFrame() {
         this.renderAir();
         this.clouds.forEach((cloud) => cloud.draw());
@@ -90,5 +77,6 @@ class Game {
         this.enemies.forEach((enemy) => enemy.draw());
         this.player.draw();
         this.ui_elements.forEach((ui_element) => ui_element.draw());
+        this.flytext.forEach((text) => text.draw());
     }
 }

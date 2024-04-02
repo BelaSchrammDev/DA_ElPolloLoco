@@ -61,7 +61,7 @@ class Player extends CollidingObject {
             });
         } else {
             if (this.enemyDeadByJump > 0) {
-                console.log('enemys dead = ', this.enemyDeadByJump);
+                this.gameObject.flytext.push(new FlyingText('+' + this.enemyDeadByJump, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop));
                 this.enemyDeadByJump = 0;
             }
         }

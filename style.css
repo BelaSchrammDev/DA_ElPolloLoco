@@ -5,8 +5,14 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: 'zabars';
 }
 
 canvas {
     background-color: black;
+}
+
+@font-face {
+    font-family: 'zabars';
+    src: url('./fonts/Zabars.ttf');
 }

@@ -20,9 +20,9 @@ class CollidingObject extends MovingObject {
     }
 
     isCollidingWith(otherObject) {
-        return this.x < otherObject.x + otherObject.width - otherObject.hitBox.offsetright &&
-            this.x + this.width - this.hitBox.offsetright > otherObject.x &&
-            this.y < otherObject.y + otherObject.height - otherObject.hitBox.offsetbottom &&
+        return this.x + this.hitBox.offsetleft < otherObject.x + otherObject.width - otherObject.hitBox.offsetright &&
+            this.x + this.width - this.hitBox.offsetright > otherObject.x + otherObject.hitBox.offsetright &&
+            this.y + this.hitBox.offsettop < otherObject.y + otherObject.height - otherObject.hitBox.offsetbottom &&
             this.y + this.height - this.hitBox.offsetbottom > otherObject.y + otherObject.hitBox.offsettop;
     }
 
