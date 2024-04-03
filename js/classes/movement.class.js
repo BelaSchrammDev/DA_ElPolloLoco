@@ -36,6 +36,9 @@ class Movement {
             case this.KEY_P:
                 this.Pause = value;
                 break;
+            case this.KEY_ENTER:
+                this.Enter = value;
+                break;
             default: return;
         }
         // console.log('setKey - ' + key + ' - ' + value);

@@ -83,13 +83,14 @@ class Player extends CollidingObject {
         this.removeInterval('keytracking');
         this.removeInterval('falling');
         this.fallingSpeed = -14;
-        this.addGroundParticles(50, 100);
+        this.addGroundParticles(50, 200);
         this.addInterval('dying', () => {
             this.fallingSpeed += this.gravity;
             this.offsetFromGround -= this.fallingSpeed;
             this.y = this.gameObject.groundLevel - this.offsetGroundFromTopOfSprite - this.offsetFromGround;
             if (this.y > this.gameObject.canvas.height);
         });
+        this.gameObject.gameOver();
     }
 
     startHurtAnimation() {

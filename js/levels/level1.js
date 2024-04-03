@@ -97,6 +97,7 @@ const enemies_level_2 = [
 function initLevel1(gameObject) {
     gameObject.levelWidth = 3400;
     gameObject.cameraX = 0;
+    gameObject.score = 0;
     addBackGrounds(gameObject);
     addClouds(gameObject);
     addEnemies(gameObject, enemies_level_1);
@@ -107,6 +108,7 @@ function initLevel1(gameObject) {
 
 function addUIElements(gameObject) {
     gameObject.ui_elements = [];
+    gameObject.flytext = [];
     gameObject.ui_elements.push(new Helth());
     gameObject.ui_elements.push(new Coins());
     gameObject.ui_elements.push(new Bottles());

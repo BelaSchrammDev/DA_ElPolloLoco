@@ -89,6 +89,13 @@ const CHICKEN_DEAD = [
     './img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
 ]
 
+const GAMEOVER_IMAGES = [
+    './img_pollo_locco/img/9_intro_outro_screens/game_over/game over!.png',
+    './img_pollo_locco/img/9_intro_outro_screens/game_over/game over.png',
+    './img_pollo_locco/img/9_intro_outro_screens/game_over/oh no you lost!.png',
+    './img_pollo_locco/img/9_intro_outro_screens/game_over/you lost.png',
+]
+
 let animFramesKordsOffset = {
     pepe_jump: { x: -12, y: 0 },
     pepe_falling: { x: -12, y: 0 },

@@ -83,8 +83,18 @@ class DrawableObject extends Interval {
         this.height = height;
     }
 
+
+    /**
+     * Sets the image position to the center of the canvas.
+     */
+    setImageToCenter() {
+        this.x = this.gameObject.canvas.width / 2 - this.width / 2;
+        this.y = this.gameObject.canvas.height / 2 - this.height / 2;
+    }
+
     /**
      * Draws the object on the canvas.
+     * Flip the drawing if flipdrawing is true.
      * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
      */
     draw() {

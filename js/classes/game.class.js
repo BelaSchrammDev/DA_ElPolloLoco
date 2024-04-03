@@ -56,6 +56,11 @@ class Game extends Interval {
         this.removeInterval('updateFlyItems');
     }
 
+    gameOver() {
+        let gameoverImageIndex = Math.floor(Math.random() * 4);
+        this.flytext.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
+        this.flytext.push(new Text('Press Enter to restart', 200, 450));
+    }
 
     getAir() {
         this.air = new Image();
