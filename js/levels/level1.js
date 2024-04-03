@@ -110,6 +110,8 @@ function addUIElements(gameObject) {
     gameObject.ui_elements.push(new Helth());
     gameObject.ui_elements.push(new Coins());
     gameObject.ui_elements.push(new Bottles());
+    gameObject.scoreText = new Score(gameObject);
+    gameObject.flytext.push(gameObject.scoreText);
 }
 
 

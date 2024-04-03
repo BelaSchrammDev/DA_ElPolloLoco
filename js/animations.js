@@ -57,6 +57,16 @@ const PEPE_HURT = [
     './img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png'
 ]
 
+const PEPE_DEAD = [
+    './img_pollo_locco/img/2_character_pepe/5_dead/D-51.png',
+    './img_pollo_locco/img/2_character_pepe/5_dead/D-52.png',
+    './img_pollo_locco/img/2_character_pepe/5_dead/D-53.png',
+    './img_pollo_locco/img/2_character_pepe/5_dead/D-54.png',
+    './img_pollo_locco/img/2_character_pepe/5_dead/D-55.png',
+    './img_pollo_locco/img/2_character_pepe/5_dead/D-56.png',
+    './img_pollo_locco/img/2_character_pepe/5_dead/D-57.png',
+]
+
 
 const CHICKEN_SMALL_WALK = [
     './img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -94,6 +104,7 @@ const animFrames = {
     'pepe_idle': getImages(PEPE_IDLE),
     'pepe_longidle': getImages(PEPE_LONGIDLE),
     'pepe_hurt': getImages(PEPE_HURT),
+    'pepe_dead': getImages(PEPE_DEAD),
     'chicken_small_walk': getImages(CHICKEN_SMALL_WALK),
     'chicken_small_dead': getImages(CHICKEN_SMALL_DEAD),
     'chicken_walk': getImages(CHICKEN_WALK),

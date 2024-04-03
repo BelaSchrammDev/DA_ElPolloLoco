@@ -12,7 +12,7 @@ class Player extends CollidingObject {
         this.setKoords(x, y);
         this.setDimensions(150, 300);
         this.setHitBox(40, 120, 40, 15);
-        this.setPositionOverGround(200);
+        this.setPositionOverGround(0);
         this.offsetGroundFromTopOfSprite = 285;
         this.fallingAnimationID = 'pepe_falling';
         this.landingAnimationID = 'pepe_landing';
@@ -28,7 +28,8 @@ class Player extends CollidingObject {
     startKeyTracking() {
         this.addInterval('keytracking', () => {
             let moveSpeed = this.isOnGround() ? 5 : 2.5;
-            if (this.isOnGround() && this.jumping) this.Landing();
+            if (this.health <= 0) this.startDying();
+            else if (this.isOnGround() && this.jumping) this.Landing();
             else if (this.invulnerable > 30) this.startHurtAnimation();
             else if (game.movement.Jump && this.isOnGround()) this.Jump();
             else if (game.movement.Right) this.moveRight(moveSpeed);
@@ -77,6 +78,19 @@ class Player extends CollidingObject {
         }
     }
 
+    startDying() {
+        this.startAnimation('pepe_dead', 200, true);
+        this.removeInterval('keytracking');
+        this.removeInterval('falling');
+        this.fallingSpeed = -14;
+        this.addGroundParticles(50, 100);
+        this.addInterval('dying', () => {
+            this.fallingSpeed += this.gravity;
+            this.offsetFromGround -= this.fallingSpeed;
+            this.y = this.gameObject.groundLevel - this.offsetGroundFromTopOfSprite - this.offsetFromGround;
+            if (this.y > this.gameObject.canvas.height);
+        });
+    }
 
     startHurtAnimation() {
         this.startAnimation('pepe_hurt', 200, true);

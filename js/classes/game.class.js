@@ -19,14 +19,14 @@ class Game extends Interval {
     scoreText;
 
     movement;
+    PauseKeyCount = 0;
+    gamePaused = false;
 
     constructor() {
         super();
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.movement = new Movement();
-        this.scoreText = new Score(this);
-        this.flytext.push(this.scoreText);
         this.getAir();
     }
 
@@ -41,6 +41,7 @@ class Game extends Interval {
     start() {
         this.addInterval('render', () => this.drawFrame());
         this.addInterval('updateFlyItems', () => this.updateFlyItems());
+        this.addInterval('checkPause', () => this.checkPauseState(), 50);
         this.clouds.forEach((cloud) => cloud.start());
         this.enemies.forEach((enemy) => enemy.start());
         this.player.start();
@@ -51,7 +52,8 @@ class Game extends Interval {
         this.clouds.forEach((cloud) => cloud.stop());
         this.enemies.forEach((enemy) => enemy.stop());
         this.player.stop();
-        super.stop();
+        this.removeInterval('render');
+        this.removeInterval('updateFlyItems');
     }
 
 
@@ -71,6 +73,36 @@ class Game extends Interval {
             text.update();
             if (text.remove) this.flytext.splice(index, 1);
         });
+    }
+
+
+    setPauseState(state) {
+        this.PauseKeyCount++;
+        if (state) this.stop();
+        else this.start();
+        this.gamePaused = state;
+    }
+
+
+    checkPauseState() {
+        switch (this.PauseKeyCount) {
+            case 0:
+                if (this.movement.Pause) this.setPauseState(true);
+                break;
+            case 1:
+                if (!this.movement.Pause) this.PauseKeyCount++;
+                break;
+            case 2:
+                if (this.movement.Pause) this.setPauseState(false);
+                break;
+            case 3:
+                if (!this.movement.Pause) this.PauseKeyCount = 0;
+                break;
+        }
+    }
+
+    checkGameOver() {
+
     }
 
 

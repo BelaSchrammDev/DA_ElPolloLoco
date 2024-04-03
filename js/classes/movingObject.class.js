@@ -2,10 +2,11 @@ class MovingObject extends DrawableObject {
     currentAnimationID = '';
     currentFrames = [];
     currentFrame = 0;
+    playOnlyOne = false;
+
     fallingAnimationID = '';
     landingAnimationID = '';
     animIdle = true;
-    playOnlyOne = false;
     offsetGroundFromTopOfSprite = 0;
     offsetFromGround = 0;
     fallingSpeed = 0;
@@ -24,6 +25,12 @@ class MovingObject extends DrawableObject {
     start() {
         this.addParticleAnimation();
         this.addGravityBehavior();
+    }
+
+
+    stop() {
+        super.stop();
+        this.setCurrentAnimation('', false);
     }
 
 
