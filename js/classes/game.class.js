@@ -49,11 +49,14 @@ class Game extends Interval {
     pause() {
         this.player.pause();
         this.enemies.forEach((enemy) => enemy.pause());
+        this.pauseText = new Text('PAUSE', 200, 200, 100);
+        this.uiItems.push(this.pauseText);
     }
 
     restart() {
         this.player.restart();
         this.enemies.forEach((enemy) => enemy.restart());
+        this.uiItems = this.uiItems.filter((item) => item !== this.pauseText);
     }
 
 

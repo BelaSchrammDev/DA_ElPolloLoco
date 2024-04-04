@@ -7,12 +7,12 @@ class CollidingObject extends MovingObject {
         offsetbottom: 0
     };
 
-    draw() {
-        super.draw();
-        this.drawGroundLine();
-        // this.drawCollisionBox();
-        // this.drawSpriteBox();
-    }
+    // draw() {
+    //     super.draw();
+    //     // this.drawGroundLine();
+    //     // this.drawCollisionBox();
+    //     // this.drawSpriteBox();
+    // }
 
     setHitBox(left, top, right, bottom) {
         this.hitBox.offsetleft = left;
@@ -45,7 +45,7 @@ class CollidingObject extends MovingObject {
     }
 
     drawSpriteBox() {
-        this.gameObject.ctx.fillStyle = 'red';
+        this.gameObject.ctx.fillStyle = 'black';
         this.gameObject.ctx.beginPath();
         this.gameObject.ctx.rect(
             this.getX(this.x),

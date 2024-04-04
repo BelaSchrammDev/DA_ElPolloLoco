@@ -43,8 +43,9 @@ class FlyingText extends CanvasText {
 class Text extends CanvasText {
     originalText = '';
     textcount = 0;
-    constructor(text, x, y) {
+    constructor(text, x, y, size = 30) {
         super(text, x, y);
+        this.size = size;
         this.centerText();
         this.originalText = text;
         this.text = '';
