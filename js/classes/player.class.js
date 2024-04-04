@@ -10,7 +10,7 @@ class Player extends CollidingObject {
     constructor(x, y) {
         super();
         this.setKoords(x, y);
-        this.setDimensions(150, 300);
+        // this.imageObj.scaleImage(0.25);
         this.setHitBox(40, 120, 40, 15);
         this.setPositionOverGround(0);
         this.offsetGroundFromTopOfSprite = 285;
@@ -20,8 +20,18 @@ class Player extends CollidingObject {
 
     start() {
         super.start();
-        this.startAnimation('pepe_idle', 200);
+        this.setNewAnimation('pepe_idle', 200);
         this.setLastMovementTime();
+        this.startKeyTracking();
+    }
+
+    pause() {
+        super.pause();
+        this.removeInterval('keytracking');
+    }
+
+    restart() {
+        super.restart();
         this.startKeyTracking();
     }
 
@@ -65,11 +75,11 @@ class Player extends CollidingObject {
 
     checkScoreByJump() {
         if (this.enemyDeadByJump > 0) {
-            this.gameObject.uiItems.push(new FlyingText('+' + this.scoreByJump, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
+            this.gameObject.uiItems.push(new FlyingText('+' + this.scoreByJump, this.getX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
             let enemyByJumping = this.enemyDeadByJump;
             if (enemyByJumping > 1) {
                 setTimeout(() => {
-                    this.gameObject.uiItems.push(new FlyingText('*' + enemyByJumping, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
+                    this.gameObject.uiItems.push(new FlyingText('*' + enemyByJumping, this.getX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
                 }, 100);
             }
             this.gameObject.score += this.enemyDeadByJump * this.scoreByJump;
@@ -79,7 +89,7 @@ class Player extends CollidingObject {
     }
 
     startDying() {
-        this.startAnimation('pepe_dead', 200, true);
+        this.setNewAnimation('pepe_dead', 200, true);
         this.removeInterval('keytracking');
         this.removeInterval('falling');
         this.fallingSpeed = -14;
@@ -94,7 +104,7 @@ class Player extends CollidingObject {
     }
 
     startHurtAnimation() {
-        this.startAnimation('pepe_hurt', 200, true);
+        this.setNewAnimation('pepe_hurt', 200, true);
         this.setLastMovementTime();
     }
 
@@ -108,14 +118,14 @@ class Player extends CollidingObject {
 
 
     setIdleAnimation() {
-        if (this.lastMovementTime + 5000 < Date.now()) this.startAnimation('pepe_longidle', 200);
-        else this.startAnimation('pepe_idle', 200);
+        if (this.lastMovementTime + 5000 < Date.now()) this.setNewAnimation('pepe_longidle', 200);
+        else this.setNewAnimation('pepe_idle', 200);
     }
 
 
     Jump() {
         this.fallingSpeed = -16;
-        this.startAnimation('pepe_jump', 50, true);
+        this.setNewAnimation('pepe_jump', 50, true);
         this.addGroundParticles(15, 20);
         this.setLastMovementTime();
         this.jumping = true;
@@ -138,7 +148,7 @@ class Player extends CollidingObject {
 
     moveRight(moveSpeed) {
         this.x += moveSpeed;
-        if (this.x > this.gameObject.levelWidth - this.width) this.x = this.gameObject.levelWidth - this.width;
+        if (this.x > this.gameObject.levelWidth - this.imageObj.width) this.x = this.gameObject.levelWidth - this.imageObj.width;
         if (this.getX(this.x) > this.gameObject.canvas.width / 2) this.gameObject.moveCamera(moveSpeed);
         this.setWalkAnimation(false);
     }
@@ -148,7 +158,7 @@ class Player extends CollidingObject {
         this.flipdrawing = leftDirection;
         this.setLastMovementTime();
         if (this.isOnGround()) {
-            this.startAnimation('pepe_walk', 80);
+            this.setNewAnimation('pepe_walk', 80);
             this.addGroundParticles(5, 10);
         }
     }

@@ -2,6 +2,7 @@ let game;
 let picture;
 
 function init() {
+    loadAnimations();
     game = new Game();
     initLevel1(game);
     game.start();

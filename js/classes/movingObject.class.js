@@ -1,5 +1,6 @@
 class MovingObject extends DrawableObject {
     currentAnimationID = '';
+    currentAnimationInterval = 0;
     currentFrames = [];
     currentFrame = 0;
     playOnlyOne = false;
@@ -30,17 +31,34 @@ class MovingObject extends DrawableObject {
 
     stop() {
         super.stop();
-        this.setCurrentAnimation('', false);
     }
 
+
+    pause() {
+        this.removeGravityBehavior();
+        this.stopAnimation();
+        this.removeInterval('particles');
+    }
+
+
+    restart() {
+        this.addGravityBehavior();
+        this.addParticleAnimation();
+        this.startAnimation();
+    }
+
+
+    removeGravityBehavior() {
+        this.removeInterval('falling');
+    }
 
     addGravityBehavior() {
         this.addInterval('falling', () => {
             if (this.isOnGround() && this.fallingSpeed === 0) return;
             this.fallingSpeed += this.gravity;
             this.offsetFromGround -= this.fallingSpeed;
-            if (this.offsetFromGround < 10) this.startAnimation(this.landingAnimationID, 100, true);
-            else if (this.fallingSpeed >= -2) this.startAnimation(this.fallingAnimationID, 200, true);
+            if (this.offsetFromGround < 10) this.setNewAnimation(this.landingAnimationID, 100, true);
+            else if (this.fallingSpeed >= -2) this.setNewAnimation(this.fallingAnimationID, 200, true);
             if (this.offsetFromGround < 0) {
                 this.offsetFromGround = 0;
                 this.fallingSpeed = 0;
@@ -59,32 +77,33 @@ class MovingObject extends DrawableObject {
     }
 
 
-    startAnimation(animationID, interval, playonlyone = false) {
+    setNewAnimation(animationID, interval, playonlyone = false) {
         if (animationID === '' || this.currentAnimationID === animationID) return;
         // console.log('start animation = ', animationID);
         this.stopAnimation();
-        this.setCurrentAnimation(animationID, playonlyone);
-        this.setAnimationInterval(interval);
+        this.setCurrentAnimation(animationID, interval, playonlyone);
+        this.startAnimation(interval);
     }
 
 
-    setAnimationInterval(interval) {
+    startAnimation() {
         this.addInterval('animation', () => {
             this.currentFrame++;
             if (this.currentFrame >= this.currentFrames.length) {
                 this.currentFrame = this.playOnlyOne ? this.currentFrames.length - 1 : 0;
                 if (this.isNotGravityAnimation()) this.animIdle = true;
             }
-            this.img = this.currentFrames[this.currentFrame];
-        }, interval);
+            this.imageObj = this.currentFrames[this.currentFrame];
+        }, this.currentAnimationInterval);
     }
 
 
-    setCurrentAnimation(animationID, playonlyone) {
+    setCurrentAnimation(animationID, interval, playonlyone) {
         this.currentAnimationID = animationID;
+        this.currentAnimationInterval = interval;
         this.currentFrames = animFrames[animationID];
         this.currentFrame = 0;
-        this.setFramesKordsOffset(animationID);
+        this.imageObj = this.currentFrames[0];
         this.animIdle = false;
         this.playOnlyOne = playonlyone;
     }
@@ -92,17 +111,6 @@ class MovingObject extends DrawableObject {
 
     isNotGravityAnimation() {
         return this.currentAnimationID != this.fallingAnimationID && this.currentAnimationID != this.landingAnimationID;
-    }
-
-
-    setFramesKordsOffset(animationID) {
-        if (animFramesKordsOffset[animationID]) {
-            this.diffX = animFramesKordsOffset[this.currentAnimationID].x;
-            this.diffY = animFramesKordsOffset[this.currentAnimationID].y;
-        } else {
-            this.diffX = 0;
-            this.diffY = 0;
-        }
     }
 
 
@@ -136,7 +144,7 @@ class MovingObject extends DrawableObject {
             this.particles.push({
                 color: 'rgba(256, 200, 120, 0.05)',
                 size: init_size,
-                posX: this.x + this.width / 2 + (Math.random() * (2 * init_size) - init_size),
+                posX: this.x + this.imageObj.width / 2 + (Math.random() * (2 * init_size) - init_size),
                 posY: this.y + this.offsetGroundFromTopOfSprite,
             });
         }
@@ -152,4 +160,5 @@ class MovingObject extends DrawableObject {
             ctx.fill();
         });
     }
+
 }

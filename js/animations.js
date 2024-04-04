@@ -96,35 +96,63 @@ const GAMEOVER_IMAGES = [
     './img_pollo_locco/img/9_intro_outro_screens/game_over/you lost.png',
 ]
 
-let animFramesKordsOffset = {
+let imageOffsets = {
     pepe_jump: { x: -12, y: 0 },
     pepe_falling: { x: -12, y: 0 },
     pepe_landing: { x: -12, y: 0 },
+    chicken_dead: { x: 0, y: 10 },
 };
 
-
-const animFrames = {
-    'pepe_walk': getImages(PEPE_WORKS),
-    'pepe_jump': getImages(PEPE_JUMP),
-    'pepe_falling': getImages(PEPE_FALLING),
-    'pepe_landing': getImages(PEPE_LANDING),
-    'pepe_idle': getImages(PEPE_IDLE),
-    'pepe_longidle': getImages(PEPE_LONGIDLE),
-    'pepe_hurt': getImages(PEPE_HURT),
-    'pepe_dead': getImages(PEPE_DEAD),
-    'chicken_small_walk': getImages(CHICKEN_SMALL_WALK),
-    'chicken_small_dead': getImages(CHICKEN_SMALL_DEAD),
-    'chicken_walk': getImages(CHICKEN_WALK),
-    'chicken_dead': getImages(CHICKEN_DEAD),
+let imageScales = {
+    pepe_walk: 0.25,
+    pepe_jump: 0.25,
+    pepe_falling: 0.25,
+    pepe_landing: 0.25,
+    pepe_idle: 0.25,
+    pepe_longidle: 0.25,
+    pepe_hurt: 0.25,
+    pepe_dead: 0.25,
+    chicken_small_walk: 0.25,
+    chicken_small_dead: 0.25,
+    chicken_walk: 0.3,
+    chicken_dead: 0.3,
 }
 
 
-function getImages(imagepathArray) {
+const animFrames = {
+    'pepe_walk': PEPE_WORKS,
+    'pepe_jump': PEPE_JUMP,
+    'pepe_falling': PEPE_FALLING,
+    'pepe_landing': PEPE_LANDING,
+    'pepe_idle': PEPE_IDLE,
+    'pepe_longidle': PEPE_LONGIDLE,
+    'pepe_hurt': PEPE_HURT,
+    'pepe_dead': PEPE_DEAD,
+    'chicken_small_walk': CHICKEN_SMALL_WALK,
+    'chicken_small_dead': CHICKEN_SMALL_DEAD,
+    'chicken_walk': CHICKEN_WALK,
+    'chicken_dead': CHICKEN_DEAD,
+}
+
+
+function loadAnimations() {
+    for (let animationID in animFrames) {
+        let images = getImages(animFrames[animationID], animationID);
+        animFrames[animationID] = images;
+    }
+}
+
+function getImages(imagepathArray, animationID) {
     let images = [];
+    let imageScale = imageScales[animationID];
+    let offsetX = 0;
+    let offsetY = 0;
+    if (imageOffsets[animationID]) {
+        offsetX = imageOffsets[animationID].x;
+        offsetY = imageOffsets[animationID].y;
+    }
     imagepathArray.forEach((path) => {
-        let img = new Image();
-        img.src = path;
-        images.push(img);
+        images.push(new ImageObject(path, imageScale, offsetX, offsetY));
     });
     return images;
 }

@@ -9,6 +9,7 @@ class CollidingObject extends MovingObject {
 
     draw() {
         super.draw();
+        this.drawGroundLine();
         // this.drawCollisionBox();
         // this.drawSpriteBox();
     }
@@ -20,11 +21,27 @@ class CollidingObject extends MovingObject {
         this.hitBox.offsetbottom = bottom;
     }
 
+    getHitboxAbsolut() {
+        if (this.imageObj.imageLoaded && !this.hitBox.offsetrightFromleft) {
+            this.hitBox.offsetrightFromleft = this.imageObj.width - this.hitBox.offsetright;
+            this.hitBox.offsetbottomFromtop = this.imageObj.height - this.hitBox.offsetbottom;
+        }
+        return {
+            left: this.x + this.hitBox.offsetleft,
+            top: this.y + this.hitBox.offsettop,
+            right: this.x + this.hitBox.offsetrightFromleft,
+            bottom: this.y + this.hitBox.offsetbottomFromtop,
+        };
+    }
+
+
     isCollidingWith(otherObject) {
-        return this.x + this.hitBox.offsetleft < otherObject.x + otherObject.width - otherObject.hitBox.offsetright &&
-            this.x + this.width - this.hitBox.offsetright > otherObject.x + otherObject.hitBox.offsetright &&
-            this.y + this.hitBox.offsettop < otherObject.y + otherObject.height - otherObject.hitBox.offsetbottom &&
-            this.y + this.height - this.hitBox.offsetbottom > otherObject.y + otherObject.hitBox.offsettop;
+        let thisBox = this.getHitboxAbsolut();
+        let otherBox = otherObject.getHitboxAbsolut();
+        return thisBox.right > otherBox.left &&
+            thisBox.left < otherBox.right &&
+            thisBox.bottom > otherBox.top &&
+            thisBox.top < otherBox.bottom;
     }
 
     drawSpriteBox() {
@@ -33,8 +50,8 @@ class CollidingObject extends MovingObject {
         this.gameObject.ctx.rect(
             this.getX(this.x),
             this.y,
-            this.width,
-            this.height
+            this.imageObj.width,
+            this.imageObj.height
         );
         this.gameObject.ctx.stroke();
     }
@@ -45,9 +62,22 @@ class CollidingObject extends MovingObject {
         this.gameObject.ctx.rect(
             this.getX(this.x) + this.hitBox.offsetleft,
             this.y + this.hitBox.offsettop,
-            this.width - this.hitBox.offsetright - this.hitBox.offsetleft,
-            this.height - this.hitBox.offsettop - this.hitBox.offsetbottom
+            this.imageObj.width - this.hitBox.offsetright - this.hitBox.offsetleft,
+            this.imageObj.height - this.hitBox.offsettop - this.hitBox.offsetbottom
         );
         this.gameObject.ctx.stroke();
     }
+
+    drawGroundLine() {
+        this.gameObject.ctx.fillStyle = 'blue';
+        this.gameObject.ctx.beginPath();
+        this.gameObject.ctx.rect(
+            this.getX(this.x),
+            this.y,
+            this.imageObj.width,
+            this.offsetGroundFromTopOfSprite
+        );
+        this.gameObject.ctx.stroke();
+    }
+
 }

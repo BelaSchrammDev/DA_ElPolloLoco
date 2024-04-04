@@ -8,27 +8,13 @@ class DrawableObject extends Interval {
     gameObject;
     x;
     y;
-    diffX = 0;
-    diffY = 0;
-    width;
-    height;
     z_index = 1;
     flipdrawing = false;
-    img = undefined;
+    imageObj = undefined;
 
     constructor() {
         super();
         this.gameObject = game;
-    }
-
-
-    /**
-     * Init the image for the drawable object.
-     * @param {string} imgPath - The path to the image file.
-     */
-    setImage(imgPath) {
-        this.img = new Image();
-        this.img.src = imgPath;
     }
 
 
@@ -39,29 +25,10 @@ class DrawableObject extends Interval {
      * @param {number} scale - The scale factor to apply to the image.
      */
     setImageWithScale(imgPath, scale) {
-        this.setImage(imgPath);
-        let imgJSON = { img: this.img, width: this.width, height: this.height }
-        this.img.onload = () => {
-            this.setDimensions(this.img.width * scale, this.img.height * scale);
-            imgJSON.width = imgJSON.img.width * scale;
-            imgJSON.height = imgJSON.img.height * scale;
-        };
-        return imgJSON;
+        this.imageObj = new ImageObject(imgPath, scale);
+        return this.imageObj;
     }
 
-
-    /**
-     * Sets the image of the drawable object and scales it to the canvas height.
-     * special for background images.
-     * @param {string} imgPath - The path to the image file.
-     */
-    setImageWithScaleToCanvasHeight(imgPath) {
-        this.setImage(imgPath);
-        this.img.onload = () => {
-            const scale = this.gameObject.canvas.height / this.img.height;
-            this.setDimensions(this.img.width * scale, this.img.height * scale);
-        };
-    }
 
     /**
      * Sets the coordinates of the object.
@@ -74,22 +41,11 @@ class DrawableObject extends Interval {
     }
 
     /**
-     * Sets the dimensions of the object.
-     * @param {number} width - The width of the object.
-     * @param {number} height - The height of the object.
-     */
-    setDimensions(width, height) {
-        this.width = width;
-        this.height = height;
-    }
-
-
-    /**
      * Sets the image position to the center of the canvas.
      */
     setImageToCenter() {
-        this.x = this.gameObject.canvas.width / 2 - this.width / 2;
-        this.y = this.gameObject.canvas.height / 2 - this.height / 2;
+        this.x = this.gameObject.canvas.width / 2 - this.imageObj.width / 2;
+        this.y = this.gameObject.canvas.height / 2 - this.imageObj.height / 2;
     }
 
     /**
@@ -98,16 +54,16 @@ class DrawableObject extends Interval {
      * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
      */
     draw() {
-        if (this.img == undefined) return;
+        if (this.imageObj == undefined || !this.imageObj.imageLoaded) return;
         let ctx = this.gameObject.ctx;
         if (this.flipdrawing) {
             ctx.save();
-            ctx.translate(this.width, 0);
+            ctx.translate(this.imageObj.width, 0);
             ctx.scale(-1, 1);
-            ctx.drawImage(this.img, -this.getX(this.x) + this.diffX, this.y + this.diffY, this.width, this.height);
+            ctx.drawImage(this.imageObj.img, -this.getX(this.x) + this.imageObj.diffX, this.y + this.imageObj.diffY, this.imageObj.width, this.imageObj.height);
             ctx.restore();
         }
-        else ctx.drawImage(this.img, this.getX(this.x) + this.diffX, this.y + this.diffY, this.width, this.height);
+        else ctx.drawImage(this.imageObj.img, this.getX(this.x) + this.imageObj.diffX, this.y + this.imageObj.diffY, this.imageObj.width, this.imageObj.height);
     }
 
 

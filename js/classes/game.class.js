@@ -46,6 +46,16 @@ class Game extends Interval {
         this.player.start();
     }
 
+    pause() {
+        this.player.pause();
+        this.enemies.forEach((enemy) => enemy.pause());
+    }
+
+    restart() {
+        this.player.restart();
+        this.enemies.forEach((enemy) => enemy.restart());
+    }
+
 
     stop() {
         this.clouds.forEach((cloud) => cloud.stop());
@@ -82,8 +92,8 @@ class Game extends Interval {
 
     setPauseState(state) {
         this.PauseKeyCount++;
-        if (state) this.stop();
-        else this.start();
+        if (state) this.pause();
+        else this.restart();
         this.gamePaused = state;
     }
 
