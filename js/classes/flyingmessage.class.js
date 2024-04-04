@@ -13,7 +13,7 @@ class CenterPopImage extends DrawableObject {
         this.height = 20 + this.gameObject.canvas.height + Math.sin(this.pumping) * 10;
         this.width = 20 + this.gameObject.canvas.width + Math.sin(this.pumping) * 10;
         this.setImageToCenter();
-        if (this.gameObject.movement.Enter) {
+        if (this.gameObject.interaction.Enter) {
             this.gameObject.stop();
             initLevel1(this.gameObject);
             this.gameObject.start();

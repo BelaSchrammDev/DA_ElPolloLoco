@@ -1,4 +1,4 @@
-class Movement {
+class Interaction {
     KEY_RIGHT = 'ArrowRight';
     KEY_LEFT = 'ArrowLeft';
     KEY_UP = 'ArrowUp';

@@ -18,7 +18,7 @@ class Game extends Interval {
     flytext = [];
     scoreText;
 
-    movement;
+    interaction;
     PauseKeyCount = 0;
     gamePaused = false;
 
@@ -26,7 +26,7 @@ class Game extends Interval {
         super();
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.movement = new Movement();
+        this.interaction = new Interaction();
         this.getAir();
     }
 
@@ -92,16 +92,16 @@ class Game extends Interval {
     checkPauseState() {
         switch (this.PauseKeyCount) {
             case 0:
-                if (this.movement.Pause) this.setPauseState(true);
+                if (this.interaction.Pause) this.setPauseState(true);
                 break;
             case 1:
-                if (!this.movement.Pause) this.PauseKeyCount++;
+                if (!this.interaction.Pause) this.PauseKeyCount++;
                 break;
             case 2:
-                if (this.movement.Pause) this.setPauseState(false);
+                if (this.interaction.Pause) this.setPauseState(false);
                 break;
             case 3:
-                if (!this.movement.Pause) this.PauseKeyCount = 0;
+                if (!this.interaction.Pause) this.PauseKeyCount = 0;
                 break;
         }
     }

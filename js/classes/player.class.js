@@ -31,9 +31,9 @@ class Player extends CollidingObject {
             if (this.health <= 0) this.startDying();
             else if (this.isOnGround() && this.jumping) this.Landing();
             else if (this.invulnerable > 30) this.startHurtAnimation();
-            else if (game.movement.Jump && this.isOnGround()) this.Jump();
-            else if (game.movement.Right) this.moveRight(moveSpeed);
-            else if (game.movement.Left) this.moveLeft(moveSpeed);
+            else if (game.interaction.Jump && this.isOnGround()) this.Jump();
+            else if (game.interaction.Right) this.moveRight(moveSpeed);
+            else if (game.interaction.Left) this.moveLeft(moveSpeed);
             else if (this.isIdleState()) this.setIdleAnimation();
             this.checkScoreAndCollision();
         });
