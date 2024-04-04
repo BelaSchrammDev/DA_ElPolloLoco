@@ -13,6 +13,8 @@ class Game extends Interval {
 
     player;
     score = 0;
+    coins = 0;
+    bottles = 0;
 
     uiItems = [];
     scoreText;
@@ -26,7 +28,7 @@ class Game extends Interval {
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.interaction = new Interaction();
-        this.getAir();
+        this.air = new ImageObject('./img_pollo_locco/img/5_background/layers/air.png');
     }
 
 
@@ -39,19 +41,21 @@ class Game extends Interval {
 
     start() {
         this.addInterval('render', () => this.drawFrame());
-        this.addInterval('updateFlyItems', () => this.updateFlyItems());
+        this.addInterval('updateFlyItems', () => this.updateUIItems());
         this.addInterval('checkPause', () => this.checkPauseState(), 50);
         this.clouds.forEach((cloud) => cloud.start());
         this.enemies.forEach((enemy) => enemy.start());
         this.player.start();
     }
 
+
     pause() {
         this.player.pause();
         this.enemies.forEach((enemy) => enemy.pause());
-        this.pauseText = new Text('PAUSE', 200, 200, 100);
+        this.pauseText = new Text('PAUSE', 200, 100);
         this.uiItems.push(this.pauseText);
     }
+
 
     restart() {
         this.player.restart();
@@ -68,24 +72,20 @@ class Game extends Interval {
         this.removeInterval('updateFlyItems');
     }
 
+
     gameOver() {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
         this.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
-        this.uiItems.push(new Text('Press Enter to restart', 200, 450));
-    }
-
-    getAir() {
-        this.air = new Image();
-        this.air.src = './img_pollo_locco/img/5_background/layers/air.png';
+        this.uiItems.push(new Text('Press Enter to restart', 450));
     }
 
 
     renderAir() {
-        this.ctx.drawImage(this.air, 0, 0, this.canvas.width, this.canvas.height);
+        if (this.air.imageLoaded) this.ctx.drawImage(this.air.img, 0, 0, this.canvas.width, this.canvas.height);
     }
 
 
-    updateFlyItems() {
+    updateUIItems() {
         this.uiItems.forEach((text, index) => {
             text.update();
             if (text.remove) this.uiItems.splice(index, 1);
@@ -116,10 +116,6 @@ class Game extends Interval {
                 if (!this.interaction.Pause) this.PauseKeyCount = 0;
                 break;
         }
-    }
-
-    checkGameOver() {
-
     }
 
 

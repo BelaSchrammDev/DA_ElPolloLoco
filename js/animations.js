@@ -96,29 +96,6 @@ const GAMEOVER_IMAGES = [
     './img_pollo_locco/img/9_intro_outro_screens/game_over/you lost.png',
 ]
 
-let imageOffsets = {
-    pepe_jump: { x: -12, y: 0 },
-    pepe_falling: { x: -12, y: 0 },
-    pepe_landing: { x: -12, y: 0 },
-    chicken_dead: { x: 0, y: 10 },
-};
-
-let imageScales = {
-    pepe_walk: 0.25,
-    pepe_jump: 0.25,
-    pepe_falling: 0.25,
-    pepe_landing: 0.25,
-    pepe_idle: 0.25,
-    pepe_longidle: 0.25,
-    pepe_hurt: 0.25,
-    pepe_dead: 0.25,
-    chicken_small_walk: 0.25,
-    chicken_small_dead: 0.25,
-    chicken_walk: 0.3,
-    chicken_dead: 0.3,
-}
-
-
 const animFrames = {
     'pepe_walk': PEPE_WORKS,
     'pepe_jump': PEPE_JUMP,
@@ -134,6 +111,13 @@ const animFrames = {
     'chicken_dead': CHICKEN_DEAD,
 }
 
+const imageOffsets = {
+    pepe_jump: { x: -12, y: 0 },
+    pepe_falling: { x: -12, y: 0 },
+    pepe_landing: { x: -12, y: 0 },
+    chicken_dead: { x: 0, y: 10 },
+};
+
 
 function loadAnimations() {
     for (let animationID in animFrames) {
@@ -142,9 +126,10 @@ function loadAnimations() {
     }
 }
 
+
 function getImages(imagepathArray, animationID) {
     let images = [];
-    let imageScale = imageScales[animationID];
+    let imageScale = getImageScale(animationID);
     let offsetX = 0;
     let offsetY = 0;
     if (imageOffsets[animationID]) {
@@ -156,3 +141,13 @@ function getImages(imagepathArray, animationID) {
     });
     return images;
 }
+
+
+function getImageScale(animationID) {
+    if (animationID.startsWith('pepe_')) return 0.25;
+    if (animationID.startsWith('chicken_small_')) return 0.25;
+    if (animationID === 'chicken_walk') return 0.3;
+    if (animationID === 'chicken_dead') return 0.3;
+    return 1;
+}
+

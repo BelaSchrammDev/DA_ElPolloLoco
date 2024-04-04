@@ -6,11 +6,12 @@ class Player extends CollidingObject {
     jumping = false;
 
     health = 100;
+    soundWalk = new Audio('./audio/walking.wav');
+    soundJump = new Audio('./audio/jumping.wav');
 
     constructor(x, y) {
         super();
         this.setKoords(x, y);
-        // this.imageObj.scaleImage(0.25);
         this.setHitBox(40, 120, 40, 15);
         this.setPositionOverGround(0);
         this.offsetGroundFromTopOfSprite = 285;
@@ -95,12 +96,12 @@ class Player extends CollidingObject {
         this.fallingSpeed = -14;
         this.addGroundParticles(50, 200);
         this.addInterval('dying', () => {
+            if (this.y > this.gameObject.canvas.height) return;
             this.fallingSpeed += this.gravity;
             this.offsetFromGround -= this.fallingSpeed;
             this.y = this.gameObject.groundLevel - this.offsetGroundFromTopOfSprite - this.offsetFromGround;
-            if (this.y > this.gameObject.canvas.height);
+            if (this.y > this.gameObject.canvas.height) this.gameObject.gameOver();
         });
-        this.gameObject.gameOver();
     }
 
     startHurtAnimation() {
@@ -124,6 +125,9 @@ class Player extends CollidingObject {
 
 
     Jump() {
+        this.soundJump.play();
+        // this.soundJump.currentTime = 0.5;
+        this.soundJump.playbackRate = 1.5;
         this.fallingSpeed = -16;
         this.setNewAnimation('pepe_jump', 50, true);
         this.addGroundParticles(15, 20);
@@ -158,6 +162,8 @@ class Player extends CollidingObject {
         this.flipdrawing = leftDirection;
         this.setLastMovementTime();
         if (this.isOnGround()) {
+            this.soundWalk.playbackRate = 0.5 + Math.random();
+            this.soundWalk.play();
             this.setNewAnimation('pepe_walk', 80);
             this.addGroundParticles(5, 10);
         }

@@ -57,6 +57,14 @@ const CLOUDS = [
 
 const enemies_level_1 = [
     {
+        type: 'chicken',
+        count: 3,
+        positionFrom: 1500,
+        positionTo: 3200,
+        speed: 0.3,
+        damage: 10
+    },
+    {
         type: 'chicken_small',
         count: 15,
         positionFrom: 500,
@@ -64,14 +72,6 @@ const enemies_level_1 = [
         speed: 0.3,
         damage: 5
     },
-    {
-        type: 'chicken',
-        count: 3,
-        positionFrom: 1500,
-        positionTo: 3200,
-        speed: 0.3,
-        damage: 10
-    }
 ]
 
 const enemies_level_2 = [
