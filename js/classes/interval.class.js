@@ -8,6 +8,7 @@ class Interval {
 
 
     addInterval(id, intervalFunction, interval = 1000 / 60) {
+        if (this.intervalObjects[id]) return;
         let newInterval = setInterval(intervalFunction, interval);
         this.intervalObjects[id] = newInterval;
     }
