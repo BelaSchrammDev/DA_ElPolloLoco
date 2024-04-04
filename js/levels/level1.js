@@ -107,13 +107,12 @@ function initLevel1(gameObject) {
 
 
 function addUIElements(gameObject) {
-    gameObject.ui_elements = [];
-    gameObject.flytext = [];
-    gameObject.ui_elements.push(new Helth());
-    gameObject.ui_elements.push(new Coins());
-    gameObject.ui_elements.push(new Bottles());
+    gameObject.uiItems = [];
+    gameObject.uiItems.push(new Helth());
+    gameObject.uiItems.push(new Coins());
+    gameObject.uiItems.push(new Bottles());
     gameObject.scoreText = new Score(gameObject);
-    gameObject.flytext.push(gameObject.scoreText);
+    gameObject.uiItems.push(gameObject.scoreText);
 }
 
 

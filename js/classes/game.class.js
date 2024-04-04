@@ -14,8 +14,7 @@ class Game extends Interval {
     player;
     score = 0;
 
-    ui_elements = [];
-    flytext = [];
+    uiItems = [];
     scoreText;
 
     interaction;
@@ -58,8 +57,8 @@ class Game extends Interval {
 
     gameOver() {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
-        this.flytext.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
-        this.flytext.push(new Text('Press Enter to restart', 200, 450));
+        this.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
+        this.uiItems.push(new Text('Press Enter to restart', 200, 450));
     }
 
     getAir() {
@@ -74,9 +73,9 @@ class Game extends Interval {
 
 
     updateFlyItems() {
-        this.flytext.forEach((text, index) => {
+        this.uiItems.forEach((text, index) => {
             text.update();
-            if (text.remove) this.flytext.splice(index, 1);
+            if (text.remove) this.uiItems.splice(index, 1);
         });
     }
 
@@ -117,7 +116,6 @@ class Game extends Interval {
         this.backgrounds.forEach((background) => background.draw());
         this.enemies.forEach((enemy) => enemy.draw());
         this.player.draw();
-        this.ui_elements.forEach((ui_element) => ui_element.draw());
-        this.flytext.forEach((text) => text.draw());
+        this.uiItems.forEach((text) => text.draw());
     }
 }

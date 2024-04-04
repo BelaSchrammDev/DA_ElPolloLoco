@@ -22,7 +22,7 @@ class UIElement extends DrawableObject {
         this.currentFadeValue = this.lastValue;
     }
 
-    updateValues() {
+    update() {
         let newValue = this.getValue();
         if (this.imgIconUpdateScale == 1 && newValue != this.lastValue) {
             this.imgIconUpdateScale = 1.2;
@@ -39,7 +39,7 @@ class UIElement extends DrawableObject {
 
     draw() {
         let ctx = this.gameObject.ctx;
-        this.updateValues();
+        // this.updateValues();
         let xValue = this.barWidth * (this.currentFadeValue / 100);
         ctx.drawImage(this.imgBar.img, this.barLeftOffset, this.barTopOffset, this.barWidth, this.barHeight, this.x, this.y, this.barWidth * this.barScale, this.barHeight * this.barScale);
         ctx.drawImage(this.imgFillBar.img, this.barLeftOffset + this.barWidth - xValue, this.barTopOffset, xValue, this.barHeight, this.x, this.y, xValue * this.barScale, this.barHeight * this.barScale);

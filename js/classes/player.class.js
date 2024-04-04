@@ -65,11 +65,11 @@ class Player extends CollidingObject {
 
     checkScoreByJump() {
         if (this.enemyDeadByJump > 0) {
-            this.gameObject.flytext.push(new FlyingText('+' + this.scoreByJump, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
+            this.gameObject.uiItems.push(new FlyingText('+' + this.scoreByJump, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
             let enemyByJumping = this.enemyDeadByJump;
             if (enemyByJumping > 1) {
                 setTimeout(() => {
-                    this.gameObject.flytext.push(new FlyingText('*' + enemyByJumping, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
+                    this.gameObject.uiItems.push(new FlyingText('*' + enemyByJumping, this.getX(this.x) + this.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
                 }, 100);
             }
             this.gameObject.score += this.enemyDeadByJump * this.scoreByJump;
