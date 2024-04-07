@@ -67,6 +67,22 @@ const PEPE_DEAD = [
     './img_pollo_locco/img/2_character_pepe/5_dead/D-57.png',
 ]
 
+const COINS = [
+    './img_pollo_locco/img/8_coin/coin_1.png',
+    './img_pollo_locco/img/8_coin/coin_2.png',
+]
+
+const BOTTLES_GROUND = [
+    './img_pollo_locco/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
+    './img_pollo_locco/img/6_salsa_bottle/2_salsa_bottle_on_ground.png',
+]
+
+const BOTTLE_SPLASH = [
+    './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
+    './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
+    './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
+    './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
+]
 
 const CHICKEN_SMALL_WALK = [
     './img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -77,7 +93,6 @@ const CHICKEN_SMALL_WALK = [
 const CHICKEN_SMALL_DEAD = [
     'img_pollo_locco/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
 ]
-
 
 const CHICKEN_WALK = [
     './img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -96,7 +111,7 @@ const GAMEOVER_IMAGES = [
     './img_pollo_locco/img/9_intro_outro_screens/game_over/you lost.png',
 ]
 
-const animFrames = {
+const animationIDArrays = {
     'pepe_walk': PEPE_WORKS,
     'pepe_jump': PEPE_JUMP,
     'pepe_falling': PEPE_FALLING,
@@ -105,11 +120,16 @@ const animFrames = {
     'pepe_longidle': PEPE_LONGIDLE,
     'pepe_hurt': PEPE_HURT,
     'pepe_dead': PEPE_DEAD,
+    'coins': COINS,
+    'bottles_ground': BOTTLES_GROUND,
+    'bottle_splash': BOTTLE_SPLASH,
     'chicken_small_walk': CHICKEN_SMALL_WALK,
     'chicken_small_dead': CHICKEN_SMALL_DEAD,
     'chicken_walk': CHICKEN_WALK,
     'chicken_dead': CHICKEN_DEAD,
 }
+
+const animFrames = {}
 
 const imageOffsets = {
     pepe_jump: { x: -12, y: 0 },
@@ -120,8 +140,8 @@ const imageOffsets = {
 
 
 function loadAnimations() {
-    for (let animationID in animFrames) {
-        let images = getImages(animFrames[animationID], animationID);
+    for (let animationID in animationIDArrays) {
+        let images = getImages(animationIDArrays[animationID], animationID);
         animFrames[animationID] = images;
     }
 }
@@ -146,6 +166,8 @@ function getImages(imagepathArray, animationID) {
 function getImageScale(animationID) {
     if (animationID.startsWith('pepe_')) return 0.25;
     if (animationID.startsWith('chicken_small_')) return 0.25;
+    if (animationID.startsWith('bottle')) return 0.2;
+    if (animationID === 'coins') return 0.30;
     if (animationID === 'chicken_walk') return 0.3;
     if (animationID === 'chicken_dead') return 0.3;
     return 1;

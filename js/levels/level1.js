@@ -58,7 +58,7 @@ const CLOUDS = [
 const enemies_level_1 = [
     {
         type: 'chicken',
-        count: 3,
+        count: 10,
         positionFrom: 1500,
         positionTo: 3200,
         speed: 0.3,
@@ -74,25 +74,6 @@ const enemies_level_1 = [
     },
 ]
 
-const enemies_level_2 = [
-    {
-        type: 'chicken_small',
-        count: 10,
-        positionFrom: 500,
-        positionTo: 2000,
-        speed: 0.7,
-        damage: 10
-    },
-    {
-        type: 'chicken',
-        count: 12,
-        positionFrom: 1000,
-        positionTo: 3200,
-        speed: 0.5,
-        damage: 20
-    }
-]
-
 
 function initLevel1(gameObject) {
     gameObject.levelWidth = 3400;
@@ -100,9 +81,28 @@ function initLevel1(gameObject) {
     gameObject.score = 0;
     addBackGrounds(gameObject);
     addClouds(gameObject);
-    addEnemies(gameObject, enemies_level_1);
+    // addEnemies(gameObject, enemies_level_1);
     addPlayer(gameObject);
     addUIElements(gameObject);
+    addCollectables(gameObject);
+}
+
+
+function addCollectables(gameObject) {
+    gameObject.collectables = [];
+    gameObject.maxbottles = 10;
+    gameObject.maxcoins = 20;
+    placeCollectables(gameObject, gameObject.maxbottles, 500, 2000, (x) => new Bottle(x, 360));
+    placeCollectables(gameObject, gameObject.maxcoins, 400, 2500, (x) => new Coin(x, Math.random() * 100 + 50));
+}
+
+
+function placeCollectables(gameObject, count, fromX, toX, pushCallback) {
+    const areaX = (toX - fromX) / count;
+    for (let index = 0; index < count; index++) {
+        const x = fromX + areaX * index + Math.random() * areaX;
+        gameObject.collectables.push(pushCallback(x, 400));
+    }
 }
 
 

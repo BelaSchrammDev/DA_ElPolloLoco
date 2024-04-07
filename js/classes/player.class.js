@@ -46,7 +46,10 @@ class Player extends AnimatedObject {
             else if (game.interaction.Right) this.moveRight(moveSpeed);
             else if (game.interaction.Left) this.moveLeft(moveSpeed);
             else if (this.isIdleState()) this.setIdleAnimation();
-            this.checkScoreAndCollision();
+            if (this.invulnerable > 0) this.invulnerable--;
+            if (this.isOnGround()) this.checkScoreByJump();
+            else this.checkEnemyCollision();
+            this.checkCollecting();
         });
     }
 
@@ -56,12 +59,13 @@ class Player extends AnimatedObject {
     }
 
 
-    checkScoreAndCollision() {
-        if (this.invulnerable > 0) this.invulnerable--;
-        if (this.isOnGround()) this.checkScoreByJump();
-        else this.checkEnemyCollision();
+    checkCollecting() {
+        this.gameObject.collectables.forEach((collectable) => {
+            if (collectable.isCollidingWith(this)) {
+                collectable.collect();
+            }
+        });
     }
-
 
     checkEnemyCollision() {
         this.gameObject.enemies.forEach((enemy) => {

@@ -14,7 +14,11 @@ class Game extends Interval {
     player;
     score = 0;
     coins = 0;
+    maxcoins = 0;
     bottles = 0;
+    maxbottles = 0;
+
+    collectables = [];
 
     uiItems = [];
     scoreText;
@@ -45,6 +49,7 @@ class Game extends Interval {
         this.addInterval('checkPause', () => this.checkPauseState(), 50);
         this.clouds.forEach((cloud) => cloud.start());
         this.enemies.forEach((enemy) => enemy.start());
+        this.collectables.forEach((collectable) => collectable.start());
         this.player.start();
     }
 
@@ -77,6 +82,11 @@ class Game extends Interval {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
         this.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
         this.uiItems.push(new Text('Press Enter to restart', 450));
+    }
+
+
+    removeCollectable(collectable) {
+        this.collectables = this.collectables.filter((item) => item !== collectable);
     }
 
 
@@ -125,6 +135,7 @@ class Game extends Interval {
         this.backgrounds.forEach((background) => background.draw());
         this.enemies.forEach((enemy) => enemy.draw());
         this.player.draw();
+        this.collectables.forEach((collectable) => collectable.draw());
         this.uiItems.forEach((text) => text.draw());
     }
 }

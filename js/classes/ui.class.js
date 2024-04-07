@@ -7,16 +7,20 @@ class UIElement extends DrawableObject {
     imgBar;
     imgFillBar;
     barWidth = 561;
+    barWidthPX = 561;
     barScale = 0.3;
     barHeight = 59;
+    barHeightPX = 59;
     barLeftOffset = 34;
     barTopOffset = 49;
 
     constructor(iconImgPath, x, y) {
         super();
-        this.imgIcon = this.setImageWithScale(iconImgPath, 0.3);
+        this.imgIcon = this.setImageWithScale(iconImgPath, this.barScale);
         this.imgBar = this.setImageWithScale('./img_pollo_locco/img/7_statusbars/4_bar_elements/statusbar_empty.png', this.barScale);
         this.imgFillBar = this.setImageWithScale('./img_pollo_locco/img/7_statusbars/4_bar_elements/statusbar_blue.png', this.barScale);
+        this.barWidthPX = this.barWidth * this.barScale;
+        this.barHeightPX = this.barHeight * this.barScale;
         this.setKoords(x, y);
         this.lastValue = this.getValue();
         this.currentFadeValue = this.lastValue;
@@ -39,10 +43,9 @@ class UIElement extends DrawableObject {
 
     draw() {
         let ctx = this.gameObject.ctx;
-        // this.updateValues();
         let xValue = this.barWidth * (this.currentFadeValue / 100);
-        ctx.drawImage(this.imgBar.img, this.barLeftOffset, this.barTopOffset, this.barWidth, this.barHeight, this.x, this.y, this.barWidth * this.barScale, this.barHeight * this.barScale);
-        ctx.drawImage(this.imgFillBar.img, this.barLeftOffset + this.barWidth - xValue, this.barTopOffset, xValue, this.barHeight, this.x, this.y, xValue * this.barScale, this.barHeight * this.barScale);
+        ctx.drawImage(this.imgBar.img, this.barLeftOffset, this.barTopOffset, this.barWidth, this.barHeight, this.x, this.y, this.barWidthPX, this.barHeightPX);
+        ctx.drawImage(this.imgFillBar.img, this.barLeftOffset + this.barWidth - xValue, this.barTopOffset, xValue, this.barHeight, this.x, this.y, xValue * this.barScale, this.barHeightPX);
         ctx.drawImage(this.imgIcon.img, this.x - 22, this.y - 22, this.imgIcon.width * this.imgIconUpdateScale, this.imgIcon.height * this.imgIconUpdateScale);
     }
 }
@@ -58,12 +61,12 @@ class Coins extends UIElement {
     constructor() {
         super('./img_pollo_locco/img/7_statusbars/3_icons/icon_coin.png', 60, 40);
     }
-    getValue() { return 20; }
+    getValue() { return 100 / this.gameObject.maxcoins * this.gameObject.coins; }
 }
 
 class Bottles extends UIElement {
     constructor() {
         super('./img_pollo_locco/img/7_statusbars/3_icons/icon_salsa_bottle.png', 20, 65);
     }
-    getValue() { return 45; }
+    getValue() { return 100 / this.gameObject.maxbottles * this.gameObject.bottles; }
 }
