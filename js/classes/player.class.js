@@ -6,6 +6,14 @@ class Player extends AnimatedObject {
     jumping = false;
 
     health = 100;
+    soundWalkArray = [
+        new Audio('./audio/footsteps1.wav'),
+        new Audio('./audio/footsteps2.wav'),
+        new Audio('./audio/footsteps3.wav'),
+        new Audio('./audio/footsteps4.wav'),
+        new Audio('./audio/footsteps5.wav'),
+    ]
+    currentSoundWalk = 0;
     soundWalk = new Audio('./audio/walking.wav');
     soundJump = new Audio('./audio/jumping.wav');
 
@@ -17,6 +25,9 @@ class Player extends AnimatedObject {
         this.offsetGroundFromTopOfSprite = 285;
         this.fallingAnimationID = 'pepe_falling';
         this.landingAnimationID = 'pepe_landing';
+        this.soundWalkArray.forEach((sound) => {
+            sound.playbackRate = 2;
+        });
     }
 
     start() {
@@ -166,11 +177,17 @@ class Player extends AnimatedObject {
         this.flipdrawing = leftDirection;
         this.setLastMovementTime();
         if (this.isOnGround()) {
-            this.soundWalk.playbackRate = 0.5 + Math.random();
-            this.soundWalk.play();
+            this.playWalkSound();
             this.setNewAnimation('pepe_walk', 80);
             this.addGroundParticles(5, 10);
         }
+    }
+
+
+    playWalkSound() {
+        this.currentSoundWalk++;
+        if (this.currentSoundWalk >= this.soundWalkArray.length) this.currentSoundWalk = 0;
+        this.soundWalkArray[this.currentSoundWalk].play();
     }
 
 
