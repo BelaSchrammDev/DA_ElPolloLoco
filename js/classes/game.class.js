@@ -13,8 +13,10 @@ class Game extends Interval {
 
     player;
     score = 0;
+
     coins = 0;
     maxcoins = 0;
+
     bottles = 0;
     maxbottles = 0;
 
@@ -23,6 +25,7 @@ class Game extends Interval {
     uiItems = [];
     scoreText;
 
+    soundMute = false;
     interaction;
     PauseKeyCount = 0;
     gamePaused = false;
@@ -82,6 +85,11 @@ class Game extends Interval {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
         this.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
         this.uiItems.push(new Text('Press Enter to restart', 450));
+    }
+
+
+    playSound(sound) {
+        if (!this.soundMute) sound.play();
     }
 
 

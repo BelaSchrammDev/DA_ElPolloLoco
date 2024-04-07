@@ -14,8 +14,8 @@ class Player extends AnimatedObject {
         new Audio('./audio/footsteps5.wav'),
     ]
     currentSoundWalk = 0;
-    soundWalk = new Audio('./audio/walking.wav');
-    soundJump = new Audio('./audio/jumping.wav');
+    soundJump = new Audio('./audio/jump.wav');
+    soundLanding = new Audio('./audio/landing_pepe.wav');
 
     constructor(x, y) {
         super();
@@ -140,9 +140,8 @@ class Player extends AnimatedObject {
 
 
     Jump() {
-        this.soundJump.play();
-        // this.soundJump.currentTime = 0.5;
         this.soundJump.playbackRate = 1.5;
+        this.gameObject.playSound(this.soundJump);
         this.fallingSpeed = -16;
         this.setNewAnimation('pepe_jump', 50, true);
         this.addGroundParticles(15, 20);
@@ -153,6 +152,7 @@ class Player extends AnimatedObject {
 
     Landing() {
         this.jumping = false;
+        this.gameObject.playSound(this.soundLanding);
         this.addGroundParticles(40, 35);
     }
 
@@ -187,7 +187,7 @@ class Player extends AnimatedObject {
     playWalkSound() {
         this.currentSoundWalk++;
         if (this.currentSoundWalk >= this.soundWalkArray.length) this.currentSoundWalk = 0;
-        this.soundWalkArray[this.currentSoundWalk].play();
+        this.gameObject.playSound(this.soundWalkArray[this.currentSoundWalk]);
     }
 
 
