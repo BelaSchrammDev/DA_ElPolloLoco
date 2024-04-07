@@ -1,4 +1,4 @@
-class Enemy extends CollidingObject {
+class Enemy extends AnimatedObject {
     lastMovementTime = 0;
     animationWalk = '';
     animationDead = '';

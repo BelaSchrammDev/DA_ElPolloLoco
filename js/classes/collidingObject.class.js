@@ -1,4 +1,4 @@
-class CollidingObject extends MovingObject {
+class CollidingObject extends DrawableObject {
 
     hitBox = {
         offsetleft: 0,
@@ -7,12 +7,12 @@ class CollidingObject extends MovingObject {
         offsetbottom: 0
     };
 
-    // draw() {
-    //     super.draw();
-    //     // this.drawGroundLine();
-    //     // this.drawCollisionBox();
-    //     // this.drawSpriteBox();
-    // }
+    draw() {
+        super.draw();
+        // this.drawGroundLine();
+        // this.drawCollisionBox();
+        // this.drawSpriteBox();
+    }
 
     setHitBox(left, top, right, bottom) {
         this.hitBox.offsetleft = left;

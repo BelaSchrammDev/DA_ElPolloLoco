@@ -1,4 +1,4 @@
-class Player extends CollidingObject {
+class Player extends AnimatedObject {
     lastMovementTime = 0;
     invulnerable = 0;
     enemyDeadByJump = 0;

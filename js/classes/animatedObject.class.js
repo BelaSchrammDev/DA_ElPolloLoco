@@ -1,4 +1,4 @@
-class MovingObject extends DrawableObject {
+class AnimatedObject extends CollidingObject {
     currentAnimationID = '';
     currentAnimationInterval = 0;
     currentFrames = [];
