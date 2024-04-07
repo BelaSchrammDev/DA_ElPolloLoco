@@ -19,7 +19,7 @@ class CollectableObject extends AnimatedObject {
 class Coin extends CollectableObject {
     constructor(x, y) {
         super(x, y, 'coins');
-        this.setHitBox(30, 30, 30, 30);
+        this.setHitBox(30, 30, 60, 60.3);
         this.sound = new Audio('./audio/coin.mp3');
     }
     addCollectablesToGame() {
@@ -30,7 +30,7 @@ class Coin extends CollectableObject {
 class Bottle extends CollectableObject {
     constructor(x, y) {
         super(x, y, 'bottles_ground');
-        this.setHitBox(25, 15, 15, 10);
+        this.setHitBox(25, 15, 65, 70);
         this.sound = new Audio('./audio/bottle_ground.mp3');
     }
     addCollectablesToGame() {

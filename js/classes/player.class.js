@@ -23,7 +23,7 @@ class Player extends AnimatedObject {
     constructor(x, y) {
         super();
         this.setKoords(x, y);
-        this.setHitBox(40, 120, 40, 15);
+        this.setHitBox(40, 120, 112.5, 285);
         this.setPositionOverGround(0);
         this.soundHurt.playbackRate = 2;
         this.offsetSpriteGroundFromTop = 285;

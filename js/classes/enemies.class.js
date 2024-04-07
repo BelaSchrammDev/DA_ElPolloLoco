@@ -63,7 +63,7 @@ class ChickenSmall extends Enemy {
 
     constructor(x, speed, damage) {
         super(x, 'chicken_small_walk', 'chicken_small_dead', 1);
-        this.setHitBox(5, 5, 5, 5);
+        this.setHitBox(5, 5, 54, 47.5);
         this.offsetSpriteGroundFromTop = 48;
         this.walkSpeed = speed;
         this.playerDamage = damage;
@@ -81,7 +81,7 @@ class Chicken extends Enemy {
 
     constructor(x, speed, damage) {
         super(x, 'chicken_walk', 'chicken_dead', 2);
-        this.setHitBox(5, 5, 5, 10);
+        this.setHitBox(5, 5, 69.4, 63);
         this.offsetSpriteGroundFromTop = 65;
         this.walkSpeed = speed;
         this.playerDamage = damage;
