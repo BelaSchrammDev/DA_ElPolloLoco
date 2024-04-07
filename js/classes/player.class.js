@@ -6,6 +6,7 @@ class Player extends AnimatedObject {
     jumping = false;
 
     health = 100;
+
     soundWalkArray = [
         new Audio('./audio/footsteps1.wav'),
         new Audio('./audio/footsteps2.wav'),
@@ -16,13 +17,16 @@ class Player extends AnimatedObject {
     currentSoundWalk = 0;
     soundJump = new Audio('./audio/jump.wav');
     soundLanding = new Audio('./audio/landing_pepe.wav');
+    soundHurt = new Audio('./audio/pepe-hurt.mp3');
+    soundSnore = new Audio('./audio/pepe-snore.wav');
 
     constructor(x, y) {
         super();
         this.setKoords(x, y);
         this.setHitBox(40, 120, 40, 15);
         this.setPositionOverGround(0);
-        this.offsetGroundFromTopOfSprite = 285;
+        this.soundHurt.playbackRate = 2;
+        this.offsetSpriteGroundFromTop = 285;
         this.fallingAnimationID = 'pepe_falling';
         this.landingAnimationID = 'pepe_landing';
         this.soundWalkArray.forEach((sound) => {
@@ -114,7 +118,7 @@ class Player extends AnimatedObject {
             if (this.y > this.gameObject.canvas.height) return;
             this.fallingSpeed += this.gravity;
             this.offsetFromGround -= this.fallingSpeed;
-            this.y = this.gameObject.groundLevel - this.offsetGroundFromTopOfSprite - this.offsetFromGround;
+            this.y = this.gameObject.groundLevel - this.offsetSpriteGroundFromTop - this.offsetFromGround;
             if (this.y > this.gameObject.canvas.height) this.gameObject.gameOver();
         });
     }
@@ -129,18 +133,24 @@ class Player extends AnimatedObject {
         if (this.invulnerable == 0) {
             this.invulnerable = 60;
             this.health -= damage;
+            this.stopPepeSnore();
+            this.gameObject.playSound(this.soundHurt);
         }
     }
 
 
     setIdleAnimation() {
-        if (this.lastMovementTime + 5000 < Date.now()) this.setNewAnimation('pepe_longidle', 200);
+        if (this.lastMovementTime + 5000 < Date.now()) {
+            if (this.currentAnimationID != 'pepe_longidle') this.setNewAnimation('pepe_longidle', 200);
+            this.gameObject.playSound(this.soundSnore);
+        }
         else this.setNewAnimation('pepe_idle', 200);
     }
 
 
     Jump() {
         this.soundJump.playbackRate = 1.5;
+        this.stopPepeSnore();
         this.gameObject.playSound(this.soundJump);
         this.fallingSpeed = -16;
         this.setNewAnimation('pepe_jump', 50, true);
@@ -183,8 +193,13 @@ class Player extends AnimatedObject {
         }
     }
 
+    stopPepeSnore() {
+        this.soundSnore.pause();
+        this.soundSnore.currentTime = 0;
+    }
 
     playWalkSound() {
+        this.stopPepeSnore();
         this.currentSoundWalk++;
         if (this.currentSoundWalk >= this.soundWalkArray.length) this.currentSoundWalk = 0;
         this.gameObject.playSound(this.soundWalkArray[this.currentSoundWalk]);

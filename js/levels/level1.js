@@ -81,7 +81,7 @@ function initLevel1(gameObject) {
     gameObject.score = 0;
     addBackGrounds(gameObject);
     addClouds(gameObject);
-    // addEnemies(gameObject, enemies_level_1);
+    addEnemies(gameObject, enemies_level_1);
     addPlayer(gameObject);
     addUIElements(gameObject);
     addCollectables(gameObject);

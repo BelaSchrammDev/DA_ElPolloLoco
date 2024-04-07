@@ -75,7 +75,7 @@ class CollidingObject extends DrawableObject {
             this.getX(this.x),
             this.y,
             this.imageObj.width,
-            this.offsetGroundFromTopOfSprite
+            this.offsetSpriteGroundFromTop
         );
         this.gameObject.ctx.stroke();
     }

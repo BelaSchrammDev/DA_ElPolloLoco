@@ -25,7 +25,29 @@ class Game extends Interval {
     uiItems = [];
     scoreText;
 
+    soundMusicArray = {
+        normal: {
+            audio: new Audio('./audio/latin-summer.mp3'),
+            volume: 0.1,
+            playbackrate: 1,
+            loop: true,
+        },
+        boss: {
+            audio: new Audio('./audio/fun-punk.mp3'),
+            volume: 0.1,
+            playbackrate: 1,
+            loop: true,
+        },
+        fail: {
+            audio: new Audio('./audio/fail.mp3'),
+            volume: 0.1,
+            playbackrate: 2,
+            loop: false,
+        },
+    };
+    currentSoundID = '';
     soundMute = false;
+
     interaction;
     PauseKeyCount = 0;
     gamePaused = false;
@@ -54,6 +76,7 @@ class Game extends Interval {
         this.enemies.forEach((enemy) => enemy.start());
         this.collectables.forEach((collectable) => collectable.start());
         this.player.start();
+        this.startGameMusic('normal');
     }
 
 
@@ -85,8 +108,33 @@ class Game extends Interval {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
         this.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
         this.uiItems.push(new Text('Press Enter to restart', 450));
+        this.startGameMusic('fail');
     }
 
+
+    startGameMusic(newSoundID) {
+        if (this.soundMute) return;
+        if (this.currentSoundID != '') this.fadeGameMusicOut(this.currentSoundID);
+        this.currentSoundID = newSoundID;
+        let newSound = this.soundMusicArray[newSoundID];
+        newSound.audio.volume = newSound.volume;
+        newSound.audio.loop = newSound.loop;
+        newSound.audio.playbackRate = newSound.playbackrate;
+        newSound.audio.play();
+    }
+
+
+    fadeGameMusicOut(soundID) {
+        let sound = this.soundMusicArray[soundID].audio;
+        this.addInterval('fadeout', () => {
+            let volume = sound.volume;
+            if (volume <= 0) {
+                this.removeInterval('fadeout');
+                sound.pause();
+            }
+            else if (sound.volume > 0.01) sound.volume -= 0.01;
+        }, 100);
+    }
 
     playSound(sound) {
         if (!this.soundMute) sound.play();

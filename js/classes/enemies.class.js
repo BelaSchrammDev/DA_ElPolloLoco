@@ -9,6 +9,9 @@ class Enemy extends AnimatedObject {
     playerScore = 1;
     dead = false;
 
+    walkSound;
+    deadSound;
+
     constructor(x, animWalk, animDead, particlesAtWalk) {
         super();
         this.setKoords(x, 500);
@@ -51,6 +54,7 @@ class Enemy extends AnimatedObject {
         this.dead = true;
         this.removeInterval('walk');
         this.setNewAnimation(this.animationDead, 200, true);
+        if (this.deadSound) this.gameObject.playSound(this.deadSound);
     }
 }
 
@@ -60,12 +64,14 @@ class ChickenSmall extends Enemy {
     constructor(x, speed, damage) {
         super(x, 'chicken_small_walk', 'chicken_small_dead', 1);
         this.setHitBox(5, 5, 5, 5);
-        this.offsetGroundFromTopOfSprite = 48;
+        this.offsetSpriteGroundFromTop = 48;
         this.walkSpeed = speed;
         this.playerDamage = damage;
         this.particlesAtWalk = 3;
         this.particlesSize = 5;
         this.playerScore = 2;
+        // this.walkSound = new Audio('./audio/walk.mp3');
+        this.deadSound = new Audio('./audio/chicken-small-dead.wav');
     }
 
 }
@@ -76,12 +82,14 @@ class Chicken extends Enemy {
     constructor(x, speed, damage) {
         super(x, 'chicken_walk', 'chicken_dead', 2);
         this.setHitBox(5, 5, 5, 10);
-        this.offsetGroundFromTopOfSprite = 65;
+        this.offsetSpriteGroundFromTop = 65;
         this.walkSpeed = speed;
         this.playerDamage = damage;
         this.particlesAtWalk = 6;
         this.particlesSize = 8;
         this.playerScore = 5;
+        // this.walkSound = new Audio('./audio/walk.mp3');
+        this.deadSound = new Audio('./audio/chicken-dead.wav');
     }
 
 }

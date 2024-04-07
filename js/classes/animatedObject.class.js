@@ -8,7 +8,7 @@ class AnimatedObject extends CollidingObject {
     fallingAnimationID = '';
     landingAnimationID = '';
     animIdle = true;
-    offsetGroundFromTopOfSprite = 0;
+    offsetSpriteGroundFromTop = 0;
     offsetFromGround = 0;
     fallingSpeed = 0;
     gravity = 0.5;
@@ -63,7 +63,7 @@ class AnimatedObject extends CollidingObject {
                 this.offsetFromGround = 0;
                 this.fallingSpeed = 0;
             }
-            this.y = this.gameObject.groundLevel - this.offsetGroundFromTopOfSprite - this.offsetFromGround;
+            this.y = this.gameObject.groundLevel - this.offsetSpriteGroundFromTop - this.offsetFromGround;
         });
     }
 
@@ -110,7 +110,7 @@ class AnimatedObject extends CollidingObject {
 
 
     isNotGravityAnimation() {
-        return this.currentAnimationID != this.fallingAnimationID && this.currentAnimationID != this.landingAnimationID;
+        return this.currentAnimationID != this.fallingAnimationID;
     }
 
 
@@ -145,7 +145,7 @@ class AnimatedObject extends CollidingObject {
                 color: 'rgba(256, 200, 120, 0.05)',
                 size: init_size,
                 posX: this.x + this.imageObj.width / 2 + (Math.random() * (2 * init_size) - init_size),
-                posY: this.y + this.offsetGroundFromTopOfSprite,
+                posY: this.y + this.offsetSpriteGroundFromTop,
             });
         }
     }
