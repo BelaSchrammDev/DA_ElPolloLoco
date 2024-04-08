@@ -1,6 +1,6 @@
 class CollectableObject extends AnimatedObject {
     collected = false;
-    sound;
+    soundID;
 
     constructor(x, y, animationID) {
         super();
@@ -9,7 +9,7 @@ class CollectableObject extends AnimatedObject {
     }
     collect() {
         this.stop();
-        this.gameObject.playSound(this.sound);
+        this.gameObject.playSound(this.soundID);
         this.addCollectablesToGame();
         this.gameObject.removeCollectable(this);
     }
@@ -20,7 +20,7 @@ class Coin extends CollectableObject {
     constructor(x, y) {
         super(x, y, 'coins');
         this.setHitBox(30, 30, 60, 60.3);
-        this.sound = new Audio('./audio/coin.mp3');
+        this.soundID = 'coin';
     }
     addCollectablesToGame() {
         this.gameObject.coins++;
@@ -31,7 +31,7 @@ class Bottle extends CollectableObject {
     constructor(x, y) {
         super(x, y, 'bottles_ground');
         this.setHitBox(25, 15, 65, 70);
-        this.sound = new Audio('./audio/bottle_ground.mp3');
+        this.soundID = 'bottle';
     }
     addCollectablesToGame() {
         this.gameObject.bottles++;

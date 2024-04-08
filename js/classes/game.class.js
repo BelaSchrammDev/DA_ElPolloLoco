@@ -5,7 +5,8 @@ class Game extends Interval {
     cameraX = 0;
     groundLevel = 420;
     levelWidth = 0;
-    renderInterval = -1;
+    gamePaused = false;
+    gameOver = false;
 
     backgrounds = [];
     clouds = [];
@@ -24,6 +25,18 @@ class Game extends Interval {
 
     uiItems = [];
     scoreText;
+
+    soundEffectsArray = {
+        pepe_jump: { audio: new Audio('./audio/jump.wav'), playbackrate: 1.5, },
+        pepe_landing: { audio: new Audio('./audio/landing_pepe.wav'), playbackrate: 1, },
+        pepe_hurt: { audio: new Audio('./audio/pepe-hurt.mp3'), playbackrate: 2, },
+        pepe_snore: { audio: new Audio('./audio/pepe-snore.wav'), playbackrate: 1, },
+        pepe_walk: { audio: new Audio('./audio/footsteps1.wav'), playbackrate: 1, },
+        chicken_dead: { audio: new Audio('./audio/chicken-dead.wav'), playbackrate: 1, },
+        chicken_small_dead: { audio: new Audio('./audio/chicken-small-dead.wav'), playbackrate: 1, },
+        coin: { audio: new Audio('./audio/coin.mp3'), playbackrate: 1, },
+        bottle: { audio: new Audio('./audio/bottle_ground.mp3'), playbackrate: 1, },
+    }
 
     soundMusicArray = {
         normal: {
@@ -45,8 +58,8 @@ class Game extends Interval {
             loop: false,
         },
     };
-    currentSoundID = '';
-    soundMute = false;
+    currentMusicID = '';
+    soundMute = true;
 
     interaction;
     PauseKeyCount = 0;
@@ -58,8 +71,16 @@ class Game extends Interval {
         this.ctx = this.canvas.getContext('2d');
         this.interaction = new Interaction();
         this.air = new ImageObject('./img_pollo_locco/img/5_background/layers/air.png');
+        this.initSound();
     }
 
+
+    initSound() {
+        for (let soundKey in this.soundEffectsArray) {
+            let sound = this.soundEffectsArray[soundKey];
+            sound.audio.playbackRate = sound.playbackrate;
+        }
+    }
 
     moveCamera(offset) {
         this.cameraX += offset;
@@ -71,27 +92,34 @@ class Game extends Interval {
     start() {
         this.addInterval('render', () => this.drawFrame());
         this.addInterval('updateFlyItems', () => this.updateUIItems());
-        this.addInterval('checkPause', () => this.checkPauseState(), 50);
         this.clouds.forEach((cloud) => cloud.start());
         this.enemies.forEach((enemy) => enemy.start());
         this.collectables.forEach((collectable) => collectable.start());
         this.player.start();
         this.startGameMusic('normal');
+        setDisplayNone('btnsMove', false);
+        setDisplayNone('btnsMenu', false);
+        setDisplayNone('btnsRestart', true);
+        this.gameOver = false;
     }
 
 
     pause() {
+        if (this.gamePaused || this.gameOver) return;
         this.player.pause();
         this.enemies.forEach((enemy) => enemy.pause());
         this.pauseText = new Text('PAUSE', 200, 100);
         this.uiItems.push(this.pauseText);
+        this.gamePaused = true;
     }
 
 
     restart() {
+        if (!this.gamePaused || this.gameOver) return;
         this.player.restart();
         this.enemies.forEach((enemy) => enemy.restart());
         this.uiItems = this.uiItems.filter((item) => item !== this.pauseText);
+        this.gamePaused = false;
     }
 
 
@@ -104,18 +132,48 @@ class Game extends Interval {
     }
 
 
-    gameOver() {
+    ifLandscape() {
+        return window.screen.orientation.type.includes('landscape');
+    }
+
+    ifMobile() {
+        return /Mobi|Android/i.test(navigator.userAgent);
+    }
+
+    setGameOver() {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
         this.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
-        this.uiItems.push(new Text('Press Enter to restart', 450));
+        this.restartsMessage();
         this.startGameMusic('fail');
+        setDisplayNone('btnsMove', true);
+        setDisplayNone('btnsRestart', false);
+        this.gameOver = true;
     }
 
 
+    restartsMessage() {
+        if (this.ifMobile()) {
+            // view restartbutton
+        } else this.uiItems.push(new Text('Press Enter to restart', 450));
+    }
+
+
+    toggleSoundMute() {
+        this.fadeCurrentMusicOut();
+        this.soundMute = !this.soundMute;
+    }
+
+
+    togglePause() {
+        if (this.gameOver) return;
+        if (this.gamePaused) this.restart();
+        else this.pause();
+    }
+
     startGameMusic(newSoundID) {
         if (this.soundMute) return;
-        if (this.currentSoundID != '') this.fadeGameMusicOut(this.currentSoundID);
-        this.currentSoundID = newSoundID;
+        this.fadeCurrentMusicOut();
+        this.currentMusicID = newSoundID;
         let newSound = this.soundMusicArray[newSoundID];
         newSound.audio.volume = newSound.volume;
         newSound.audio.loop = newSound.loop;
@@ -124,20 +182,33 @@ class Game extends Interval {
     }
 
 
-    fadeGameMusicOut(soundID) {
-        let sound = this.soundMusicArray[soundID].audio;
+    fadeCurrentMusicOut() {
+        if (this.currentMusicID === '') return;
+        let sound = this.soundMusicArray[currentMusicID].audio;
         this.addInterval('fadeout', () => {
             let volume = sound.volume;
             if (volume <= 0) {
-                this.removeInterval('fadeout');
                 sound.pause();
+                this.removeInterval('fadeout');
             }
             else if (sound.volume > 0.01) sound.volume -= 0.01;
         }, 100);
     }
 
-    playSound(sound) {
-        if (!this.soundMute) sound.play();
+
+    playSound(soundID) {
+        if (this.soundMute) return;
+        let sound = this.soundEffectsArray[soundID].audio;
+        if (sound.paused) {
+            sound.currentTime = 0;
+            sound.play();
+        }
+    }
+
+
+    stopSound(soundID) {
+        this.soundEffectsArray[soundID].audio.pause();
+        this.soundEffectsArray[soundID].audio.currentTime = 0;
     }
 
 
@@ -163,25 +234,6 @@ class Game extends Interval {
         this.PauseKeyCount++;
         if (state) this.pause();
         else this.restart();
-        this.gamePaused = state;
-    }
-
-
-    checkPauseState() {
-        switch (this.PauseKeyCount) {
-            case 0:
-                if (this.interaction.Pause) this.setPauseState(true);
-                break;
-            case 1:
-                if (!this.interaction.Pause) this.PauseKeyCount++;
-                break;
-            case 2:
-                if (this.interaction.Pause) this.setPauseState(false);
-                break;
-            case 3:
-                if (!this.interaction.Pause) this.PauseKeyCount = 0;
-                break;
-        }
     }
 
 

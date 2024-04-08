@@ -7,31 +7,14 @@ class Player extends AnimatedObject {
 
     health = 100;
 
-    soundWalkArray = [
-        new Audio('./audio/footsteps1.wav'),
-        new Audio('./audio/footsteps2.wav'),
-        new Audio('./audio/footsteps3.wav'),
-        new Audio('./audio/footsteps4.wav'),
-        new Audio('./audio/footsteps5.wav'),
-    ]
-    currentSoundWalk = 0;
-    soundJump = new Audio('./audio/jump.wav');
-    soundLanding = new Audio('./audio/landing_pepe.wav');
-    soundHurt = new Audio('./audio/pepe-hurt.mp3');
-    soundSnore = new Audio('./audio/pepe-snore.wav');
-
     constructor(x, y) {
         super();
         this.setKoords(x, y);
         this.setHitBox(40, 120, 112.5, 285);
         this.setPositionOverGround(0);
-        this.soundHurt.playbackRate = 2;
         this.offsetSpriteGroundFromTop = 285;
         this.fallingAnimationID = 'pepe_falling';
         this.landingAnimationID = 'pepe_landing';
-        this.soundWalkArray.forEach((sound) => {
-            sound.playbackRate = 2;
-        });
     }
 
     start() {
@@ -119,7 +102,7 @@ class Player extends AnimatedObject {
             this.fallingSpeed += this.gravity;
             this.offsetFromGround -= this.fallingSpeed;
             this.y = this.gameObject.groundLevel - this.offsetSpriteGroundFromTop - this.offsetFromGround;
-            if (this.y > this.gameObject.canvas.height) this.gameObject.gameOver();
+            if (this.y > this.gameObject.canvas.height) this.gameObject.setGameOver();
         });
     }
 
@@ -133,8 +116,8 @@ class Player extends AnimatedObject {
         if (this.invulnerable == 0) {
             this.invulnerable = 60;
             this.health -= damage;
-            this.stopPepeSnore();
-            this.gameObject.playSound(this.soundHurt);
+            this.gameObject.stopSound('pepe_snore');
+            this.gameObject.playSound('pepe_hurt');
         }
     }
 
@@ -142,16 +125,15 @@ class Player extends AnimatedObject {
     setIdleAnimation() {
         if (this.lastMovementTime + 5000 < Date.now()) {
             if (this.currentAnimationID != 'pepe_longidle') this.setNewAnimation('pepe_longidle', 200);
-            this.gameObject.playSound(this.soundSnore);
+            this.gameObject.playSound('pepe_snore');
         }
         else this.setNewAnimation('pepe_idle', 200);
     }
 
 
     Jump() {
-        this.soundJump.playbackRate = 1.5;
-        this.stopPepeSnore();
-        this.gameObject.playSound(this.soundJump);
+        this.gameObject.stopSound('pepe_snore');
+        this.gameObject.playSound('pepe_jump');
         this.fallingSpeed = -16;
         this.setNewAnimation('pepe_jump', 50, true);
         this.addGroundParticles(15, 20);
@@ -162,7 +144,7 @@ class Player extends AnimatedObject {
 
     Landing() {
         this.jumping = false;
-        this.gameObject.playSound(this.soundLanding);
+        this.gameObject.playSound('pepe_landing');
         this.addGroundParticles(40, 35);
     }
 
@@ -193,16 +175,9 @@ class Player extends AnimatedObject {
         }
     }
 
-    stopPepeSnore() {
-        this.soundSnore.pause();
-        this.soundSnore.currentTime = 0;
-    }
-
     playWalkSound() {
-        this.stopPepeSnore();
-        this.currentSoundWalk++;
-        if (this.currentSoundWalk >= this.soundWalkArray.length) this.currentSoundWalk = 0;
-        this.gameObject.playSound(this.soundWalkArray[this.currentSoundWalk]);
+        this.gameObject.stopSound('pepe_snore');
+        this.gameObject.playSound('pepe_walk');
     }
 
 
