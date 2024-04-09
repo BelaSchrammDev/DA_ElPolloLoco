@@ -190,7 +190,7 @@ class Game extends Interval {
 
     fadeCurrentMusicOut() {
         if (this.currentMusicID === '') return;
-        let sound = this.soundMusicArray[currentMusicID].audio;
+        let sound = this.soundMusicArray[this.currentMusicID].audio;
         this.addInterval('fadeout', () => {
             let volume = sound.volume;
             if (volume <= 0) {
