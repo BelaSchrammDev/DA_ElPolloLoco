@@ -1,6 +1,7 @@
 class CollectableObject extends AnimatedObject {
     collected = false;
     soundID;
+    remove = false;
 
     constructor(x, y, animationID) {
         super();
@@ -11,7 +12,7 @@ class CollectableObject extends AnimatedObject {
         this.stop();
         this.gameObject.playSound(this.soundID);
         this.addCollectablesToGame();
-        this.gameObject.removeCollectable(this);
+        this.remove = true;
     }
 
 }

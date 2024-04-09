@@ -15,7 +15,7 @@ class GameStateMenuDesktop extends GameState {
         this.gameObject.backgrounds.push(new BackgroundImageObject('./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png'));
         this.gameObject.uiItems.push(new Text('Press Enter to Start', 100, 30));
         this.gameObject.startRendering();
-        showButtons([]);
+        showButtons(['btnStartgame']);
     }
 
     handleInteraction(interactionObject) {
@@ -37,7 +37,6 @@ class GameStateLevel1 extends GameState {
     entering() {
         this.fillLevel();
         showButtons(this.buttonShow);
-        this.gameOver = false;
         this.gameObject.startRendering();
         this.gameObject.startAssets();
         this.gameObject.startGameMusic('normal');
@@ -61,6 +60,29 @@ class GameStateLevel1 extends GameState {
             } else {
                 this.gameObject.pause();
             }
+        }
+    }
+}
+
+class GameStateGameOverDesktop extends GameState {
+    constructor(gameObject) {
+        super(gameObject, '');
+    }
+
+    entering() {
+        let gameoverImageIndex = Math.floor(Math.random() * 4);
+        this.gameObject.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
+        this.gameObject.restartsMessage();
+        this.gameObject.startGameMusic('fail');
+        showButtons(['btnRestart']);
+        this.gameObject.gameOver = true;
+    }
+
+    handleInteraction(interactionObject) {
+        if (interactionObject.Enter) {
+            this.gameObject.stopAssets();
+            this.gameObject.stopRendering();
+            this.gameObject.setGameState('level_1');
         }
     }
 }

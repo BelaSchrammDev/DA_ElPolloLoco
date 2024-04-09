@@ -23,6 +23,7 @@ class Interaction {
         { btn: 'btnTrow', key: this.KEY_D },
         { btn: 'btnPause', key: this.KEY_P },
         { btn: 'btnRestart', key: this.KEY_ENTER },
+        { btn: 'btnStartgame', key: this.KEY_ENTER },
         { btn: 'btnMute', key: this.KEY_M },
     ];
 

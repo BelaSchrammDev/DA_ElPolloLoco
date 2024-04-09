@@ -8,6 +8,7 @@ class Enemy extends AnimatedObject {
     playerDamage = 1;
     playerScore = 1;
     dead = false;
+    remove = false;
 
     walkSoundID = '';
     deadSoundID = '';
@@ -42,7 +43,7 @@ class Enemy extends AnimatedObject {
             this.addInterval('walk', () => {
                 this.x -= this.walkSpeed;
                 if (this.x < -this.imageObj.width) {
-                    this.x = this.gameObject.levelWidth;
+                    this.remove = true;
                 }
                 if (this.isOnGround()) this.addGroundParticles(this.particlesAtWalk, this.particlesSize);
                 if (this.isCollidingWith(this.gameObject.player)) this.gameObject.player.setPlayerDamage(this.playerDamage);

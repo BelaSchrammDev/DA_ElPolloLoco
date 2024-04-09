@@ -10,6 +10,7 @@ class Game extends Interval {
     gameStatesObjectsArray = {
         'level_1': new GameStateLevel1(this),
         'menu_desktop': new GameStateMenuDesktop(this),
+        'game_over': new GameStateGameOverDesktop(this),
     };
     gamePaused = false;
     gameOver = false;
@@ -98,6 +99,7 @@ class Game extends Interval {
 
     resetLevel(width) {
         this.levelWidth = width;
+        this.gameOver = false;
         this.cameraX = 0;
         this.score = 0;
         this.backgrounds = [];
@@ -107,16 +109,16 @@ class Game extends Interval {
         this.uiItems = [];
     }
 
-    start() {
-        this.startRendering();
-        this.startAssets();
-        this.startGameMusic('normal');
-    }
-
 
     startRendering() {
         this.addInterval('render', () => this.drawFrame());
         this.addInterval('update_interaction', () => this.updateInteraction());
+    }
+
+
+    stopRendering() {
+        this.removeInterval('render');
+        this.removeInterval('update_interaction');
     }
 
 
@@ -125,6 +127,14 @@ class Game extends Interval {
         this.enemies.forEach((enemy) => enemy.start());
         this.collectables.forEach((collectable) => collectable.start());
         if (this.player) this.player.start();
+    }
+
+
+    stopAssets() {
+        this.clouds.forEach((cloud) => cloud.stop());
+        this.enemies.forEach((enemy) => enemy.stop());
+        this.collectables.forEach((collectable) => collectable.stop());
+        if (this.player) this.player.stop();
     }
 
 
@@ -147,15 +157,6 @@ class Game extends Interval {
     }
 
 
-    stop() {
-        this.clouds.forEach((cloud) => cloud.stop());
-        this.enemies.forEach((enemy) => enemy.stop());
-        this.player.stop();
-        this.removeInterval('render');
-        this.removeInterval('update_interaction');
-    }
-
-
     ifLandscape() {
         return window.screen.orientation.type.includes('landscape');
     }
@@ -165,13 +166,7 @@ class Game extends Interval {
     }
 
     setGameOver() {
-        let gameoverImageIndex = Math.floor(Math.random() * 4);
-        this.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
-        this.restartsMessage();
-        this.startGameMusic('fail');
-        setDisplayNone('btnsMove', true);
-        setDisplayNone('btnsRestart', false);
-        this.gameOver = true;
+        this.setGameState('game_over');
     }
 
 
@@ -187,12 +182,6 @@ class Game extends Interval {
         this.soundMute = !this.soundMute;
     }
 
-
-    togglePause() {
-        if (this.gameOver) return;
-        if (this.gamePaused) this.restart();
-        else this.pause();
-    }
 
     startGameMusic(newSoundID) {
         if (this.soundMute) return;
@@ -236,19 +225,11 @@ class Game extends Interval {
     }
 
 
-    removeCollectable(collectable) {
-        this.collectables = this.collectables.filter((item) => item !== collectable);
-    }
-
-
-    renderAir() {
-        if (this.air.imageLoaded) this.ctx.drawImage(this.air.img, 0, 0, this.canvas.width, this.canvas.height);
-    }
-
-
     updateInteraction() {
         this.gameStateObject.handleInteraction(this.interaction);
         if (this.interaction.checkKeyMute()) this.toggleSoundMute();
+        this.enemies = this.enemies.filter((enemy) => enemy.remove == false);
+        this.collectables = this.collectables.filter((item) => item.remove == false);
         this.uiItems.forEach((text, index) => {
             text.update();
             if (text.remove) this.uiItems.splice(index, 1);
@@ -256,15 +237,8 @@ class Game extends Interval {
     }
 
 
-    setPauseState(state) {
-        this.PauseKeyCount++;
-        if (state) this.pause();
-        else this.restart();
-    }
-
-
     drawFrame() {
-        this.renderAir();
+        if (this.air.imageLoaded) this.ctx.drawImage(this.air.img, 0, 0, this.canvas.width, this.canvas.height);
         this.clouds.forEach((cloud) => cloud.draw());
         this.backgrounds.forEach((background) => background.draw());
         this.enemies.forEach((enemy) => enemy.draw());

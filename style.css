@@ -10,6 +10,11 @@ body {
     user-select: none;
 }
 
+.fullscreen {
+    width: fit-content;
+    height: fit-content;
+}
+
 canvas {
     max-width: 100%;
     max-height: 100dvh;
@@ -41,7 +46,6 @@ canvas {
     align-items: stretch;
     background-color: rgba(0, 0, 0, 0);
     z-index: 100;
-    /* display: none; */
 }
 
 .hud_overlay button {
@@ -72,9 +76,9 @@ canvas {
 
 .hud_overlay div.move {
     position: absolute;
-    bottom: 10px;
+    bottom: 11px;
     left: 10px;
-    width: calc(100vw - 20px);
+    width: calc(100% - 20px);
     align-self: stretch;
     display: flex;
     flex-direction: row;
