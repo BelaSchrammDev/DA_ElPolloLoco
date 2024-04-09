@@ -75,19 +75,6 @@ const enemies_level_1 = [
 ]
 
 
-function initLevel1(gameObject) {
-    gameObject.levelWidth = 3400;
-    gameObject.cameraX = 0;
-    gameObject.score = 0;
-    addBackGrounds(gameObject);
-    addClouds(gameObject);
-    addEnemies(gameObject, enemies_level_1);
-    addPlayer(gameObject);
-    addUIElements(gameObject);
-    addCollectables(gameObject);
-}
-
-
 function addCollectables(gameObject) {
     gameObject.maxbottles = 10;
     gameObject.maxcoins = 20;

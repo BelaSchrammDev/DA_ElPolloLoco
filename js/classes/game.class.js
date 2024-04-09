@@ -19,20 +19,16 @@ class Game extends Interval {
     backgrounds = [];
     clouds = [];
     enemies = [];
+    collectables = [];
+    uiItems = [];
+    scoreText;
 
     player;
     score = 0;
-
     coins = 0;
     maxcoins = 0;
-
     bottles = 0;
     maxbottles = 0;
-
-    collectables = [];
-
-    uiItems = [];
-    scoreText;
 
 
     soundEffectsArray = {
@@ -161,12 +157,9 @@ class Game extends Interval {
         return window.screen.orientation.type.includes('landscape');
     }
 
+
     ifMobile() {
         return /Mobi|Android/i.test(navigator.userAgent);
-    }
-
-    setGameOver() {
-        this.setGameState('game_over');
     }
 
 

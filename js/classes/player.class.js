@@ -98,11 +98,13 @@ class Player extends AnimatedObject {
         this.fallingSpeed = -14;
         this.addGroundParticles(50, 200);
         this.addInterval('dying', () => {
-            if (this.y > this.gameObject.canvas.height) return;
             this.fallingSpeed += this.gravity;
             this.offsetFromGround -= this.fallingSpeed;
             this.y = this.gameObject.groundLevel - this.offsetSpriteGroundFromTop - this.offsetFromGround;
-            if (this.y > this.gameObject.canvas.height) this.gameObject.setGameOver();
+            if (this.y > this.gameObject.canvas.height) {
+                this.gameObject.setGameState('game_over');
+                this.removeInterval('dying');
+            }
         });
     }
 

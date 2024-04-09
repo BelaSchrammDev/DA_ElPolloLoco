@@ -16,6 +16,7 @@ class Interaction {
     Mute = false;
     Enter = false;
 
+    // Array for mapping touch events to keys
     touchEventsArray = [
         { btn: 'btnLeft', key: this.KEY_LEFT },
         { btn: 'btnRight', key: this.KEY_RIGHT },
@@ -29,9 +30,14 @@ class Interaction {
 
 
     constructor() {
+        this.addKeyEvents();
+        this.addTouchEvents();
+    }
+
+
+    addKeyEvents() {
         window.addEventListener('keydown', (e) => { this.setKey(e.key, true); });
         window.addEventListener('keyup', (e) => { this.setKey(e.key, false); });
-        this.addTouchEvents();
     }
 
 
