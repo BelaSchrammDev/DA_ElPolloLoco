@@ -5,8 +5,15 @@ class Game extends Interval {
     cameraX = 0;
     groundLevel = 420;
     levelWidth = 0;
+
+    gameStateObject;
+    gameStatesObjectsArray = {
+        'level_1': new GameStateLevel1(this),
+        'menu_desktop': new GameStateMenuDesktop(this),
+    };
     gamePaused = false;
     gameOver = false;
+    soundMute = true;
 
     backgrounds = [];
     clouds = [];
@@ -25,6 +32,7 @@ class Game extends Interval {
 
     uiItems = [];
     scoreText;
+
 
     soundEffectsArray = {
         pepe_jump: { audio: new Audio('./audio/jump.wav'), playbackrate: 1.5, },
@@ -59,11 +67,6 @@ class Game extends Interval {
         },
     };
     currentMusicID = '';
-    soundMute = true;
-
-    interaction;
-    PauseKeyCount = 0;
-    gamePaused = false;
 
     constructor() {
         super();
@@ -88,19 +91,40 @@ class Game extends Interval {
         if (this.cameraX > (this.levelWidth - this.canvas.width)) this.cameraX = this.levelWidth - this.canvas.width;
     }
 
+    setGameState(state) {
+        this.gameStateObject = this.gameStatesObjectsArray[state];
+        this.gameStateObject.entering();
+    }
+
+    resetLevel(width) {
+        this.levelWidth = width;
+        this.cameraX = 0;
+        this.score = 0;
+        this.backgrounds = [];
+        this.clouds = [];
+        this.enemies = [];
+        this.collectables = [];
+        this.uiItems = [];
+    }
 
     start() {
+        this.startRendering();
+        this.startAssets();
+        this.startGameMusic('normal');
+    }
+
+
+    startRendering() {
         this.addInterval('render', () => this.drawFrame());
-        this.addInterval('updateFlyItems', () => this.updateUIItems());
+        this.addInterval('update_interaction', () => this.updateInteraction());
+    }
+
+
+    startAssets() {
         this.clouds.forEach((cloud) => cloud.start());
         this.enemies.forEach((enemy) => enemy.start());
         this.collectables.forEach((collectable) => collectable.start());
-        this.player.start();
-        this.startGameMusic('normal');
-        setDisplayNone('btnsMove', false);
-        setDisplayNone('btnsMenu', false);
-        setDisplayNone('btnsRestart', true);
-        this.gameOver = false;
+        if (this.player) this.player.start();
     }
 
 
@@ -128,7 +152,7 @@ class Game extends Interval {
         this.enemies.forEach((enemy) => enemy.stop());
         this.player.stop();
         this.removeInterval('render');
-        this.removeInterval('updateFlyItems');
+        this.removeInterval('update_interaction');
     }
 
 
@@ -222,7 +246,9 @@ class Game extends Interval {
     }
 
 
-    updateUIItems() {
+    updateInteraction() {
+        this.gameStateObject.handleInteraction(this.interaction);
+        if (this.interaction.checkKeyMute()) this.toggleSoundMute();
         this.uiItems.forEach((text, index) => {
             text.update();
             if (text.remove) this.uiItems.splice(index, 1);
@@ -242,7 +268,7 @@ class Game extends Interval {
         this.clouds.forEach((cloud) => cloud.draw());
         this.backgrounds.forEach((background) => background.draw());
         this.enemies.forEach((enemy) => enemy.draw());
-        this.player.draw();
+        if (this.player) this.player.draw();
         this.collectables.forEach((collectable) => collectable.draw());
         this.uiItems.forEach((text) => text.draw());
     }

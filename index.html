@@ -22,8 +22,9 @@
     <script src="./js/classes/collectableObject.js"></script>
     <script src="./js/classes/player.class.js"></script>
     <script src="./js/classes/enemies.class.js"></script>
-    <script src="./js/classes/interaction.class.js"></script>
     <script src="./js/levels/level1.js"></script>
+    <script src="./js/classes/gamestates.class.js"></script>
+    <script src="./js/classes/interaction.class.js"></script>
     <script src="./js/classes/game.class.js"></script>
     <script src="./js/game.js"></script>
     <script src="./js/animations.js"></script>
@@ -36,22 +37,25 @@
         <canvas id="canvas" width="720px" height="480px"></canvas>
         <div id="hud_overlay" class="hud_overlay">
             <div id="btnsMenu" class="menu">
-                <button tabindex="-1" onclick="game.toggleSoundMute()" id="btnMute"><img
-                        src="./img_pollo_locco/buttons/mute.svg" alt=""></button>
-                <button tabindex="-1" id="btnPause"><img src="./img_pollo_locco/buttons/pause.svg" alt=""></button>
-                <button tabindex="-1" id="btnRestart"><img src="./img_pollo_locco/buttons/restart.svg" alt=""></button>
+                <button class="btnMobile" tabindex="-1" id="btnMute"><img src="./img_pollo_locco/buttons/mute.svg"
+                        alt=""></button>
+                <button class="btnMobile" tabindex="-1" id="btnPause"><img src="./img_pollo_locco/buttons/pause.svg"
+                        alt=""></button>
+                <button class="btnMobile" tabindex="-1" id="btnRestart"><img src="./img_pollo_locco/buttons/restart.svg"
+                        alt=""></button>
             </div>
             <div id="btnsMove" class="move">
                 <div>
-                    <button tabindex="-1" id="btnLeft"><img src="./img_pollo_locco/buttons/arrow-left.svg"
-                            alt=""></button>
-                    <button tabindex="-1" id="btnRight"><img src="./img_pollo_locco/buttons/arrow-left.svg"
-                            alt=""></button>
+                    <button class="btnMobile" tabindex="-1" id="btnLeft"><img
+                            src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
+                    <button class="btnMobile" tabindex="-1" id="btnRight"><img
+                            src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
                 </div>
                 <div>
-                    <button tabindex="-1" id="btnJump"><img src="./img_pollo_locco/buttons/arrow-left.svg"
+                    <button class="btnMobile" tabindex="-1" id="btnJump"><img
+                            src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
+                    <button class="btnMobile" tabindex="-1" id="btnTrow"><img src="./img_pollo_locco/buttons/bottle.svg"
                             alt=""></button>
-                    <button tabindex="-1" id="btnTrow"><img src="./img_pollo_locco/buttons/bottle.svg" alt=""></button>
                 </div>
             </div>
         </div>

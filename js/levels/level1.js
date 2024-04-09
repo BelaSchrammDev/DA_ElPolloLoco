@@ -89,7 +89,6 @@ function initLevel1(gameObject) {
 
 
 function addCollectables(gameObject) {
-    gameObject.collectables = [];
     gameObject.maxbottles = 10;
     gameObject.maxcoins = 20;
     placeCollectables(gameObject, gameObject.maxbottles, 500, 2000, (x) => new Bottle(x, 360));
@@ -107,7 +106,6 @@ function placeCollectables(gameObject, count, fromX, toX, pushCallback) {
 
 
 function addUIElements(gameObject) {
-    gameObject.uiItems = [];
     gameObject.uiItems.push(new Helth());
     gameObject.uiItems.push(new Coins());
     gameObject.uiItems.push(new Bottles());
@@ -117,7 +115,6 @@ function addUIElements(gameObject) {
 
 
 function addBackGrounds(gameObject) {
-    gameObject.backgrounds = [];
     BACKGROUNDS.forEach((background) => {
         gameObject.backgrounds.push(new BackgroundObject(background.src, background.z_index));
     });
@@ -126,7 +123,6 @@ function addBackGrounds(gameObject) {
 
 
 function addClouds(gameObject) {
-    gameObject.clouds = [];
     let offsetX = [0, 800, 1600, 2400, 3200];
     for (let index = 0; index < offsetX.length; index++) {
         const currentXOffset = offsetX[index];
@@ -144,7 +140,6 @@ function addPlayer(gameObject) {
 
 
 function addEnemies(gameObject, enemiesArray) {
-    gameObject.enemies = [];
     for (let index = 0; index < enemiesArray.length; index++) {
         const enemyPropertys = enemiesArray[index];
         switch (enemyPropertys.type) {

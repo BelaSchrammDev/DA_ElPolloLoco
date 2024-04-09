@@ -21,5 +21,14 @@ class BackgroundObject extends DrawableObject {
             currentX += this.imageObj.width - 1;
         }
     }
+}
 
+
+class BackgroundImageObject extends DrawableObject {
+    constructor(imgpath) {
+        super();
+        this.setKoords(0, 0);
+        this.imageObj = new ImageObject(imgpath);
+        this.imageObj.scaleImageToCanvasWidth(this.gameObject.canvas.width);
+    }
 }

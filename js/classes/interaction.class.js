@@ -28,26 +28,42 @@ class Interaction {
 
 
     constructor() {
-        window.addEventListener('keydown', (e) => {
-            this.setKey(e.key, true);
-        });
+        window.addEventListener('keydown', (e) => { this.setKey(e.key, true); });
+        window.addEventListener('keyup', (e) => { this.setKey(e.key, false); });
+        this.addTouchEvents();
+    }
 
-        window.addEventListener('keyup', (e) => {
-            this.setKey(e.key, false);
-        });
 
+    addTouchEvents() {
         this.touchEventsArray.forEach((event) => {
             let btn = document.getElementById(event.btn);
             btn.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 this.setKey(event.key, true);
             });
-
             btn.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 this.setKey(event.key, false);
             });
         });
+    }
+
+
+    checkKeyPause() {
+        if (this.Pause) {
+            this.Pause = false;
+            return true;
+        }
+        return false;
+    }
+
+
+    checkKeyMute() {
+        if (this.Mute) {
+            this.Mute = false;
+            return true;
+        }
+        return false;
     }
 
 
@@ -64,11 +80,9 @@ class Interaction {
                 this.Jump = value;
                 break;
             case this.KEY_M:
-                if (value) game.toggleSoundMute();
                 this.Mute = value;
                 break;
             case this.KEY_P:
-                if (value) game.togglePause();
                 this.Pause = value;
                 break;
             case this.KEY_ENTER:

@@ -17,6 +17,7 @@ class ImageObject {
         this.diffY = diffY;
         this.img.onload = () => {
             if (this.canvasHeight) this.scale = this.canvasHeight / this.img.height;
+            else if (this.canvasWidth) this.scale = this.canvasWidth / this.img.width;
             this.scaleImage(this.scale);
             this.imageLoaded = true;
         };
@@ -34,6 +35,15 @@ class ImageObject {
             this.scaleImage(this.scale);
         } else {
             this.canvasHeight = canvasHeight;
+        }
+    }
+
+    scaleImageToCanvasWidth(canvasWidth) {
+        if (this.imageLoaded) {
+            this.scale = canvasWidth / this.img.width;
+            this.scaleImage(this.scale);
+        } else {
+            this.canvasWidth = canvasWidth;
         }
     }
 }
