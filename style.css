@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    margin: 0;
 }
 
 body {
@@ -52,6 +53,16 @@ canvas {
     top: 0;
 }
 
+.help_bar {
+    z-index: 10;
+    position: absolute;
+    padding: 5px;
+    height: 120px;
+    width: 100%;
+    bottom: -120px;
+    font-size: 30px;
+}
+
 .flex_center {
     display: flex;
     flex-direction: row;
@@ -91,7 +102,13 @@ canvas {
     gap: 10px;
 }
 
-
+.button_group_y {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+}
 
 .mobile_buttons {
     display: flex;
@@ -101,8 +118,8 @@ canvas {
 }
 
 .btn_mobile {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border: 1px solid black;
     background-color: rgba(256, 200, 120, 1);
     border-radius: 1000px;

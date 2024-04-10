@@ -8,10 +8,8 @@ function init() {
 }
 
 
-function checkMobile() {
-    if (/Mobi|Android/i.test(navigator.userAgent)) {
-        console.log('Mobile device detected');
-    }
+function ifMobile() {
+    return (/Mobi|Android/i.test(navigator.userAgent));
 }
 
 

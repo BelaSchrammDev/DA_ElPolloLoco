@@ -106,6 +106,8 @@ class Game extends Interval {
         this.enemies = [];
         this.collectables = [];
         this.uiItems = [];
+        this.ctx.fillStyle = 'rgba(256, 200, 120, 1)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
 
@@ -156,20 +158,8 @@ class Game extends Interval {
     }
 
 
-    ifLandscape() {
-        return window.screen.orientation.type.includes('landscape');
-    }
-
-
-    ifMobile() {
-        return /Mobi|Android/i.test(navigator.userAgent);
-    }
-
-
-    restartsMessage() {
-        if (this.ifMobile()) {
-            // view restartbutton
-        } else this.uiItems.push(new Text('Press Enter to restart', 450));
+    addXCenteredText(text, x) {
+        this.uiItems.push(new Text(text, x));
     }
 
 

@@ -33,8 +33,9 @@ class GameStateLevel1 extends GameState {
 
 
     entering() {
+        let showbar = ifMobile() ? 'movebar' : 'helpbar';
         this.fillLevel();
-        showElements(['movebar']);
+        showElements([showbar]);
         this.gameObject.startRendering();
         this.gameObject.startAssets();
         this.gameObject.startGameMusic('normal');
@@ -71,9 +72,13 @@ class GameStateGameOverDesktop extends GameState {
     entering() {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
         this.gameObject.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
-        this.gameObject.restartsMessage();
         this.gameObject.startGameMusic('fail');
-        showElements(['btnRestart']);
+        if (ifMobile()) showElements(['gameoverbar']);
+        else {
+            this.gameObject.addXCenteredText('Press ESC to MainMenu', 420);
+            this.gameObject.addXCenteredText('Press Enter to Restart', 460);
+            showElements([]);
+        }
         this.gameObject.gameOver = true;
     }
 
@@ -82,6 +87,11 @@ class GameStateGameOverDesktop extends GameState {
             this.gameObject.stopAssets();
             this.gameObject.stopRendering();
             this.gameObject.setGameState('level_1');
+        }
+        if (interactionObject.MainMenu) {
+            this.gameObject.stopAssets();
+            this.gameObject.stopRendering();
+            this.gameObject.setGameState('menu_desktop');
         }
     }
 }

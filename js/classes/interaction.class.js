@@ -7,6 +7,7 @@ class Interaction {
     KEY_D = 'd';
     KEY_M = 'm';
     KEY_ENTER = 'Enter';
+    KEY_ESC = 'Escape';
 
     Right = false;
     Left = false;
@@ -15,6 +16,7 @@ class Interaction {
     Pause = false;
     Mute = false;
     Enter = false;
+    MainMenu = false;
 
     // Array for mapping touch events to keys
     touchEventsArray = [
@@ -25,6 +27,7 @@ class Interaction {
         { btn: 'btnPause', key: this.KEY_P },
         { btn: 'btnRestart', key: this.KEY_ENTER },
         { btn: 'btnMute', key: this.KEY_M },
+        { btn: 'btnMenu', key: this.KEY_ESC },
     ];
 
 
@@ -98,6 +101,9 @@ class Interaction {
                 break;
             case this.KEY_ENTER:
                 this.Enter = value;
+                break;
+            case this.KEY_ESC:
+                this.MainMenu = value;
                 break;
             default: return;
         }
