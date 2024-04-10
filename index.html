@@ -35,13 +35,13 @@
     <!-- <h1>El Pollo Loco</h1> -->
     <div id="fullscreen" class="fullscreen">
         <canvas id="canvas" width="720px" height="480px"></canvas>
-        <div show_control id="menubar" class="bottom_bar flex_space_around">
+        <div show_control style="display: none;" id="menubar" class="bottom_bar flex_space_around">
             <button class="btn_menu" onclick="startGame()">Start Game</button>
             <button class="btn_menu" onclick="">Imprint</button>
             <button class="btn_menu" onclick="">Policy Privacy</button>
             <button class="btn_menu" onclick="">Help</button>
         </div>
-        <div show_control id="helpbar" class="flex_space_around help_bar">
+        <div show_control style="display: none;" id="helpbar" class="flex_space_around help_bar">
             <div class="button_group_y">
                 <span>Move = Arrow Left and Right</span>
                 <span>Jump = Arrow Up</span>
@@ -51,7 +51,7 @@
                 <span>Pause = p</span>
             </div>
         </div>
-        <div show_control id="gameoverbar" class="bottom_bar flex_center">
+        <div show_control style="display: none;" id="gameoverbar" class="bottom_bar flex_center">
             <div class="button_group_x">
                 <button class="btn_mobile" tabindex="-1" id="btnRestart"><img
                         src="./img_pollo_locco/buttons/restart.svg" alt=""></button>
@@ -59,7 +59,7 @@
                         alt=""></button>
             </div>
         </div>
-        <div show_control id="movebar" class="bottom_bar flex_space_between">
+        <div show_control style="display: none;" id="movebar" class="bottom_bar flex_space_between">
             <div class="button_group_x">
                 <button class="btn_mobile" tabindex="-1" id="btnLeft"><img
                         src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
@@ -73,7 +73,7 @@
                         alt=""></button>
             </div>
         </div>
-        <div show_control id="movebar" class="top_bar flex_center">
+        <div show_control style="display: none;" id="movebar" class="top_bar flex_center">
             <div class="button_group_x">
                 <button class="btn_mobile" tabindex="-1" id="btnPause"><img src="./img_pollo_locco/buttons/pause.svg"
                         alt=""></button>
