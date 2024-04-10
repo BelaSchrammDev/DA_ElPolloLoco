@@ -21,10 +21,15 @@ function addLandScapeListener() {
 }
 
 
-function showButtons(btnIDArray) {
-    let buttons = document.getElementsByClassName('btnMobile');
-    for (let index = 0; index < buttons.length; index++) {
-        let button = buttons[index];
-        button.style.display = btnIDArray.includes(button.id) ? 'block' : 'none';
+function startGame() {
+    game.setGameState('level_1');
+}
+
+
+function showElements(btnIDArray) {
+    let elements = document.querySelectorAll('[show_control]');
+    for (let index = 0; index < elements.length; index++) {
+        let element = elements[index];
+        element.style.display = btnIDArray.includes(element.id) ? 'flex' : 'none';
     }
 }

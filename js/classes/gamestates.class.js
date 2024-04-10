@@ -13,9 +13,9 @@ class GameStateMenuDesktop extends GameState {
     entering() {
         this.gameObject.resetLevel(720);
         this.gameObject.backgrounds.push(new BackgroundImageObject('./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png'));
-        this.gameObject.uiItems.push(new Text('Press Enter to Start', 100, 30));
+        // this.gameObject.uiItems.push(new Text('Press Enter to Start', 100, 30));
         this.gameObject.startRendering();
-        showButtons(['btnStartgame']);
+        showElements(['menubar']);
     }
 
     handleInteraction(interactionObject) {
@@ -27,8 +27,6 @@ class GameStateMenuDesktop extends GameState {
 
 class GameStateLevel1 extends GameState {
 
-    buttonShow = ['btnLeft', 'btnRight', 'btnJump', 'btnPause', 'btnTrow'];
-
     constructor(gameObject) {
         super(gameObject, "level_1");
     }
@@ -36,7 +34,7 @@ class GameStateLevel1 extends GameState {
 
     entering() {
         this.fillLevel();
-        showButtons(this.buttonShow);
+        showElements(['movebar']);
         this.gameObject.startRendering();
         this.gameObject.startAssets();
         this.gameObject.startGameMusic('normal');
@@ -45,6 +43,7 @@ class GameStateLevel1 extends GameState {
 
     fillLevel() {
         this.gameObject.resetLevel(3400);
+        this.gameObject.setBackgroundImage('./img_pollo_locco/img/5_background/layers/air.png');
         addBackGrounds(this.gameObject);
         addClouds(this.gameObject);
         addEnemies(this.gameObject, enemies_level_1);
@@ -74,7 +73,7 @@ class GameStateGameOverDesktop extends GameState {
         this.gameObject.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
         this.gameObject.restartsMessage();
         this.gameObject.startGameMusic('fail');
-        showButtons(['btnRestart']);
+        showElements(['btnRestart']);
         this.gameObject.gameOver = true;
     }
 

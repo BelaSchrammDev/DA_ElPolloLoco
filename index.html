@@ -35,30 +35,32 @@
     <!-- <h1>El Pollo Loco</h1> -->
     <div id="fullscreen" class="fullscreen">
         <canvas id="canvas" width="720px" height="480px"></canvas>
-        <div id="hud_overlay" class="hud_overlay">
-            <div id="btnsMenu" class="menu">
-                <button class="btnMobile" tabindex="-1" id="btnMute"><img src="./img_pollo_locco/buttons/mute.svg"
-                        alt=""></button>
-                <button class="btnMobile" tabindex="-1" id="btnPause"><img src="./img_pollo_locco/buttons/pause.svg"
-                        alt=""></button>
-                <button class="btnMobile" tabindex="-1" id="btnRestart"><img src="./img_pollo_locco/buttons/restart.svg"
+        <div show_control id="menubar" class="bottom_bar flex_space_around">
+            <button class="btn_menu" onclick="startGame()">Start Game</button>
+            <button class="btn_menu" onclick="">Imprint</button>
+            <button class="btn_menu" onclick="">Policy Privacy</button>
+            <button class="btn_menu" onclick="">Help</button>
+        </div>
+        <div show_control id="movebar" class="bottom_bar flex_space_between">
+            <div class="button_group_x">
+                <button class="btn_mobile" tabindex="-1" id="btnLeft"><img
+                        src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
+                <button class="btn_mobile" tabindex="-1" id="btnRight"><img
+                        src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
+            </div>
+            <div class="button_group_x">
+                <button class="btn_mobile" tabindex="-1" id="btnJump"><img
+                        src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
+                <button class="btn_mobile" tabindex="-1" id="btnTrow"><img src="./img_pollo_locco/buttons/bottle.svg"
                         alt=""></button>
             </div>
-            <div id="btnsMove" class="move">
-                <div>
-                    <button class="btnMobile" tabindex="-1" id="btnLeft"><img
-                            src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
-                    <button class="btnMobile" tabindex="-1" id="btnRight"><img
-                            src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
-                    <button class="btnMobile" tabindex="-1" id="btnStartgame"><img
-                            src="./img_pollo_locco/buttons/play.svg" alt=""></button>
-                </div>
-                <div>
-                    <button class="btnMobile" tabindex="-1" id="btnJump"><img
-                            src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
-                    <button class="btnMobile" tabindex="-1" id="btnTrow"><img src="./img_pollo_locco/buttons/bottle.svg"
-                            alt=""></button>
-                </div>
+        </div>
+        <div show_control id="movebar" class="top_bar flex_center">
+            <div class="button_group_x">
+                <button class="btn_mobile" tabindex="-1" id="btnPause"><img src="./img_pollo_locco/buttons/pause.svg"
+                        alt=""></button>
+                <button class="btn_mobile" tabindex="-1" id="btnMute"><img src="./img_pollo_locco/buttons/mute.svg"
+                        alt=""></button>
             </div>
         </div>
     </div>

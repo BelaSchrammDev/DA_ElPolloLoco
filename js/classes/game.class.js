@@ -1,7 +1,7 @@
 class Game extends Interval {
     canvas;
     ctx;
-    air;
+    bg_ImageObject;
     cameraX = 0;
     groundLevel = 420;
     levelWidth = 0;
@@ -70,10 +70,12 @@ class Game extends Interval {
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.interaction = new Interaction();
-        this.air = new ImageObject('./img_pollo_locco/img/5_background/layers/air.png');
         this.initSound();
     }
 
+    setBackgroundImage(imagePath) {
+        this.bg_ImageObject = new ImageObject(imagePath);
+    }
 
     initSound() {
         for (let soundKey in this.soundEffectsArray) {
@@ -96,6 +98,7 @@ class Game extends Interval {
     resetLevel(width) {
         this.levelWidth = width;
         this.gameOver = false;
+        this.bg_ImageObject = null;
         this.cameraX = 0;
         this.score = 0;
         this.backgrounds = [];
@@ -231,7 +234,7 @@ class Game extends Interval {
 
 
     drawFrame() {
-        if (this.air.imageLoaded) this.ctx.drawImage(this.air.img, 0, 0, this.canvas.width, this.canvas.height);
+        if (this.bg_ImageObject && this.bg_ImageObject.imageLoaded) this.ctx.drawImage(this.bg_ImageObject.img, 0, 0, this.canvas.width, this.canvas.height);
         this.clouds.forEach((cloud) => cloud.draw());
         this.backgrounds.forEach((background) => background.draw());
         this.enemies.forEach((enemy) => enemy.draw());

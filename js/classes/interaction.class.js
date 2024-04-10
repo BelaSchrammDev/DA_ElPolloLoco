@@ -24,7 +24,6 @@ class Interaction {
         { btn: 'btnTrow', key: this.KEY_D },
         { btn: 'btnPause', key: this.KEY_P },
         { btn: 'btnRestart', key: this.KEY_ENTER },
-        { btn: 'btnStartgame', key: this.KEY_ENTER },
         { btn: 'btnMute', key: this.KEY_M },
     ];
 
@@ -44,14 +43,19 @@ class Interaction {
     addTouchEvents() {
         this.touchEventsArray.forEach((event) => {
             let btn = document.getElementById(event.btn);
-            btn.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                this.setKey(event.key, true);
-            });
-            btn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.setKey(event.key, false);
-            });
+            if (btn) {
+
+                btn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.setKey(event.key, true);
+                });
+                btn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    this.setKey(event.key, false);
+                });
+            } else {
+                console.log('Button not found: ' + event.btn);
+            }
         });
     }
 
