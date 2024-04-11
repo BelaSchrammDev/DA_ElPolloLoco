@@ -100,16 +100,31 @@ class Game extends Interval {
         this.gameOver = false;
         this.bg_ImageObject = null;
         this.cameraX = 0;
+        this.resetAssets();
+        this.resetScores();
+        this.fillCanvas('rgba(256, 200, 120, 1)');
+    }
+
+
+    fillCanvas(color) {
+        this.ctx.fillStyle = color;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+
+    resetScores() {
         this.score = 0;
+        this.coins = 0;
+        this.bottles = 0;
+    }
+
+    resetAssets() {
         this.backgrounds = [];
         this.clouds = [];
         this.enemies = [];
         this.collectables = [];
         this.uiItems = [];
-        this.ctx.fillStyle = 'rgba(256, 200, 120, 1)';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
-
 
     startRendering() {
         this.addInterval('render', () => this.drawFrame());
