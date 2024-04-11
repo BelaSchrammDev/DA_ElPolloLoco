@@ -14,11 +14,12 @@ class Game extends Interval {
     };
     gamePaused = false;
     gameOver = false;
-    soundMute = true;
+    soundMute = false;
 
     backgrounds = [];
     clouds = [];
     enemies = [];
+    boss;
     collectables = [];
     uiItems = [];
     scoreText;
@@ -32,15 +33,15 @@ class Game extends Interval {
 
 
     soundEffectsArray = {
-        pepe_jump: { audio: new Audio('./audio/jump.wav'), playbackrate: 1.5, },
-        pepe_landing: { audio: new Audio('./audio/landing_pepe.wav'), playbackrate: 1, },
-        pepe_hurt: { audio: new Audio('./audio/pepe-hurt.mp3'), playbackrate: 2, },
-        pepe_snore: { audio: new Audio('./audio/pepe-snore.wav'), playbackrate: 1, },
-        pepe_walk: { audio: new Audio('./audio/footsteps1.wav'), playbackrate: 1, },
-        chicken_dead: { audio: new Audio('./audio/chicken-dead.wav'), playbackrate: 1, },
-        chicken_small_dead: { audio: new Audio('./audio/chicken-small-dead.wav'), playbackrate: 1, },
-        coin: { audio: new Audio('./audio/coin.mp3'), playbackrate: 1, },
-        bottle: { audio: new Audio('./audio/bottle_ground.mp3'), playbackrate: 1, },
+        pepe_jump: { audio: new Audio('./audio/jump.wav'), volume: 1, playbackrate: 1.5, },
+        pepe_landing: { audio: new Audio('./audio/landing_pepe.wav'), volume: 1, playbackrate: 1, },
+        pepe_hurt: { audio: new Audio('./audio/pepe-hurt.mp3'), volume: 1, playbackrate: 2, },
+        pepe_snore: { audio: new Audio('./audio/pepe-snore.wav'), volume: 1, playbackrate: 1, },
+        pepe_walk: { audio: new Audio('./audio/footsteps1.wav'), volume: 0.2, playbackrate: 1, },
+        chicken_dead: { audio: new Audio('./audio/chicken-dead.wav'), volume: 1, playbackrate: 1, },
+        chicken_small_dead: { audio: new Audio('./audio/chicken-small-dead.wav'), volume: 1, playbackrate: 1, },
+        coin: { audio: new Audio('./audio/coin.mp3'), volume: 1, playbackrate: 1, },
+        bottle: { audio: new Audio('./audio/bottle_ground.mp3'), volume: 1, playbackrate: 1, },
     }
 
     soundMusicArray = {
@@ -81,6 +82,7 @@ class Game extends Interval {
         for (let soundKey in this.soundEffectsArray) {
             let sound = this.soundEffectsArray[soundKey];
             sound.audio.playbackRate = sound.playbackrate;
+            sound.audio.volume = sound.volume;
         }
     }
 
@@ -100,6 +102,8 @@ class Game extends Interval {
         this.gameOver = false;
         this.bg_ImageObject = null;
         this.cameraX = 0;
+        this.player = null;
+        this.boss = null;
         this.resetAssets();
         this.resetScores();
         this.fillCanvas('rgba(256, 200, 120, 1)');
@@ -143,6 +147,7 @@ class Game extends Interval {
         this.enemies.forEach((enemy) => enemy.start());
         this.collectables.forEach((collectable) => collectable.start());
         if (this.player) this.player.start();
+        if (this.boss) this.boss.start();
     }
 
 
@@ -151,12 +156,14 @@ class Game extends Interval {
         this.enemies.forEach((enemy) => enemy.stop());
         this.collectables.forEach((collectable) => collectable.stop());
         if (this.player) this.player.stop();
+        if (this.boss) this.boss.stop();
     }
 
 
     pause() {
         if (this.gamePaused || this.gameOver) return;
-        this.player.pause();
+        if (this.player) this.player.pause();
+        if (this.boss) this.boss.pause();
         this.enemies.forEach((enemy) => enemy.pause());
         this.pauseText = new Text('PAUSE', 200, 100);
         this.uiItems.push(this.pauseText);
@@ -166,7 +173,8 @@ class Game extends Interval {
 
     restart() {
         if (!this.gamePaused || this.gameOver) return;
-        this.player.restart();
+        if (this.player) this.player.restart();
+        if (this.boss) this.boss.restart();
         this.enemies.forEach((enemy) => enemy.restart());
         this.uiItems = this.uiItems.filter((item) => item !== this.pauseText);
         this.gamePaused = false;
@@ -191,6 +199,7 @@ class Game extends Interval {
         let newSound = this.soundMusicArray[newSoundID];
         newSound.audio.volume = newSound.volume;
         newSound.audio.loop = newSound.loop;
+        newSound.audio.currentTime = 0;
         newSound.audio.playbackRate = newSound.playbackrate;
         newSound.audio.play();
     }
@@ -199,11 +208,12 @@ class Game extends Interval {
     fadeCurrentMusicOut() {
         if (this.currentMusicID === '') return;
         let sound = this.soundMusicArray[this.currentMusicID].audio;
-        this.addInterval('fadeout', () => {
+        let fadeoutID = 'fadeout' + this.currentMusicID;
+        this.addInterval(fadeoutID, () => {
             let volume = sound.volume;
-            if (volume <= 0) {
+            if (volume <= 0.011) {
                 sound.pause();
-                this.removeInterval('fadeout');
+                this.removeInterval(fadeoutID);
             }
             else if (sound.volume > 0.01) sound.volume -= 0.01;
         }, 100);
@@ -244,6 +254,7 @@ class Game extends Interval {
         this.backgrounds.forEach((background) => background.draw());
         this.enemies.forEach((enemy) => enemy.draw());
         if (this.player) this.player.draw();
+        if (this.boss) this.boss.draw();
         this.collectables.forEach((collectable) => collectable.draw());
         this.uiItems.forEach((text) => text.draw());
     }

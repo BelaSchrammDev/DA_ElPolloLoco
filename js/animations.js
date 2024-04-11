@@ -104,6 +104,47 @@ const CHICKEN_DEAD = [
     './img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
 ]
 
+const BOSS_WALK = [
+    './img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G2.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G3.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G4.png',
+]
+
+const BOSS_ALERT = [
+    './img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G6.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G7.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G8.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G9.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G10.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G11.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G12.png',
+]
+
+const BOSS_ATTACK = [
+    './img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G13.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G14.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G15.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G16.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G17.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G18.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G19.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G20.png',
+]
+
+const BOSS_HURT = [
+    './img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G21.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G22.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/4_hurt/G23.png',
+]
+
+const BOSS_DEAD = [
+    './img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png',
+    './img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png',
+]
+
 const GAMEOVER_IMAGES = [
     './img_pollo_locco/img/9_intro_outro_screens/game_over/game over!.png',
     './img_pollo_locco/img/9_intro_outro_screens/game_over/game over.png',
@@ -127,6 +168,11 @@ const animationIDArrays = {
     'chicken_small_dead': CHICKEN_SMALL_DEAD,
     'chicken_walk': CHICKEN_WALK,
     'chicken_dead': CHICKEN_DEAD,
+    'boss_walk': BOSS_WALK,
+    'boss_alert': BOSS_ALERT,
+    'boss_attack': BOSS_ATTACK,
+    'boss_hurt': BOSS_HURT,
+    'boss_dead': BOSS_DEAD,
 }
 
 const animFrames = {}
@@ -164,6 +210,7 @@ function getImages(imagepathArray, animationID) {
 
 
 function getImageScale(animationID) {
+    if (animationID.startsWith('boss_')) return 0.3;
     if (animationID.startsWith('pepe_')) return 0.25;
     if (animationID.startsWith('chicken_small_')) return 0.25;
     if (animationID.startsWith('bottle')) return 0.2;

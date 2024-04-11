@@ -126,6 +126,11 @@ function addPlayer(gameObject) {
 }
 
 
+function addBoss(gameObject) {
+    gameObject.boss = new BossChicken();
+}
+
+
 function addEnemies(gameObject, enemiesArray) {
     for (let index = 0; index < enemiesArray.length; index++) {
         const enemyPropertys = enemiesArray[index];

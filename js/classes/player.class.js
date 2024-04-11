@@ -136,8 +136,8 @@ class Player extends AnimatedObject {
     Jump() {
         this.gameObject.stopSound('pepe_snore');
         this.gameObject.playSound('pepe_jump');
-        this.fallingSpeed = -16;
-        this.setNewAnimation('pepe_jump', 50, true);
+        this.fallingSpeed = -13;
+        this.setNewAnimation('pepe_jump', 40, true);
         this.addGroundParticles(15, 20);
         this.setLastMovementTime();
         this.jumping = true;
