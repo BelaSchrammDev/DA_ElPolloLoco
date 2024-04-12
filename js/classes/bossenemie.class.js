@@ -51,6 +51,7 @@ class BossChicken extends AnimatedObject {
     setAI(aiID) {
         this.aiBehavior = this.aiBehaviorList[aiID];
         this.aiBehavior.entering();
+        console.log('set ai', aiID);
     }
 
     startMoving() {
@@ -79,7 +80,7 @@ class BossAI_Wait {
     handleInteractions() {
         if (this.boss.getX(this.boss.x) < this.boss.gameObject.canvas.width - 20) {
             this.boss.setAI('walk_left');
-            this.boss.gameObject.startGameMusic('boss');
+            this.boss.gameObject.sound.startGameMusic('boss');
         }
     }
 }
@@ -93,7 +94,6 @@ class BossAI_Walk_Left {
         this.boss.startAnimation();
         this.boss.walkSpeed = -0.1;
         this.boss.flipdrawing = false;
-        console.log('walk left');
     }
     handleInteractions() {
         let player = this.boss.gameObject.player;
@@ -114,7 +114,6 @@ class BossAI_Walk_Right {
         this.boss.walkSpeed = 3;
         this.boss.flipdrawing = true;
         this.walkBegin = this.boss.x;
-        console.log('walk right');
     }
     handleInteractions() {
         if (this.boss.x > this.walkBegin + 200 && this.boss.gameObject.player.x < this.boss.x && this.boss.x > 1000) {
@@ -131,7 +130,6 @@ class BossAI_Attack {
         this.boss.setNewAnimation('boss_attack', 200);
         this.boss.walkSpeed = -3;
         this.attackBegin = this.boss.x;
-        console.log('attack');
     }
     handleInteractions() {
         if (this.boss.x < this.attackBegin - 300) {

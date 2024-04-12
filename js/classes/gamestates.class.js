@@ -38,7 +38,7 @@ class GameStateLevel1 extends GameState {
         showElements([showbar]);
         this.gameObject.startRendering();
         this.gameObject.startAssets();
-        this.gameObject.startGameMusic('normal');
+        this.gameObject.sound.startGameMusic('normal');
     }
 
 
@@ -73,7 +73,7 @@ class GameStateGameOverDesktop extends GameState {
     entering() {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
         this.gameObject.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
-        this.gameObject.startGameMusic('fail');
+        this.gameObject.sound.startGameMusic('fail');
         if (ifMobile()) showElements(['gameoverbar']);
         else {
             this.gameObject.addXCenteredText('Press ESC to MainMenu', 420);

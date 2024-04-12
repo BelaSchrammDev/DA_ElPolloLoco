@@ -28,6 +28,7 @@ class UIElement extends DrawableObject {
 
     update() {
         let newValue = this.getValue();
+        if (newValue == NaN) newValue = 0;
         if (this.imgIconUpdateScale == 1 && newValue != this.lastValue) {
             this.imgIconUpdateScale = 1.2;
             this.currentFadeValue = this.lastValue;
@@ -61,12 +62,18 @@ class Coins extends UIElement {
     constructor() {
         super('./img_pollo_locco/img/7_statusbars/3_icons/icon_coin.png', 60, 40);
     }
-    getValue() { return 100 / this.gameObject.maxcoins * this.gameObject.coins; }
+    getValue() {
+        if (this.gameObject.coins == 0 && this.gameObject.maxcoins == 0) return 0;
+        return 100 / this.gameObject.maxcoins * this.gameObject.coins;
+    }
 }
 
 class Bottles extends UIElement {
     constructor() {
         super('./img_pollo_locco/img/7_statusbars/3_icons/icon_salsa_bottle.png', 20, 65);
     }
-    getValue() { return 100 / this.gameObject.maxbottles * this.gameObject.bottles; }
+    getValue() {
+        if (this.gameObject.bottles == 0 && this.gameObject.maxbottles == 0) return 0;
+        return 100 / this.gameObject.maxbottles * this.gameObject.bottles;
+    }
 }

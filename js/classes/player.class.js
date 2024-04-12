@@ -118,8 +118,8 @@ class Player extends AnimatedObject {
         if (this.invulnerable == 0) {
             this.invulnerable = 60;
             this.health -= damage;
-            this.gameObject.stopSound('pepe_snore');
-            this.gameObject.playSound('pepe_hurt');
+            this.gameObject.sound.stopSound('pepe_snore');
+            this.gameObject.sound.playSound('pepe_hurt');
         }
     }
 
@@ -127,15 +127,15 @@ class Player extends AnimatedObject {
     setIdleAnimation() {
         if (this.lastMovementTime + 5000 < Date.now()) {
             if (this.currentAnimationID != 'pepe_longidle') this.setNewAnimation('pepe_longidle', 200);
-            this.gameObject.playSound('pepe_snore');
+            this.gameObject.sound.playSound('pepe_snore');
         }
         else this.setNewAnimation('pepe_idle', 200);
     }
 
 
     Jump() {
-        this.gameObject.stopSound('pepe_snore');
-        this.gameObject.playSound('pepe_jump');
+        this.gameObject.sound.stopSound('pepe_snore');
+        this.gameObject.sound.playSound('pepe_jump');
         this.fallingSpeed = -13;
         this.setNewAnimation('pepe_jump', 40, true);
         this.addGroundParticles(15, 20);
@@ -146,7 +146,7 @@ class Player extends AnimatedObject {
 
     Landing() {
         this.jumping = false;
-        this.gameObject.playSound('pepe_landing');
+        this.gameObject.sound.playSound('pepe_landing');
         this.addGroundParticles(40, 35);
     }
 
@@ -178,8 +178,8 @@ class Player extends AnimatedObject {
     }
 
     playWalkSound() {
-        this.gameObject.stopSound('pepe_snore');
-        this.gameObject.playSound('pepe_walk');
+        this.gameObject.sound.stopSound('pepe_snore');
+        this.gameObject.sound.playSound('pepe_walk');
     }
 
 

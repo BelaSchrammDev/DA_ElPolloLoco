@@ -10,7 +10,7 @@ class CollectableObject extends AnimatedObject {
     }
     collect() {
         this.stop();
-        this.gameObject.playSound(this.soundID);
+        this.gameObject.sound.playSound(this.soundID);
         this.addCollectablesToGame();
         this.remove = true;
     }
