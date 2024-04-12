@@ -127,12 +127,18 @@ class BossAI_Attack {
         this.boss = boss;
     }
     entering() {
-        this.boss.setNewAnimation('boss_attack', 200);
-        this.boss.walkSpeed = -3;
-        this.attackBegin = this.boss.x;
+        this.boss.setNewAnimation('boss_walk', 200);
+        this.boss.walkSpeed = -6;
+        this.attackXBegin = this.boss.x;
+        this.attackXEnd = this.boss.gameObject.player.x;
+        this.attackAnimation = false;
     }
     handleInteractions() {
-        if (this.boss.x < this.attackBegin - 300) {
+        if (!this.attackAnimation && this.boss.x <= this.attackXEnd) {
+            this.boss.walkSpeed = 0;
+            this.boss.setNewAnimation('boss_attack', 100, true);
+            this.attackAnimation = true;
+        } else if (this.attackAnimation && this.boss.animIdle) {
             this.boss.setAI('walk_right');
         }
     }

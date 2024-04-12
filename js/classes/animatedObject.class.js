@@ -92,6 +92,7 @@ class AnimatedObject extends CollidingObject {
             if (this.currentFrame >= this.currentFrames.length) {
                 this.currentFrame = this.playOnlyOne ? this.currentFrames.length - 1 : 0;
                 if (this.isNotGravityAnimation()) this.animIdle = true;
+                // if (this.currentAnimationID == 'boss_attack') debugger;
             }
             this.imageObj = this.currentFrames[this.currentFrame];
         }, this.currentAnimationInterval);
