@@ -157,12 +157,18 @@ class BossAI_Walk_Right {
         this.boss.startAnimation();
         this.boss.walkSpeed = 3;
         this.boss.flipdrawing = true;
-        this.walkBegin = this.boss.x;
+        this.walkEnd = this.boss.x + 200;
     }
     handleInteractions() {
-        if (this.boss.x > this.walkBegin + 200 && this.boss.gameObject.player.x < this.boss.x && this.boss.x > 1000) {
+        if (this.ifWalkEnd() && this.ifPlayerLeft() && this.boss.x > 1000) {
             this.boss.setAI('walk_left');
         }
+    }
+    ifWalkEnd() {
+        return this.boss.x > this.walkEnd;
+    }
+    ifPlayerLeft() {
+        return this.boss.gameObject.player.x < this.boss.x;
     }
 }
 
