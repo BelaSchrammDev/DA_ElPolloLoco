@@ -11,6 +11,7 @@ class Game extends Interval {
         'level_1': new GameStateLevel1(this),
         'menu_desktop': new GameStateMenuDesktop(this),
         'game_over': new GameStateGameOverDesktop(this),
+        'win': new GameStateWin(this),
     };
     gamePaused = false;
     gameOver = false;
@@ -22,6 +23,7 @@ class Game extends Interval {
     boss;
     collectables = [];
     uiItems = [];
+    flybottles = [];
     scoreText;
 
     player;
@@ -86,6 +88,7 @@ class Game extends Interval {
         this.enemies = [];
         this.collectables = [];
         this.uiItems = [];
+        this.flybottles = [];
     }
 
     startRendering() {
@@ -123,6 +126,7 @@ class Game extends Interval {
         if (this.player) this.player.pause();
         if (this.boss) this.boss.pause();
         this.enemies.forEach((enemy) => enemy.pause());
+        this.flybottles.forEach((bottle) => bottle.pause());
         this.pauseText = new Text('PAUSE', 200, 100);
         this.uiItems.push(this.pauseText);
         this.gamePaused = true;
@@ -133,6 +137,7 @@ class Game extends Interval {
         if (!this.gamePaused || this.gameOver) return;
         if (this.player) this.player.restart();
         if (this.boss) this.boss.restart();
+        this.flybottles.forEach((bottle) => bottle.restart());
         this.enemies.forEach((enemy) => enemy.restart());
         this.uiItems = this.uiItems.filter((item) => item !== this.pauseText);
         this.gamePaused = false;
@@ -148,6 +153,7 @@ class Game extends Interval {
         this.gameStateObject.handleInteraction(this.interaction);
         if (this.interaction.checkKeyMute()) this.sound.toggleSoundMute();
         this.enemies = this.enemies.filter((enemy) => enemy.remove == false);
+        this.flybottles = this.flybottles.filter((bottle) => bottle.remove == false);
         this.collectables = this.collectables.filter((item) => item.remove == false);
         this.uiItems.forEach((text, index) => {
             text.update();
@@ -161,6 +167,7 @@ class Game extends Interval {
         this.clouds.forEach((cloud) => cloud.draw());
         this.backgrounds.forEach((background) => background.draw());
         this.enemies.forEach((enemy) => enemy.draw());
+        this.flybottles.forEach((bottle) => bottle.draw());
         if (this.player) this.player.draw();
         if (this.boss) this.boss.draw();
         this.collectables.forEach((collectable) => collectable.draw());

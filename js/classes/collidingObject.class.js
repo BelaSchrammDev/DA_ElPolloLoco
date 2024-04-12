@@ -45,6 +45,7 @@ class CollidingObject extends DrawableObject {
 
 
     drawSpriteBox() {
+        if (this.imageObj === null) return;
         this.gameObject.ctx.fillStyle = 'black';
         this.gameObject.ctx.beginPath();
         this.gameObject.ctx.rect(
@@ -58,6 +59,7 @@ class CollidingObject extends DrawableObject {
 
 
     drawCollisionBox() {
+        if (this.imageObj === null) return;
         this.gameObject.ctx.fillStyle = 'blue';
         this.gameObject.ctx.beginPath();
         this.gameObject.ctx.rect(
@@ -71,6 +73,7 @@ class CollidingObject extends DrawableObject {
 
 
     drawGroundLine() {
+        if (this.imageObj === null) return;
         this.gameObject.ctx.fillStyle = 'blue';
         this.gameObject.ctx.beginPath();
         this.gameObject.ctx.rect(

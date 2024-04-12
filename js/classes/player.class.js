@@ -38,17 +38,25 @@ class Player extends AnimatedObject {
         this.addInterval('keytracking', () => {
             let moveSpeed = this.isOnGround() ? 5 : 2.5;
             if (this.health <= 0) this.startDying();
+            else if (this.gameObject.interaction.checkTrow()) this.trowBottle();
             else if (this.isOnGround() && this.jumping) this.Landing();
             else if (this.invulnerable > 30) this.startHurtAnimation();
-            else if (game.interaction.Jump && this.isOnGround()) this.Jump();
-            else if (game.interaction.Right) this.moveRight(moveSpeed);
-            else if (game.interaction.Left) this.moveLeft(moveSpeed);
+            else if (this.gameObject.interaction.Jump && this.isOnGround()) this.Jump();
+            else if (this.gameObject.interaction.Right) this.moveRight(moveSpeed);
+            else if (this.gameObject.interaction.Left) this.moveLeft(moveSpeed);
             else if (this.isIdleState()) this.setIdleAnimation();
             if (this.invulnerable > 0) this.invulnerable--;
             if (this.isOnGround()) this.checkScoreByJump();
             else this.checkEnemyCollision();
             this.checkCollecting();
         });
+    }
+
+    trowBottle() {
+        if (this.gameObject.flybottles.length < 3 && this.gameObject.bottles > 0) {
+            this.gameObject.bottles--;
+            this.gameObject.flybottles.push(new FlyBottle(this));
+        }
     }
 
 

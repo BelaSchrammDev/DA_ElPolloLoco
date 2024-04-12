@@ -82,7 +82,6 @@ class CenterPopImage extends DrawableObject {
         super();
         this.imageObj = new ImageObject(imgpath);
         this.imageObj.scaleImageToCanvasHeight(this.gameObject.canvas.height);
-        this.setKoords(0, 0);
         this.width = this.gameObject.canvas.width;
         this.height = this.gameObject.canvas.height;
     }

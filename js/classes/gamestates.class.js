@@ -47,11 +47,11 @@ class GameStateLevel1 extends GameState {
         this.gameObject.setBackgroundImage('./img_pollo_locco/img/5_background/layers/air.png');
         addBackGrounds(this.gameObject);
         addClouds(this.gameObject);
-        // addEnemies(this.gameObject, enemies_level_1);
+        addEnemies(this.gameObject, enemies_level_1);
         addPlayer(this.gameObject);
         addBoss(this.gameObject);
         addUIElements(this.gameObject);
-        // addCollectables(this.gameObject);
+        addCollectables(this.gameObject);
     }
 
     handleInteraction(interactionObject) {
@@ -97,16 +97,37 @@ class GameStateGameOverDesktop extends GameState {
     }
 }
 
-class GameState_ extends GameState {
+class GameStateWin extends GameState {
     constructor(gameObject) {
         super(gameObject, '');
     }
 
     entering() {
-
+        this.gameObject.sound.startGameMusic('win');
+        if (ifMobile()) showElements(['gameoverbar']);
+        else {
+            this.gameObject.addXCenteredText('You ar the Winner !!!', 350, 30);
+            this.gameObject.addXCenteredText('Press ESC to MainMenu', 420);
+            this.gameObject.addXCenteredText('Press Enter to Restart', 460);
+            this.gameObject.player.stop();
+            this.gameObject.boss.stop();
+            showElements([]);
+        }
+        this.gameObject.gameOver = true;
     }
 
     handleInteraction(interactionObject) {
+        if (interactionObject.Enter) {
+            this.gameObject.stopAssets();
+            this.gameObject.stopRendering();
+            this.gameObject.setGameState('level_1');
+        }
+        if (interactionObject.MainMenu) {
+            this.gameObject.stopAssets();
+            this.gameObject.stopRendering();
+            this.gameObject.setGameState('menu_desktop');
+        }
     }
 }
+
 

@@ -3,7 +3,7 @@ class BossChicken extends AnimatedObject {
     offsetSpriteGroundFromTop = 330;
     walkSpeed = 0;
     playerDamage = 5;
-    playerScore = 1;
+    health = 100;
     dead = false;
 
     aiBehavior = null;
@@ -12,6 +12,8 @@ class BossChicken extends AnimatedObject {
         'walk_left': new BossAI_Walk_Left(this),
         'walk_right': new BossAI_Walk_Right(this),
         'attack': new BossAI_Attack(this),
+        'hurt': new BossAI_Hurt(this),
+        'dead': new BossAI_Dead(this),
     };
 
     constructor() {
@@ -68,6 +70,15 @@ class BossChicken extends AnimatedObject {
     stopMoving() {
         this.removeInterval('move');
     }
+
+    addDamage(damage) {
+        this.health -= damage;
+        if (this.health <= 0) {
+            this.setAI('dead');
+        } else {
+            this.setAI('hurt');
+        }
+    }
 }
 
 class BossAI_Wait {
@@ -75,12 +86,45 @@ class BossAI_Wait {
         this.boss = boss;
     }
     entering() {
+        this.boss.walkSpeed = 0;
         this.boss.stopAnimation();
     }
     handleInteractions() {
         if (this.boss.getX(this.boss.x) < this.boss.gameObject.canvas.width - 20) {
             this.boss.setAI('walk_left');
             this.boss.gameObject.sound.startGameMusic('boss');
+        }
+    }
+}
+
+class BossAI_Hurt {
+    constructor(boss) {
+        this.boss = boss;
+    }
+    entering() {
+        this.boss.walkSpeed = 0;
+        this.boss.setNewAnimation('boss_hurt', 300);
+    }
+    handleInteractions() {
+        if (this.boss.animIdle) {
+            if (this.health <= 0) this.boss.setAI('dead');
+            else this.boss.setAI('walk_right');
+        }
+    }
+}
+
+class BossAI_Dead {
+    constructor(boss) {
+        this.boss = boss;
+    }
+    entering() {
+        this.boss.setNewAnimation('boss_dead', 300, true);
+        this.boss.stopMoving();
+    }
+    handleInteractions() {
+        if (this.boss.animIdle) {
+            // game over WIN
+            this.boss.gameObject.setGameState('win');
         }
     }
 }
@@ -129,7 +173,6 @@ class BossAI_Attack {
     entering() {
         this.boss.setNewAnimation('boss_walk', 200);
         this.boss.walkSpeed = -6;
-        this.attackXBegin = this.boss.x;
         this.attackXEnd = this.boss.gameObject.player.x;
         this.attackAnimation = false;
     }

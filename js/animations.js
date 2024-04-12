@@ -77,6 +77,13 @@ const BOTTLES_GROUND = [
     './img_pollo_locco/img/6_salsa_bottle/2_salsa_bottle_on_ground.png',
 ]
 
+const BOTTLE_ROTATE = [
+    './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
+    './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
+    './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
+    './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png',
+]
+
 const BOTTLE_SPLASH = [
     './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
     './img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
@@ -145,6 +152,7 @@ const BOSS_DEAD = [
     './img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png',
 ]
 
+
 const GAMEOVER_IMAGES = [
     './img_pollo_locco/img/9_intro_outro_screens/game_over/game over!.png',
     './img_pollo_locco/img/9_intro_outro_screens/game_over/game over.png',
@@ -163,6 +171,7 @@ const animationIDArrays = {
     'pepe_dead': PEPE_DEAD,
     'coins': COINS,
     'bottles_ground': BOTTLES_GROUND,
+    'bottle_rotate': BOTTLE_ROTATE,
     'bottle_splash': BOTTLE_SPLASH,
     'chicken_small_walk': CHICKEN_SMALL_WALK,
     'chicken_small_dead': CHICKEN_SMALL_DEAD,

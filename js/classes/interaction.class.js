@@ -80,6 +80,13 @@ class Interaction {
         return false;
     }
 
+    checkTrow() {
+        if (this.Trow) {
+            this.Trow = false;
+            return true;
+        }
+        return false;
+    }
 
     setKey(key, value) {
         switch (key) {
@@ -98,6 +105,9 @@ class Interaction {
                 break;
             case this.KEY_P:
                 this.Pause = value;
+                break;
+            case this.KEY_D:
+                this.Trow = value;
                 break;
             case this.KEY_ENTER:
                 this.Enter = value;

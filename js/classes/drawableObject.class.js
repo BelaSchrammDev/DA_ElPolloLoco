@@ -6,8 +6,8 @@
  */
 class DrawableObject extends Interval {
     gameObject;
-    x;
-    y;
+    x = 0;
+    y = 0;
     z_index = 1;
     flipdrawing = false;
     imageObj = undefined;

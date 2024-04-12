@@ -8,6 +8,8 @@ class SoundEngine extends Interval {
         chicken_dead: { audio: new Audio('./audio/chicken-dead.wav'), volume: 1, playbackrate: 1, },
         chicken_small_dead: { audio: new Audio('./audio/chicken-small-dead.wav'), volume: 1, playbackrate: 1, },
         coin: { audio: new Audio('./audio/coin.mp3'), volume: 1, playbackrate: 1, },
+        bottle_wiff: { audio: new Audio('./audio/bottle_wiff.wav'), volume: 1, playbackrate: 1.5, },
+        bottle_splash: { audio: new Audio('./audio/bottle_splash.wav'), volume: 1, playbackrate: 1, },
         bottle: { audio: new Audio('./audio/bottle_ground.mp3'), volume: 1, playbackrate: 1, },
     }
 
@@ -28,6 +30,12 @@ class SoundEngine extends Interval {
             audio: new Audio('./audio/fail.mp3'),
             volume: 0.1,
             playbackrate: 2,
+            loop: false,
+        },
+        win: {
+            audio: new Audio('./audio/win.mp3'),
+            volume: 0.3,
+            playbackrate: 1,
             loop: false,
         },
     };

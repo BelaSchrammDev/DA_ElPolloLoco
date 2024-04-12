@@ -92,7 +92,6 @@ class AnimatedObject extends CollidingObject {
             if (this.currentFrame >= this.currentFrames.length) {
                 this.currentFrame = this.playOnlyOne ? this.currentFrames.length - 1 : 0;
                 if (this.isNotGravityAnimation()) this.animIdle = true;
-                // if (this.currentAnimationID == 'boss_attack') debugger;
             }
             this.imageObj = this.currentFrames[this.currentFrame];
         }, this.currentAnimationInterval);
@@ -139,16 +138,19 @@ class AnimatedObject extends CollidingObject {
         }, 50);
     }
 
-
-    addGroundParticles(count, init_size) {
+    addParticles(count, init_size, particle_color) {
         for (let index = 0; index < count; index++) {
             this.particles.push({
-                color: 'rgba(256, 200, 120, 0.05)',
+                color: particle_color,
                 size: init_size,
                 posX: this.x + this.imageObj.width / 2 + (Math.random() * (2 * init_size) - init_size),
                 posY: this.y + this.offsetSpriteGroundFromTop,
             });
         }
+    }
+
+    addGroundParticles(count, init_size) {
+        this.addParticles(count, init_size, 'rgba(256, 200, 120, 0.05)');
     }
 
     drawParticles() {
