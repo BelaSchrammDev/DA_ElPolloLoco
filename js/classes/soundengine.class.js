@@ -43,6 +43,12 @@ class SoundEngine extends Interval {
             playbackrate: 1,
             loop: false,
         },
+        win2: {
+            audio: new Audio('./audio/win2.mp3'),
+            volume: 0.2,
+            playbackrate: 1,
+            loop: false,
+        },
     };
 
     currentMusicID = '';

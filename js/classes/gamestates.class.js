@@ -55,6 +55,9 @@ class GameStateLevel1 extends GameState {
     }
 
     handleInteraction(interactionObject) {
+        if (interactionObject.checkMainMenu()) {
+            this.gameObject.setGameState('menu_desktop');
+        }
         if (interactionObject.checkKeyPause()) {
             if (this.gameObject.gamePaused) {
                 this.gameObject.restart();
@@ -85,13 +88,9 @@ class GameStateGameOverDesktop extends GameState {
 
     handleInteraction(interactionObject) {
         if (interactionObject.Enter) {
-            this.gameObject.stopAssets();
-            this.gameObject.stopRendering();
             this.gameObject.setGameState('level_1');
         }
         if (interactionObject.MainMenu) {
-            this.gameObject.stopAssets();
-            this.gameObject.stopRendering();
             this.gameObject.setGameState('menu_desktop');
         }
     }
@@ -103,8 +102,8 @@ class GameStateWin extends GameState {
     }
 
     entering() {
-        this.gameObject.sound.startGameMusic('win');
-        this.gameObject.addXCenteredText('You ar the Winner !!!', 350, 30);
+        this.gameObject.sound.startGameMusic('win2');
+        this.gameObject.addXCenteredText('You win !!!', 250, 150);
         this.gameObject.player.stop();
         this.gameObject.boss.stop();
         if (ifMobile()) showElements(['gameoverbar']);
@@ -118,13 +117,9 @@ class GameStateWin extends GameState {
 
     handleInteraction(interactionObject) {
         if (interactionObject.Enter) {
-            this.gameObject.stopAssets();
-            this.gameObject.stopRendering();
             this.gameObject.setGameState('level_1');
         }
         if (interactionObject.MainMenu) {
-            this.gameObject.stopAssets();
-            this.gameObject.stopRendering();
             this.gameObject.setGameState('menu_desktop');
         }
     }

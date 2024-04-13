@@ -34,12 +34,12 @@ class Game extends Interval {
     maxbottles = 0;
 
     sound = new SoundEngine();
+    interaction = new Interaction();
 
     constructor() {
         super();
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.interaction = new Interaction();
     }
 
     setBackgroundImage(imagePath) {
@@ -62,15 +62,14 @@ class Game extends Interval {
         this.gameOver = false;
         this.bg_ImageObject = null;
         this.cameraX = 0;
-        this.player = null;
-        this.boss = null;
         this.resetAssets();
         this.resetScores();
-        this.fillCanvas('rgba(256, 200, 120, 1)');
+        this.resetCanvas('rgba(256, 200, 120, 1)');
     }
 
 
-    fillCanvas(color) {
+    resetCanvas(color) {
+        this.stopRendering();
         this.ctx.fillStyle = color;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -83,12 +82,15 @@ class Game extends Interval {
     }
 
     resetAssets() {
+        this.stopAssets();
         this.backgrounds = [];
         this.clouds = [];
         this.enemies = [];
         this.collectables = [];
         this.uiItems = [];
         this.flybottles = [];
+        this.player = null;
+        this.boss = null;
     }
 
     startRendering() {
@@ -144,8 +146,8 @@ class Game extends Interval {
     }
 
 
-    addXCenteredText(text, x) {
-        this.uiItems.push(new Text(text, x));
+    addXCenteredText(text, x, size = 30) {
+        this.uiItems.push(new Text(text, x, size));
     }
 
 

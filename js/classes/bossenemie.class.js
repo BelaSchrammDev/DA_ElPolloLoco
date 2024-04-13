@@ -53,15 +53,11 @@ class BossChicken extends AnimatedObject {
     setAI(aiID) {
         this.aiBehavior = this.aiBehaviorList[aiID];
         this.aiBehavior.entering();
-        console.log('set ai', aiID);
     }
 
     startMoving() {
         this.addInterval('move', () => {
             this.x += this.walkSpeed;
-            if (this.x < -this.imageObj.width) {
-                this.remove = true;
-            }
             if (this.isOnGround() && this.walkSpeed != 0) this.addGroundParticles(3, 15);
             if (this.isCollidingWith(this.gameObject.player)) this.gameObject.player.setPlayerDamage(this.playerDamage);
         });
@@ -73,11 +69,8 @@ class BossChicken extends AnimatedObject {
 
     addDamage(damage) {
         this.health -= damage;
-        if (this.health <= 0) {
-            this.setAI('dead');
-        } else {
-            this.setAI('hurt');
-        }
+        if (this.health <= 0) this.setAI('dead');
+        else this.setAI('hurt');
     }
 }
 

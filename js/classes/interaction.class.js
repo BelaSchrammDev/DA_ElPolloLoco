@@ -56,12 +56,18 @@ class Interaction {
                     e.preventDefault();
                     this.setKey(event.key, false);
                 });
-            } else {
-                console.log('Button not found: ' + event.btn);
             }
         });
     }
 
+
+    checkMainMenu() {
+        if (this.MainMenu) {
+            this.MainMenu = false;
+            return true;
+        }
+        return false;
+    }
 
     checkKeyPause() {
         if (this.Pause) {
@@ -80,6 +86,7 @@ class Interaction {
         return false;
     }
 
+
     checkTrow() {
         if (this.Trow) {
             this.Trow = false;
@@ -87,6 +94,7 @@ class Interaction {
         }
         return false;
     }
+
 
     setKey(key, value) {
         switch (key) {
@@ -117,6 +125,5 @@ class Interaction {
                 break;
             default: return;
         }
-        // console.log('setKey - ' + key + ' - ' + value);
     }
 }

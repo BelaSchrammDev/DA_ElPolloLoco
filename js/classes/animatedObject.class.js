@@ -79,7 +79,6 @@ class AnimatedObject extends CollidingObject {
 
     setNewAnimation(animationID, interval, playonlyone = false) {
         if (animationID === '' || this.currentAnimationID === animationID) return;
-        // console.log('start animation = ', animationID);
         this.stopAnimation();
         this.setCurrentAnimation(animationID, interval, playonlyone);
         this.startAnimation(interval);
