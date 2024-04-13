@@ -77,3 +77,10 @@ class Bottles extends UIElement {
         return 100 / this.gameObject.maxbottles * this.gameObject.bottles;
     }
 }
+
+class BossHealth extends UIElement {
+    constructor() {
+        super('./img_pollo_locco/img/7_statusbars/3_icons/icon_health_endboss.png', 540, 40);
+    }
+    getValue() { return this.gameObject.boss.health; }
+}

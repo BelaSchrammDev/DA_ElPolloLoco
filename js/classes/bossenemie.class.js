@@ -2,7 +2,7 @@ class BossChicken extends AnimatedObject {
     offsetFromGround = 200;
     offsetSpriteGroundFromTop = 330;
     walkSpeed = 0;
-    playerDamage = 5;
+    playerDamage = 40;
     health = 100;
     dead = false;
 
@@ -81,26 +81,41 @@ class BossChicken extends AnimatedObject {
     }
 }
 
-class BossAI_Wait {
+class BossAI {
     constructor(boss) {
         this.boss = boss;
     }
+    entering() { }
+    handleInteractions() { }
+    ifPlayerLeft() {
+        return this.boss.gameObject.player.x < this.boss.x;
+    }
+    ifOutOfCanvasRight() {
+        return this.boss.getX(this.boss.x) + this.boss.hitBox.offsetright > this.boss.gameObject.canvas.width;
+    }
+    ifOutOfLevelRight() {
+        return this.boss.x > this.boss.gameObject.levelWidth;
+    }
+    ifAtLevelEndRight() {
+        return this.boss.x + this.boss.hitBox.offsetright > this.boss.gameObject.levelWidth;
+    }
+}
+
+class BossAI_Wait extends BossAI {
     entering() {
         this.boss.walkSpeed = 0;
         this.boss.stopAnimation();
     }
     handleInteractions() {
         if (this.boss.getX(this.boss.x) < this.boss.gameObject.canvas.width - 20) {
-            this.boss.setAI('walk_left');
+            this.boss.gameObject.uiItems.push(new BossHealth());
             this.boss.gameObject.sound.startGameMusic('boss');
+            this.boss.setAI('walk_left');
         }
     }
 }
 
-class BossAI_Hurt {
-    constructor(boss) {
-        this.boss = boss;
-    }
+class BossAI_Hurt extends BossAI {
     entering() {
         this.boss.walkSpeed = 0;
         this.boss.setNewAnimation('boss_hurt', 300);
@@ -113,26 +128,19 @@ class BossAI_Hurt {
     }
 }
 
-class BossAI_Dead {
-    constructor(boss) {
-        this.boss = boss;
-    }
+class BossAI_Dead extends BossAI {
     entering() {
         this.boss.setNewAnimation('boss_dead', 300, true);
         this.boss.stopMoving();
     }
     handleInteractions() {
         if (this.boss.animIdle) {
-            // game over WIN
             this.boss.gameObject.setGameState('win');
         }
     }
 }
 
-class BossAI_Walk_Left {
-    constructor(boss) {
-        this.boss = boss;
-    }
+class BossAI_Walk_Left extends BossAI {
     entering() {
         this.boss.setNewAnimation('boss_walk', 200);
         this.boss.startAnimation();
@@ -148,10 +156,7 @@ class BossAI_Walk_Left {
     }
 }
 
-class BossAI_Walk_Right {
-    constructor(boss) {
-        this.boss = boss;
-    }
+class BossAI_Walk_Right extends BossAI {
     entering() {
         this.boss.setNewAnimation('boss_walk', 200);
         this.boss.startAnimation();
@@ -160,22 +165,16 @@ class BossAI_Walk_Right {
         this.walkEnd = this.boss.x + 200;
     }
     handleInteractions() {
-        if (this.ifWalkEnd() && this.ifPlayerLeft() && this.boss.x > 1000) {
+        if (this.ifOutOfCanvasRight() || (this.ifWalkEnd() && this.ifPlayerLeft() && this.boss.x > 1000)) {
             this.boss.setAI('walk_left');
         }
     }
     ifWalkEnd() {
         return this.boss.x > this.walkEnd;
     }
-    ifPlayerLeft() {
-        return this.boss.gameObject.player.x < this.boss.x;
-    }
 }
 
-class BossAI_Attack {
-    constructor(boss) {
-        this.boss = boss;
-    }
+class BossAI_Attack extends BossAI {
     entering() {
         this.boss.setNewAnimation('boss_walk', 200);
         this.boss.walkSpeed = -6;

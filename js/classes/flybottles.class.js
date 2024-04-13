@@ -24,7 +24,7 @@ class FlyBottle extends AnimatedObject {
                 this.removeGravityBehavior();
                 this.flySpeedX = 0;
                 this.gameObject.score += 100;
-                this.gameObject.boss.addDamage(20);
+                this.gameObject.boss.addDamage(19);
             } else if (this.bottlesplash && this.animIdle) {
                 this.imageObj = null;
                 this.stopAnimation();

@@ -62,7 +62,7 @@ const enemies_level_1 = [
         positionFrom: 1500,
         positionTo: 3200,
         speed: 0.3,
-        damage: 10
+        damage: 25
     },
     {
         type: 'chicken_small',
@@ -70,7 +70,7 @@ const enemies_level_1 = [
         positionFrom: 500,
         positionTo: 3000,
         speed: 0.3,
-        damage: 5
+        damage: 10
     },
 ]
 

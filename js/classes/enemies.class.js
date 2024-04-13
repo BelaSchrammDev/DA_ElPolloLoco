@@ -62,16 +62,17 @@ class Enemy extends AnimatedObject {
 
 class ChickenSmall extends Enemy {
 
+    particlesAtWalk = 3;
+    particlesSize = 5;
+    playerScore = 2;
+    offsetSpriteGroundFromTop = 48;
+    deadSoundID = 'chicken_small_dead';
+
     constructor(x, speed, damage) {
         super(x, 'chicken_small_walk', 'chicken_small_dead', 1);
         this.setHitBox(5, 5, 54, 47.5);
-        this.offsetSpriteGroundFromTop = 48;
         this.walkSpeed = speed;
         this.playerDamage = damage;
-        this.particlesAtWalk = 3;
-        this.particlesSize = 5;
-        this.playerScore = 2;
-        this.deadSoundID = 'chicken_small_dead';
     }
 
 }
@@ -79,16 +80,17 @@ class ChickenSmall extends Enemy {
 
 class Chicken extends Enemy {
 
+    offsetSpriteGroundFromTop = 65;
+    particlesAtWalk = 6;
+    particlesSize = 8;
+    playerScore = 5;
+    deadSoundID = 'chicken_dead';
+
     constructor(x, speed, damage) {
         super(x, 'chicken_walk', 'chicken_dead', 2);
         this.setHitBox(5, 5, 69.4, 63);
-        this.offsetSpriteGroundFromTop = 65;
         this.walkSpeed = speed;
         this.playerDamage = damage;
-        this.particlesAtWalk = 6;
-        this.particlesSize = 8;
-        this.playerScore = 5;
-        this.deadSoundID = 'chicken_dead';
     }
 
 }

@@ -104,13 +104,13 @@ class GameStateWin extends GameState {
 
     entering() {
         this.gameObject.sound.startGameMusic('win');
+        this.gameObject.addXCenteredText('You ar the Winner !!!', 350, 30);
+        this.gameObject.player.stop();
+        this.gameObject.boss.stop();
         if (ifMobile()) showElements(['gameoverbar']);
         else {
-            this.gameObject.addXCenteredText('You ar the Winner !!!', 350, 30);
             this.gameObject.addXCenteredText('Press ESC to MainMenu', 420);
             this.gameObject.addXCenteredText('Press Enter to Restart', 460);
-            this.gameObject.player.stop();
-            this.gameObject.boss.stop();
             showElements([]);
         }
         this.gameObject.gameOver = true;
