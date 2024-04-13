@@ -1,15 +1,33 @@
+/**
+ * Represents a game state.
+ * @class
+ */
 class GameState {
+    /**
+     * Creates a new instance of the GameState class.
+     * @constructor
+     * @param {GameObject} gameObject - The game object associated with the state.
+     * @param {number} stateID - The ID of the state.
+     */
     constructor(gameObject, stateID) {
         this.gameObject = gameObject;
         this.stateID = stateID;
     }
 }
 
-class GameStateMenuDesktop extends GameState {
+/**
+ * Represents the menu state of the game.
+ * @class
+ * @extends GameState
+ */
+class GameStateMenu extends GameState {
     constructor(gameObject) {
         super(gameObject, 'menu_desktop');
     }
 
+    /**
+     * Method called when entering the game state.
+     */
     entering() {
         this.gameObject.resetLevel(720);
         this.gameObject.backgrounds.push(new BackgroundImageObject('./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png'));
@@ -18,6 +36,10 @@ class GameStateMenuDesktop extends GameState {
         showElements(['menubar']);
     }
 
+    /**
+     * Handles the interaction with the game state.
+     * @param {object} interactionObject - The interaction object.
+     */
     handleInteraction(interactionObject) {
         if (interactionObject.Enter) {
             this.gameObject.setGameState('level_1');
@@ -25,6 +47,11 @@ class GameStateMenuDesktop extends GameState {
     }
 }
 
+
+/**
+ * Represents the level 1 game state.
+ * @extends GameState
+ */
 class GameStateLevel1 extends GameState {
 
     constructor(gameObject) {
@@ -42,6 +69,9 @@ class GameStateLevel1 extends GameState {
     }
 
 
+    /**
+     * Fills the level with game objects, enemies, player, UI elements, and collectables.
+     */
     fillLevel() {
         this.gameObject.resetLevel(3400);
         this.gameObject.setBackgroundImage('./img_pollo_locco/img/5_background/layers/air.png');
@@ -68,7 +98,12 @@ class GameStateLevel1 extends GameState {
     }
 }
 
-class GameStateGameOverDesktop extends GameState {
+
+/**
+ * Represents the game state when the game is over.
+ * @extends GameState
+ */
+class GameStateGameOver extends GameState {
     constructor(gameObject) {
         super(gameObject, '');
     }
@@ -96,6 +131,11 @@ class GameStateGameOverDesktop extends GameState {
     }
 }
 
+
+/**
+ * Represents the game state when the player wins the game.
+ * @extends GameState
+ */
 class GameStateWin extends GameState {
     constructor(gameObject) {
         super(gameObject, '');
@@ -103,7 +143,7 @@ class GameStateWin extends GameState {
 
     entering() {
         this.gameObject.sound.startGameMusic('win2');
-        this.gameObject.addXCenteredText('You win !!!', 250, 150);
+        this.gameObject.addXCenteredText('You win !!!', 250, 150, COLOR_GREEN);
         this.gameObject.player.stop();
         this.gameObject.boss.stop();
         if (ifMobile()) showElements(['gameoverbar']);

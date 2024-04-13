@@ -1,21 +1,18 @@
 /**
  * Represents a drawable object on the canvas.
+ * ImageObj can be draw normal or flipped.
+ * @extends Interval
  * @class
  * @classdesc Represents a drawable object on the canvas.
  * 
  */
 class DrawableObject extends Interval {
-    gameObject;
+    gameObject = game;
     x = 0;
     y = 0;
     z_index = 1;
     flipdrawing = false;
     imageObj = undefined;
-
-    constructor() {
-        super();
-        this.gameObject = game;
-    }
 
 
     /**
@@ -40,6 +37,7 @@ class DrawableObject extends Interval {
         this.y = y;
     }
 
+
     /**
      * Sets the image position to the center of the canvas.
      */
@@ -47,6 +45,16 @@ class DrawableObject extends Interval {
         this.x = this.gameObject.canvas.width / 2 - this.imageObj.width / 2;
         this.y = this.gameObject.canvas.height / 2 - this.imageObj.height / 2;
     }
+
+
+    /**
+     * Get the x-coordinate for this object adjusted for the camera and z-index.
+     * @returns {number} The adjusted x-coordinate.
+     */
+    getX(x) {
+        return x - this.gameObject.cameraX * this.z_index;
+    }
+
 
     /**
      * Draws the object on the canvas.
@@ -64,14 +72,5 @@ class DrawableObject extends Interval {
             ctx.restore();
         }
         else ctx.drawImage(this.imageObj.img, this.getX(this.x) + this.imageObj.diffX, this.y + this.imageObj.diffY, this.imageObj.width, this.imageObj.height);
-    }
-
-
-    /**
-     * Get the x-coordinate for this object adjusted for the camera and z-index.
-     * @returns {number} The adjusted x-coordinate.
-     */
-    getX(x) {
-        return x - this.gameObject.cameraX * this.z_index;
     }
 }

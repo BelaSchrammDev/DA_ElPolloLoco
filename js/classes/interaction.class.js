@@ -1,3 +1,6 @@
+/**
+ * Represents an interaction handler for keyboard and touch events.
+ */
 class Interaction {
     KEY_RIGHT = 'ArrowRight';
     KEY_LEFT = 'ArrowLeft';
@@ -18,7 +21,9 @@ class Interaction {
     Enter = false;
     MainMenu = false;
 
-    // Array for mapping touch events to keys
+    /**
+     * Array for mapping touch events to keys.
+     */
     touchEventsArray = [
         { btn: 'btnLeft', key: this.KEY_LEFT },
         { btn: 'btnRight', key: this.KEY_RIGHT },
@@ -38,12 +43,18 @@ class Interaction {
     }
 
 
+    /**
+     * Adds key event listeners to the window.
+     */
     addKeyEvents() {
         window.addEventListener('keydown', (e) => { this.setKey(e.key, true); });
         window.addEventListener('keyup', (e) => { this.setKey(e.key, false); });
     }
 
 
+    /**
+     * Adds touch events to the specified buttons.
+     */
     addTouchEvents() {
         this.touchEventsArray.forEach((event) => {
             let btn = document.getElementById(event.btn);
@@ -69,6 +80,7 @@ class Interaction {
         }
         return false;
     }
+
 
     checkKeyPause() {
         if (this.Pause) {
@@ -97,6 +109,12 @@ class Interaction {
     }
 
 
+    /**
+     * Sets the value of a specific key.
+     *
+     * @param {string} key - The key to set the value for.
+     * @param {boolean} value - The value if the key is pressed or not.
+     */
     setKey(key, value) {
         switch (key) {
             case this.KEY_RIGHT:

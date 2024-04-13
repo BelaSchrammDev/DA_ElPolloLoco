@@ -1,6 +1,11 @@
+/**
+ * Represents a flying hot salsa bottle in the game.
+ * @class
+ * @extends AnimatedObject
+ */
 class FlyBottle extends AnimatedObject {
 
-    bottlesplash = false;
+    broken = false;
     remove = false;
     fallingSpeed = -12;
     offsetSpriteGroundFromTop = 48;
@@ -17,38 +22,92 @@ class FlyBottle extends AnimatedObject {
         super.start();
     }
 
+    /**
+     * Starts the collision check for the fly bottles.
+     */
     startCollisionCheck() {
         this.addInterval('checkCollision', () => {
-            if (!this.bottlesplash && this.isCollidingWith(this.gameObject.boss)) {
-                this.bottleSplash();
-                this.removeGravityBehavior();
-                this.flySpeedX = 0;
-                this.gameObject.score += 100;
-                this.gameObject.boss.addDamage(19);
-            } else if (this.bottlesplash && this.animIdle) {
-                this.imageObj = null;
-                this.stopAnimation();
-                if (this.particles.length === 0) this.remove = true;
+            if (!this.broken && this.isCollidingWith(this.gameObject.boss)) {
+                this.bottleHitsBoss();
+            } else if (this.broken && this.animIdle) {
+                this.removeImageObj();
+                this.removeIfParticlesEmpty();
             } else if (this.isOnGround()) {
                 this.bottleSplash();
             } else {
-                this.x += this.flySpeedX;
-                if (!this.bottlesplash) this.addParticles(2, 6, 'rgba(256, 0, 0, 0.1)')
+                this.moveBottle();
             }
         });
     }
 
+
+    /**
+     * Moves the bottle horizontally based on the fly speed.
+     */
+    moveBottle() {
+        this.x += this.flySpeedX;
+        if (!this.broken) this.addParticles(2, 6, 'rgba(256, 0, 0, 0.1)')
+    }
+
+
+    /**
+     * Removes the image object associated with the fly bottle.
+     * Stops the animation if it is currently running.
+     */
+    removeImageObj() {
+        if (this.imageObj) {
+            this.imageObj = null;
+            this.stopAnimation();
+        }
+    }
+
+
+    /**
+     * Removes the fly bottle if the particles are empty.
+     */
+    removeIfParticlesEmpty() {
+        if (this.particles.length === 0) this.remove = true;
+    }
+
+
+    /**
+     * Plays the splash sound, removes the gravity behavior, and increases the score.
+     * The boss also takes damage from the bottle.
+     * The bottle is set as broken.
+     */
+    bottleHitsBoss() {
+        this.bottleSplash();
+        this.removeGravityBehavior();
+        this.flySpeedX = 0;
+        this.gameObject.score += 100;
+        this.gameObject.boss.addDamage(19);
+    }
+
+
+    /**
+     * Plays the splash sound and sets the bottle as broken.
+     */
     bottleSplash() {
         this.setNewAnimation('bottle_splash', 100, true);
         this.gameObject.sound.playSound('bottle_splash');
-        this.bottlesplash = true;
+        this.broken = true;
     }
 
+
+    /**
+     * Call the super class stop method and removes the collision checking interval.
+     * @override
+     */
     pause() {
         super.pause();
         this.removeInterval('checkCollision');
     }
 
+
+    /**
+     * Call the super class restart method and starts the collision checking interval.
+     * @returns {void}
+     */
     restart() {
         super.restart();
         this.startCollisionCheck();

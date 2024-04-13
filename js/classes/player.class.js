@@ -1,3 +1,7 @@
+/**
+ * Represents a player in the game.
+ * @extends AnimatedObject
+ */
 class Player extends AnimatedObject {
     lastMovementTime = 0;
     invulnerable = 0;
@@ -17,6 +21,9 @@ class Player extends AnimatedObject {
         this.landingAnimationID = 'pepe_landing';
     }
 
+    /**
+     * Starts the player.
+     */
     start() {
         super.start();
         this.setNewAnimation('pepe_idle', 200);
@@ -24,16 +31,27 @@ class Player extends AnimatedObject {
         this.startKeyTracking();
     }
 
+    /**
+     * Pauses the player.
+     * Overrides the base class's pause method and removes the 'keytracking' interval.
+     */
     pause() {
         super.pause();
         this.removeInterval('keytracking');
     }
 
+    /**
+     * Restarts the player.
+     * Overrides the base class's restart method and starts the key tracking interval.
+     */
     restart() {
         super.restart();
         this.startKeyTracking();
     }
 
+    /**
+     * Starts key tracking for the player.
+     */
     startKeyTracking() {
         this.addInterval('keytracking', () => {
             let moveSpeed = this.isOnGround() ? 5 : 2.5;
@@ -52,7 +70,13 @@ class Player extends AnimatedObject {
         });
     }
 
+    /**
+     * Throws a bottle.
+     * Sets the last movement time and adds a new FlyBottle object to the game.
+     * @returns {void}
+     */
     trowBottle() {
+        this.setLastMovementTime();
         if (this.gameObject.flybottles.length < 3 && this.gameObject.bottles > 0) {
             this.gameObject.bottles--;
             this.gameObject.flybottles.push(new FlyBottle(this));
@@ -60,11 +84,18 @@ class Player extends AnimatedObject {
     }
 
 
+    /**
+     * Checks if the player is in the idle state.
+     * @returns {boolean} Returns true if the player is in the idle state, false otherwise.
+     */
     isIdleState() {
         return !this.jumping && (this.animIdle || this.currentAnimationID === 'pepe_walk');
     }
 
 
+    /**
+     * Checks if the player is colliding with any collectables and collects them if so.
+     */
     checkCollecting() {
         this.gameObject.collectables.forEach((collectable) => {
             if (collectable.isCollidingWith(this)) {
@@ -73,6 +104,11 @@ class Player extends AnimatedObject {
         });
     }
 
+
+    /**
+     * Checks for collision between the player and enemies, and performs actions accordingly.
+     * If the player is falling and collides with an enemy, the enemy is killed and the player's score is increased.
+     */
     checkEnemyCollision() {
         this.gameObject.enemies.forEach((enemy) => {
             if (!enemy.dead && this.isCollidingWith(enemy) && this.fallingSpeed > 0) {
@@ -84,13 +120,17 @@ class Player extends AnimatedObject {
     }
 
 
+    /**
+     * Checks the score earned by jumping on enemies and updates the game state accordingly.
+     * If the player has killed enemies by jumping, the score is updated and flying text is displayed.
+     */
     checkScoreByJump() {
         if (this.enemyDeadByJump > 0) {
-            this.gameObject.uiItems.push(new FlyingText('+' + this.scoreByJump, this.getX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
+            this.gameObject.uiItems.push(new FlyingScoreText('+' + this.scoreByJump, this.getX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
             let enemyByJumping = this.enemyDeadByJump;
             if (enemyByJumping > 1) {
                 setTimeout(() => {
-                    this.gameObject.uiItems.push(new FlyingText('*' + enemyByJumping, this.getX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
+                    this.gameObject.uiItems.push(new FlyingScoreText('*' + enemyByJumping, this.getX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
                 }, 100);
             }
             this.gameObject.score += this.enemyDeadByJump * this.scoreByJump;
@@ -99,6 +139,11 @@ class Player extends AnimatedObject {
         }
     }
 
+
+    /**
+     * Starts the dying animation for the player.
+     * The player falls to the ground and the game state is set to 'game_over'.
+     */
     startDying() {
         this.setNewAnimation('pepe_dead', 200, true);
         this.removeInterval('keytracking');
@@ -116,12 +161,20 @@ class Player extends AnimatedObject {
         });
     }
 
+
+    /**
+     * Starts the hurt animation for the player.
+     */
     startHurtAnimation() {
         this.setNewAnimation('pepe_hurt', 200, true);
         this.setLastMovementTime();
     }
 
 
+    /**
+     * Sets the damage to the player.
+     * @param {number} damage - The amount of damage to be applied to the player.
+     */
     setPlayerDamage(damage) {
         if (this.invulnerable == 0) {
             this.invulnerable = 60;
@@ -132,6 +185,11 @@ class Player extends AnimatedObject {
     }
 
 
+    /**
+     * Sets the idle animation for the player.
+     * If the player has been idle for more than 5 seconds, it sets the 'pepe_longidle' animation and plays the 'pepe_snore' sound.
+     * Otherwise, it sets the 'pepe_idle' animation.
+     */
     setIdleAnimation() {
         if (this.lastMovementTime + 5000 < Date.now()) {
             if (this.currentAnimationID != 'pepe_longidle') this.setNewAnimation('pepe_longidle', 200);
@@ -141,6 +199,10 @@ class Player extends AnimatedObject {
     }
 
 
+    /**
+     * Makes the player character jump.
+     * Sets the falling speed and the jumping animation.
+     */
     Jump() {
         this.gameObject.sound.stopSound('pepe_snore');
         this.gameObject.sound.playSound('pepe_jump');
@@ -152,6 +214,10 @@ class Player extends AnimatedObject {
     }
 
 
+    /**
+     * Handles the landing logic for the player.
+     * Stops the jumping animation, plays a landing sound, and adds ground particles.
+     */
     Landing() {
         this.jumping = false;
         this.gameObject.sound.playSound('pepe_landing');
@@ -159,6 +225,11 @@ class Player extends AnimatedObject {
     }
 
 
+    /**
+     * Moves the player to the left by the specified move speed.
+     * If the player reaches the left edge of the screen, the camera is moved to the left.
+     * @param {number} moveSpeed - The speed at which the player moves.
+     */
     moveLeft(moveSpeed) {
         this.x -= moveSpeed;
         if (this.x < 0) this.x = 0;
@@ -167,6 +238,11 @@ class Player extends AnimatedObject {
     }
 
 
+    /**
+     * Moves the player to the right by the specified move speed.
+     * If the player reaches the right edge of the screen, the camera is moved to the right.
+     * @param {number} moveSpeed - The speed at which the player moves to the right.
+     */
     moveRight(moveSpeed) {
         this.x += moveSpeed;
         if (this.x > this.gameObject.levelWidth - this.imageObj.width) this.x = this.gameObject.levelWidth - this.imageObj.width;
@@ -175,6 +251,12 @@ class Player extends AnimatedObject {
     }
 
 
+    /**
+     * Sets the walk animation for the player.
+     * 
+     * @param {boolean} leftDirection - Indicates whether the player is moving left.
+     * @returns {void}
+     */
     setWalkAnimation(leftDirection) {
         this.flipdrawing = leftDirection;
         this.setLastMovementTime();
@@ -185,12 +267,20 @@ class Player extends AnimatedObject {
         }
     }
 
+
+    /**
+     * Plays the walk sound for the player.
+     * Stops the 'pepe_snore' sound and plays the 'pepe_walk' sound.
+     */
     playWalkSound() {
         this.gameObject.sound.stopSound('pepe_snore');
         this.gameObject.sound.playSound('pepe_walk');
     }
 
 
+    /**
+     * Sets the last movement time to the current timestamp.
+     */
     setLastMovementTime() {
         this.lastMovementTime = Date.now();
     }

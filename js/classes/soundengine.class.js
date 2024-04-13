@@ -4,6 +4,11 @@
  * @extends Interval
  */
 class SoundEngine extends Interval {
+
+
+    /**
+     * Array for storing sound effects.
+     */
     soundEffectsArray = {
         pepe_jump: { audio: new Audio('./audio/jump.wav'), volume: 1, playbackrate: 1.5, },
         pepe_landing: { audio: new Audio('./audio/landing_pepe.wav'), volume: 1, playbackrate: 1, },
@@ -18,6 +23,10 @@ class SoundEngine extends Interval {
         bottle: { audio: new Audio('./audio/bottle_ground.mp3'), volume: 1, playbackrate: 1, },
     }
 
+
+    /**
+     * Array for storing music sounds and their properties.
+     */
     soundMusicArray = {
         normal: {
             audio: new Audio('./audio/latin-summer.mp3'),

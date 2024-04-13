@@ -1,3 +1,11 @@
+/**
+ * This file contains the animations for the game.
+ */
+
+
+/**
+ * The arrays of images for the animations.
+ */
 const PEPE_WORKS = [
     './img_pollo_locco/img/2_character_pepe/2_walk/W-21.png',
     './img_pollo_locco/img/2_character_pepe/2_walk/W-22.png',
@@ -160,6 +168,9 @@ const GAMEOVER_IMAGES = [
     './img_pollo_locco/img/9_intro_outro_screens/game_over/you lost.png',
 ]
 
+/**
+ * The animation ID arrays.
+ */
 const animationIDArrays = {
     'pepe_walk': PEPE_WORKS,
     'pepe_jump': PEPE_JUMP,
@@ -186,6 +197,10 @@ const animationIDArrays = {
 
 const animFrames = {}
 
+
+/**
+ * The image offsets for the animations, if needed.
+ */
 const imageOffsets = {
     pepe_jump: { x: -12, y: 0 },
     pepe_falling: { x: -12, y: 0 },
@@ -194,6 +209,9 @@ const imageOffsets = {
 };
 
 
+/**
+ * Loads animations by populating the animFrames object with images.
+ */
 function loadAnimations() {
     for (let animationID in animationIDArrays) {
         let images = getImages(animationIDArrays[animationID], animationID);
@@ -202,6 +220,13 @@ function loadAnimations() {
 }
 
 
+/**
+ * Retrieves an array of ImageObjects based on the given image paths and animation ID.
+ *
+ * @param {string[]} imagepathArray - An array of image paths.
+ * @param {string} animationID - The ID of the animation.
+ * @returns {ImageObject[]} An array of ImageObjects.
+ */
 function getImages(imagepathArray, animationID) {
     let images = [];
     let imageScale = getImageScale(animationID);
@@ -218,6 +243,12 @@ function getImages(imagepathArray, animationID) {
 }
 
 
+/**
+ * Returns the scale value for a given animation ID.
+ *
+ * @param {string} animationID - The ID of the animation.
+ * @returns {number} The scale value for the animation.
+ */
 function getImageScale(animationID) {
     if (animationID.startsWith('boss_')) return 0.3;
     if (animationID.startsWith('pepe_')) return 0.25;
