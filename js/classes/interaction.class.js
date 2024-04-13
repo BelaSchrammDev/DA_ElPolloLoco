@@ -28,6 +28,7 @@ class Interaction {
         { btn: 'btnRestart', key: this.KEY_ENTER },
         { btn: 'btnMute', key: this.KEY_M },
         { btn: 'btnMenu', key: this.KEY_ESC },
+        { btn: 'btnIGMenu', key: this.KEY_ESC },
     ];
 
 

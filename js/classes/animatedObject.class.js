@@ -18,11 +18,6 @@ class AnimatedObject extends CollidingObject {
     particleShrinkSpeed = 0.95;
 
 
-    constructor() {
-        super();
-    }
-
-
     start() {
         this.addParticleAnimation();
         this.addGravityBehavior();

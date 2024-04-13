@@ -13,7 +13,7 @@ class GameStateMenuDesktop extends GameState {
     entering() {
         this.gameObject.resetLevel(720);
         this.gameObject.backgrounds.push(new BackgroundImageObject('./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png'));
-        // this.gameObject.uiItems.push(new Text('Press Enter to Start', 100, 30));
+        this.gameObject.sound.startGameMusic('normal');
         this.gameObject.startRendering();
         showElements(['menubar']);
     }

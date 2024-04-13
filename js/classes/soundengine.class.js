@@ -86,7 +86,7 @@ class SoundEngine extends Interval {
      * @param {number} newSoundID - The ID of the new sound to play.
      */
     startGameMusic(newSoundID) {
-        if (this.soundMute) return;
+        if (this.soundMute || this.currentMusicID === newSoundID) return;
         this.fadeCurrentMusicOut();
         this.currentMusicID = newSoundID;
         let newSound = this.soundMusicArray[newSoundID];

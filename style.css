@@ -10,7 +10,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: 'parkgirl';
+    font-family: 'zaBars', sans-serif;
     background-color: rgba(256, 200, 120, 1);
     user-select: none;
 }
@@ -41,6 +41,7 @@ body {
 }
 
 .scrolltext {
+    font-family: sans-serif;
     height: calc(90dvh - 20px);
     width: calc(90vw - 20px);
     overflow-y: scroll;
@@ -93,8 +94,18 @@ body {
     margin-bottom: 10px;
 }
 
+.imprint h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
 .imprint p {
     font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.imprint ul {
+    font-size: 15px;
     margin-bottom: 10px;
 }
 
