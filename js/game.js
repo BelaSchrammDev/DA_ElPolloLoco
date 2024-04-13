@@ -1,4 +1,5 @@
 let game;
+let currentOverlayID = '';
 
 function init() {
     addLandScapeListener();
@@ -16,6 +17,33 @@ function ifMobile() {
 function addLandScapeListener() {
     window.addEventListener('orientationchange', function () {
     });
+}
+
+
+function showOverlayInfo(infoID) {
+    currentOverlayID = infoID;
+    document.getElementById(infoID).style.display = 'block';
+    showOverlay(true);
+    document.getElementById('overlay').addEventListener('click', closeOverlayInfo);
+}
+
+function closeCurrentOverlay() {
+    if (currentOverlayID === '') return;
+    document.getElementById(currentOverlayID).style.display = 'none';
+    showOverlay(false);
+    document.getElementById('overlay').removeEventListener('click', closeOverlayInfo);
+    currentOverlayID = '';
+}
+
+function closeOverlayInfo(event) {
+    if (event.target.id === 'overlay') {
+        closeCurrentOverlay();
+    }
+}
+
+function showOverlay(view) {
+    let overlay = document.getElementById('overlay');
+    overlay.style.display = view ? 'flex' : 'none';
 }
 
 

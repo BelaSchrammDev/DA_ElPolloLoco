@@ -1,3 +1,8 @@
+/**
+ * Represents a sound engine that handles sound effects and music in the game.
+ * @class
+ * @extends Interval
+ */
 class SoundEngine extends Interval {
     soundEffectsArray = {
         pepe_jump: { audio: new Audio('./audio/jump.wav'), volume: 1, playbackrate: 1.5, },
@@ -47,6 +52,9 @@ class SoundEngine extends Interval {
         this.initSound();
     }
 
+    /**
+     * Initializes the sound effects by setting the playback rate and volume for each sound.
+     */
     initSound() {
         for (let soundKey in this.soundEffectsArray) {
             let sound = this.soundEffectsArray[soundKey];
@@ -55,12 +63,22 @@ class SoundEngine extends Interval {
         }
     }
 
+    /**
+     * Toggles the sound mute state.
+     * If the sound is muted, the current music is faded out.
+     */
     toggleSoundMute() {
         this.fadeCurrentMusicOut();
         this.soundMute = !this.soundMute;
     }
 
 
+    /**
+     * Starts the game music with the specified sound ID.
+     * If the sound is muted, the music is not played.
+     * The current music is faded out before the new music is started.
+     * @param {number} newSoundID - The ID of the new sound to play.
+     */
     startGameMusic(newSoundID) {
         if (this.soundMute) return;
         this.fadeCurrentMusicOut();
@@ -74,6 +92,9 @@ class SoundEngine extends Interval {
     }
 
 
+    /**
+     * Fades out the current music.
+     */
     fadeCurrentMusicOut() {
         if (this.currentMusicID === '') return;
         let sound = this.soundMusicArray[this.currentMusicID].audio;
@@ -89,6 +110,12 @@ class SoundEngine extends Interval {
     }
 
 
+    /**
+     * Plays a sound effect based on the provided sound ID.
+     * If the sound is muted, the sound is not played.
+     * The sound is played from the beginning if it is not already playing.
+     * @param {number} soundID - The ID of the sound effect to be played.
+     */
     playSound(soundID) {
         if (this.soundMute) return;
         let sound = this.soundEffectsArray[soundID].audio;
@@ -99,6 +126,10 @@ class SoundEngine extends Interval {
     }
 
 
+    /**
+     * Stops the specified sound by pausing it and resetting its current time to 0.
+     * @param {string} soundID - The ID of the sound to stop.
+     */
     stopSound(soundID) {
         this.soundEffectsArray[soundID].audio.pause();
         this.soundEffectsArray[soundID].audio.currentTime = 0;

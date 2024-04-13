@@ -11,8 +11,8 @@ class CollidingObject extends DrawableObject {
     draw() {
         super.draw();
         // this.drawGroundLine();
-        this.drawCollisionBox();
-        this.drawSpriteBox();
+        // this.drawCollisionBox();
+        // this.drawSpriteBox();
     }
 
 

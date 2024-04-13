@@ -15,6 +15,89 @@ body {
     user-select: none;
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.imprint {
+    position: relative;
+    background-color: sandybrown;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    letter-spacing: 2px;
+    max-height: 90dvh;
+    max-width: 90vw;
+    overflow: hidden;
+}
+
+.scrolltext {
+    height: calc(90dvh - 20px);
+    width: calc(90vw - 20px);
+    overflow-y: scroll;
+}
+
+/* make a custom scrollbar */
+.scrolltext::-webkit-scrollbar {
+    width: 5px;
+}
+
+.scrolltext::-webkit-scrollbar-track {
+    background: rgba(256, 200, 120, 1);
+}
+
+.scrolltext::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.scrolltext::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.btnreturn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    padding: 5px;
+    border: 1px solid black;
+    background-color: rgba(256, 200, 120, 1);
+    border-radius: 10px;
+    color: black;
+}
+
+.btnreturn img {
+    width: 100%;
+    height: 100%;
+}
+
+.imprint h1 {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.imprint h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.imprint p {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
 .fullscreen {
     position: relative;
     width: 720px;
