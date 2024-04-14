@@ -34,7 +34,6 @@
 </head>
 
 <body onload="init()">
-    <!-- <h1>El Pollo Loco</h1> -->
     <section style="display: none;" id="overlay" class="overlay">
         <section style="display: none;" id="privacypolicy" class="imprint">
             <button class="btnreturn" onclick="closeCurrentOverlay()"><img
@@ -184,25 +183,77 @@
                 </p>
             </div>
         </section>
+        <section style="display: none;" id="description" class="imprint">
+            <button class="btnreturn" onclick="closeCurrentOverlay()"><img
+                    src="./img_pollo_locco/buttons/arrow-left.svg" alt=""></button>
+            <div>
+                <h1>El Pollo Loco</h1>
+                <h2>Pepe's Steppenabenteuer</h2>
+                <p>In "Pepe's Steppenabenteuer" übernimmst du die Rolle von Pepe, einem mutigen Charakter, der durch die
+                    endlose Weite der Steppenlandschaft streift. Deine Mission? Hüpfe geschickt über Hühner und Küken,
+                    die deinem Weg im Lauf des Spiels begegnen, denn sie können dir Schaden zufügen! Doch nicht alles in
+                    dieser sonnenverwöhnten Steppenwelt ist feindselig - sammle unterwegs glänzende Coins ein, um deine
+                    Punktzahl zu erhöhen, und finde erfrischende Salsa-Flaschen, die dir wertvolle Energie verleihen.
+                </p>
+                <p>Aber sei gewarnt! Am Ende jedes Levels erwartet dich eine große Herausforderung in Gestalt eines
+                    gigantischen Huhns. Zum Glück hast du die gesammelten Salsa-Flaschen zur Hand, um dich zu
+                    verteidigen! Wirf sie geschickt auf das große Huhn, um es zu besiegen und das Level erfolgreich
+                    abzuschließen. Bist du bereit für das Abenteuer deines Lebens? Tauche ein in "Pepe's
+                    Steppenabenteuer" und beweise dein Können in dieser aufregenden Welt voller Gefahren und
+                    Belohnungen!</p>
+            </div>
+        </section>
     </section>
     <div id="fullscreen" class="fullscreen">
         <canvas id="canvas" width="720px" height="480px"></canvas>
-        <div show_control style="display: none;" id="menubar" class="bottom_bar flex_space_around">
+        <div show_control style="display: none;" id="menubar" class="force_bottom_bar flex_space_around">
             <button class="btn_menu" onclick="startGame()">Start Game</button>
             <button class="btn_menu" onclick="showOverlayInfo('imprint')">Imprint</button>
             <button class="btn_menu" onclick="showOverlayInfo('privacypolicy')">Policy Privacy</button>
-            <button class="btn_menu" onclick="">Help</button>
+            <button class="btn_menu" onclick="showOverlayInfo('description')">Help</button>
         </div>
         <div show_control style="display: none;" id="helpbar" class="flex_space_around help_bar">
             <div class="button_group_y">
-                <span>Move = Arrow Left and Right</span>
-                <span>Jump = Arrow Up</span>
-                <span>Trow Bottle = d</span>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Move</td>
+                            <td>=</td>
+                            <td>Arrow Left and Right</td>
+                        </tr>
+                        <tr>
+                            <td>Jump</td>
+                            <td>=</td>
+                            <td>Arrow Up / SPACE</td>
+                        </tr>
+                        <tr>
+                            <td>Trow Bottle</td>
+                            <td>=</td>
+                            <td>d</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="button_group_y">
-                <span>Pause = p</span>
-                <span>Sound on/off = m</span>
-                <span>MainMenu = ESC</span>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Pause</td>
+                            <td>=</td>
+                            <td>p</td>
+                        </tr>
+                        <tr>
+                            <td>Sound on/off</td>
+                            <td>=</td>
+                            <td>m</td>
+                        </tr>
+                        <tr>
+                            <td>MainMenu</td>
+                            <td>=</td>
+                            <td>ESC</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div show_control style="display: none;" id="gameoverbar" class="bottom_bar flex_center">
