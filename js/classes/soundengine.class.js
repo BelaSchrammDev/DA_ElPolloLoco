@@ -15,7 +15,7 @@ class SoundEngine extends Interval {
         pepe_hurt: { audio: new Audio('./audio/pepe-hurt.mp3'), volume: 1, playbackrate: 2, },
         pepe_snore: { audio: new Audio('./audio/pepe-snore.wav'), volume: 1, playbackrate: 1, },
         pepe_walk: { audio: new Audio('./audio/footsteps1.wav'), volume: 0.2, playbackrate: 1, },
-        boss_walk: { audio: new Audio('./audio/boss-walk.wav'), volume: 0.3, playbackrate: 2, },
+        boss_walk: { audio: new Audio('./audio/boss-walk.wav'), volume: 0.2, playbackrate: 2, },
         boss_attack: { audio: new Audio('./audio/boss-attack.wav'), volume: 1, playbackrate: 1, },
         boss_hurt: { audio: new Audio('./audio/boss-hurt.wav'), volume: 1, playbackrate: 1, },
         boss_dead: { audio: new Audio('./audio/boss-dead.wav'), volume: 1, playbackrate: 1, },

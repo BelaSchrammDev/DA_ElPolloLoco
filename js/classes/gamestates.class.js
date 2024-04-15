@@ -109,7 +109,7 @@ class GameStateLevel1 extends GameState {
         this.gameObject.setBackgroundImage('./img_pollo_locco/img/5_background/layers/air.png');
         addBackGrounds(this.gameObject);
         addClouds(this.gameObject);
-        // addEnemies(this.gameObject, enemies_level_1);
+        addEnemies(this.gameObject, enemies_level_1);
         addPlayer(this.gameObject);
         addBoss(this.gameObject);
         addUIElements(this.gameObject);

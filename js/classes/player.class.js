@@ -4,6 +4,8 @@
  */
 class Player extends AnimatedObject {
     lastMovementTime = 0;
+    lastBottleTrow = 0;
+    trowBottleInterval = 800;
     invulnerable = 0;
     enemyDeadByJump = 0;
     scoreByJump = 0;
@@ -79,8 +81,9 @@ class Player extends AnimatedObject {
      */
     trowBottle() {
         this.setLastMovementTime();
-        if (this.gameObject.flybottles.length < 3 && this.gameObject.bottles > 0) {
+        if (new Date().getTime() - this.lastBottleTrow > this.trowBottleInterval && this.gameObject.bottles > 0) {
             this.gameObject.bottles--;
+            this.lastBottleTrow = new Date().getTime();
             this.gameObject.flybottles.push(new FlyBottle(this));
         }
     }

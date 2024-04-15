@@ -41,7 +41,7 @@ body {
     border-radius: 10px;
     border: 1px solid black;
     letter-spacing: 2px;
-    max-height: 90dvh;
+    max-height: 95dvh;
     max-width: 90vw;
     overflow: hidden;
 }
@@ -65,10 +65,12 @@ body {
 }
 
 .scrolltext {
-    font-family: sans-serif;
-    height: calc(90dvh - 20px);
+    height: calc(95dvh - 20px);
     width: calc(90vw - 20px);
-    overflow-y: scroll;
+    max-height: fit-content;
+    max-width: fit-content;
+    font-family: sans-serif;
+    overflow-y: auto;
 }
 
 .scrolltext::-webkit-scrollbar {

@@ -82,7 +82,7 @@ class BossChicken extends AnimatedObject {
             this.x += this.walkSpeed;
             if (this.isOnGround() && this.walkSpeed != 0) {
                 this.addGroundParticles(3, 15);
-                this.gameObject.sound.playSound('boss_walk');
+                if (!this.gameObject.gameOver) this.gameObject.sound.playSound('boss_walk');
             }
             if (this.isCollidingWith(this.gameObject.player)) this.gameObject.player.setPlayerDamage(this.playerDamage);
         });
@@ -176,7 +176,6 @@ class BossAI_Wait extends BossAI {
         this.boss.stopAnimation();
     }
     handleInteractions() {
-
         if (this.boss.getX(this.boss.x) < this.boss.gameObject.canvas.width - 20) {
             this.boss.gameObject.uiItems.push(new BossHealth());
             this.boss.gameObject.sound.startGameMusic('boss');

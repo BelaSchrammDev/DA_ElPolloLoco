@@ -33,6 +33,8 @@ class FlyBottle extends AnimatedObject {
                 this.removeImageObj();
                 this.removeIfParticlesEmpty();
             } else if (this.isOnGround()) {
+                let collidingEnemies = this.gameObject.enemies.filter((enemy) => this.isCollidingWith(enemy) && !enemy.dead);
+                collidingEnemies.forEach((enemy) => enemy.enemyDead());
                 this.bottleSplash();
             } else {
                 this.moveBottle();
