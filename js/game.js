@@ -6,28 +6,9 @@ let currentOverlayID = '';
  * Initializes the game.
  */
 function init() {
-    addLandScapeListener();
     loadAnimations();
     game = new Game();
     game.setGameState('menu_desktop');
-}
-
-
-/**
- * Checks if the user is accessing the website from a mobile device.
- * @returns {boolean} Returns true if the user is accessing from a mobile device, otherwise false.
- */
-function ifMobile() {
-    return (/Mobi|Android/i.test(navigator.userAgent));
-}
-
-
-/**
- * Adds a listener for the 'orientationchange' event.
- */
-function addLandScapeListener() {
-    window.addEventListener('orientationchange', function () {
-    });
 }
 
 
@@ -36,6 +17,7 @@ function addLandScapeListener() {
  * @param {string} infoID - The ID of the overlay information element.
  */
 function showOverlayInfo(infoID) {
+    closeCurrentOverlay();
     currentOverlayID = infoID;
     document.getElementById(infoID).style.display = 'block';
     showOverlay(true);

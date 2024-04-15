@@ -25,6 +25,7 @@ class Player extends AnimatedObject {
      * Starts the player.
      */
     start() {
+        if (this.health <= 0) return;
         super.start();
         this.setNewAnimation('pepe_idle', 200);
         this.setLastMovementTime();
@@ -45,6 +46,7 @@ class Player extends AnimatedObject {
      * Overrides the base class's restart method and starts the key tracking interval.
      */
     restart() {
+        if (this.health <= 0) return;
         super.restart();
         this.startKeyTracking();
     }
@@ -55,7 +57,7 @@ class Player extends AnimatedObject {
     startKeyTracking() {
         this.addInterval('keytracking', () => {
             let moveSpeed = this.isOnGround() ? 5 : 2.5;
-            if (this.health <= 0) this.startDying();
+            if (!this.gameObject.gameOver && this.health <= 0) this.startDying();
             else if (this.gameObject.interaction.checkTrow()) this.trowBottle();
             else if (this.isOnGround() && this.jumping) this.Landing();
             else if (this.invulnerable > 30) this.startHurtAnimation();
@@ -156,7 +158,7 @@ class Player extends AnimatedObject {
             this.y = this.gameObject.groundLevel - this.offsetSpriteGroundFromTop - this.offsetFromGround;
             if (this.y > this.gameObject.canvas.height) {
                 this.gameObject.setGameState('game_over');
-                this.removeInterval('dying');
+                this.stop();
             }
         });
     }

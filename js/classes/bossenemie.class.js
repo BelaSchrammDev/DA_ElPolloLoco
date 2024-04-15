@@ -80,7 +80,10 @@ class BossChicken extends AnimatedObject {
     startMoving() {
         this.addInterval('move', () => {
             this.x += this.walkSpeed;
-            if (this.isOnGround() && this.walkSpeed != 0) this.addGroundParticles(3, 15);
+            if (this.isOnGround() && this.walkSpeed != 0) {
+                this.addGroundParticles(3, 15);
+                this.gameObject.sound.playSound('boss_walk');
+            }
             if (this.isCollidingWith(this.gameObject.player)) this.gameObject.player.setPlayerDamage(this.playerDamage);
         });
     }
@@ -191,6 +194,7 @@ class BossAI_Hurt extends BossAI {
     entering() {
         this.boss.walkSpeed = 0;
         this.boss.setNewAnimation('boss_hurt', 300);
+        this.boss.gameObject.sound.playSound('boss_hurt');
     }
 
     handleInteractions() {
@@ -209,6 +213,8 @@ class BossAI_Dead extends BossAI {
 
     entering() {
         this.boss.setNewAnimation('boss_dead', 300, true);
+        this.boss.gameObject.sound.stopSound('boss_hurt');
+        this.boss.gameObject.sound.playSound('boss_dead');
         this.boss.stopMoving();
     }
 
@@ -280,6 +286,7 @@ class BossAI_Attack extends BossAI {
 
     entering() {
         this.boss.setNewAnimation('boss_walk', 200);
+        this.boss.gameObject.sound.playSound('boss_attack');
         this.boss.walkSpeed = -6;
         this.attackXEnd = this.boss.gameObject.player.x;
         this.attackAnimation = false;

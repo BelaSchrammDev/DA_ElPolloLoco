@@ -20,6 +20,7 @@ class Game extends Interval {
     };
 
     gamePaused = false;
+    gameWaitForLandScape = false;
     gameOver = false;
     soundMute = false;
 
@@ -181,7 +182,7 @@ class Game extends Interval {
      * Pauses the game.
      */
     pause() {
-        if (this.gamePaused || this.gameOver) return;
+        if (this.gamePaused) return;
         if (this.player) this.player.pause();
         if (this.boss) this.boss.pause();
         this.enemies.forEach((enemy) => enemy.pause());
@@ -200,7 +201,7 @@ class Game extends Interval {
      * Sets the gamePaused flag to false.
      */
     restart() {
-        if (!this.gamePaused || this.gameOver) return;
+        if (!this.gamePaused) return;
         if (this.player) this.player.restart();
         if (this.boss) this.boss.restart();
         this.flybottles.forEach((bottle) => bottle.restart());

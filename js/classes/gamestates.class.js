@@ -13,6 +13,37 @@ class GameState {
         this.gameObject = gameObject;
         this.stateID = stateID;
     }
+
+    /**
+     * Checks if the user is accessing the website from a mobile device.
+     * @returns {boolean} Returns true if the user is accessing from a mobile device, otherwise false.
+     */
+    ifMobile() {
+        return (/Mobi|Android/i.test(navigator.userAgent));
+    }
+
+    isLandScape() {
+        return window.innerHeight < window.innerWidth;
+    }
+
+    checkMobileDeviceOrientation(interactionObject) {
+        if (!this.ifMobile()) return true;
+        if (this.isLandScape() && this.gameObject.gameWaitForLandScape) {
+            if (!this.gamePausedState) this.gameObject.restart();
+            this.gamePausedState = false;
+            this.gameObject.gameWaitForLandScape = false;
+            closeCurrentOverlay();
+            return true;
+        }
+        else if (!this.isLandScape() && !this.gameObject.gameWaitForLandScape) {
+            this.gamePausedState = this.gameObject.gamePaused;
+            this.gameObject.pause();
+            this.gameObject.gameWaitForLandScape = true;
+            showOverlayInfo('turndevice');
+            return false;
+        }
+        return !this.gameObject.gameWaitForLandScape;
+    }
 }
 
 /**
@@ -41,9 +72,10 @@ class GameStateMenu extends GameState {
      * @param {object} interactionObject - The interaction object.
      */
     handleInteraction(interactionObject) {
-        if (interactionObject.Enter) {
-            this.gameObject.setGameState('level_1');
-        }
+        this.checkMobileDeviceOrientation(interactionObject);
+        // if (interactionObject.Enter) {
+        //     this.gameObject.setGameState('level_1');
+        // }
     }
 }
 
@@ -60,7 +92,7 @@ class GameStateLevel1 extends GameState {
 
 
     entering() {
-        let showbar = ifMobile() ? 'movebar' : 'helpbar';
+        let showbar = this.ifMobile() ? 'movebar' : 'helpbar';
         this.fillLevel();
         showElements([showbar]);
         this.gameObject.startRendering();
@@ -77,7 +109,7 @@ class GameStateLevel1 extends GameState {
         this.gameObject.setBackgroundImage('./img_pollo_locco/img/5_background/layers/air.png');
         addBackGrounds(this.gameObject);
         addClouds(this.gameObject);
-        addEnemies(this.gameObject, enemies_level_1);
+        // addEnemies(this.gameObject, enemies_level_1);
         addPlayer(this.gameObject);
         addBoss(this.gameObject);
         addUIElements(this.gameObject);
@@ -85,10 +117,11 @@ class GameStateLevel1 extends GameState {
     }
 
     handleInteraction(interactionObject) {
+        if (!this.checkMobileDeviceOrientation(interactionObject)) return;
         if (interactionObject.checkMainMenu()) {
             this.gameObject.setGameState('menu_desktop');
         }
-        if (interactionObject.checkKeyPause()) {
+        else if (interactionObject.checkKeyPause()) {
             if (this.gameObject.gamePaused) {
                 this.gameObject.restart();
             } else {
@@ -112,7 +145,7 @@ class GameStateGameOver extends GameState {
         let gameoverImageIndex = Math.floor(Math.random() * 4);
         this.gameObject.uiItems.push(new CenterPopImage(GAMEOVER_IMAGES[gameoverImageIndex]));
         this.gameObject.sound.startGameMusic('fail');
-        if (ifMobile()) showElements(['gameoverbar']);
+        if (this.ifMobile()) showElements(['gameoverbar']);
         else {
             this.gameObject.addXCenteredText('Press ESC to MainMenu', 420);
             this.gameObject.addXCenteredText('Press Enter to Restart', 460);
@@ -122,6 +155,7 @@ class GameStateGameOver extends GameState {
     }
 
     handleInteraction(interactionObject) {
+        if (!this.checkMobileDeviceOrientation(interactionObject)) return;
         if (interactionObject.Enter) {
             this.gameObject.setGameState('level_1');
         }
@@ -146,7 +180,7 @@ class GameStateWin extends GameState {
         this.gameObject.addXCenteredText('You win !!!', 250, 150, COLOR_GREEN);
         this.gameObject.player.stop();
         this.gameObject.boss.stop();
-        if (ifMobile()) showElements(['gameoverbar']);
+        if (this.ifMobile()) showElements(['gameoverbar']);
         else {
             this.gameObject.addXCenteredText('Press ESC to MainMenu', 420);
             this.gameObject.addXCenteredText('Press Enter to Restart', 460);
@@ -156,6 +190,7 @@ class GameStateWin extends GameState {
     }
 
     handleInteraction(interactionObject) {
+        if (!this.checkMobileDeviceOrientation(interactionObject)) return;
         if (interactionObject.Enter) {
             this.gameObject.setGameState('level_1');
         }

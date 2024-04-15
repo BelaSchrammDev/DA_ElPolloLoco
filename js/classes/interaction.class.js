@@ -40,6 +40,7 @@ class Interaction {
     constructor() {
         this.addKeyEvents();
         this.addTouchEvents();
+        this.addLandScapeListener();
     }
 
 
@@ -59,7 +60,6 @@ class Interaction {
         this.touchEventsArray.forEach((event) => {
             let btn = document.getElementById(event.btn);
             if (btn) {
-
                 btn.addEventListener('touchstart', (e) => {
                     e.preventDefault();
                     this.setKey(event.key, true);
@@ -68,6 +68,20 @@ class Interaction {
                     e.preventDefault();
                     this.setKey(event.key, false);
                 });
+            }
+        });
+    }
+
+
+    /**
+    * Adds a listener for the 'orientationchange' event.
+    */
+    addLandScapeListener() {
+        window.addEventListener('orientationchange', function () {
+            if (window.innerHeight < window.innerWidth) {
+                this.LandScape = true;
+            } else {
+                this.LandScape = false;
             }
         });
     }

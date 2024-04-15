@@ -46,6 +46,24 @@ body {
     overflow: hidden;
 }
 
+.turndevice {
+    background-color: sandybrown;
+    padding: 10px;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    min-width: 100vw;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.turndevice img {
+    width: 100%;
+    height: 100%;
+}
+
 .scrolltext {
     font-family: sans-serif;
     height: calc(90dvh - 20px);
@@ -53,7 +71,6 @@ body {
     overflow-y: scroll;
 }
 
-/* make a custom scrollbar */
 .scrolltext::-webkit-scrollbar {
     width: 5px;
 }
