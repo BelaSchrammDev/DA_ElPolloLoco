@@ -27,7 +27,7 @@ class BackgroundObject extends DrawableObject {
         let ctx = this.gameObject.ctx;
         let currentX = this.x;
         while (currentX < this.gameObject.levelWidth) {
-            let currentXCorrected = this.getX(currentX);
+            let currentXCorrected = this.getCanvasX(currentX);
             if (currentXCorrected > this.gameObject.canvas.width) break;
             if (currentXCorrected + this.imageObj.width > 0) {
                 ctx.drawImage(this.imageObj.img, currentXCorrected, this.y, this.imageObj.width, this.imageObj.height);

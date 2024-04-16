@@ -65,6 +65,7 @@ class Enemy extends AnimatedObject {
         }
     }
 
+
     /**
      * Stops the enemy moving.
      */
@@ -80,6 +81,7 @@ class Enemy extends AnimatedObject {
         this.dead = true;
         this.removeInterval('walk');
         this.setNewAnimation(this.animationDead, 200, true);
+        this.remove = true;
         if (this.deadSound != '') this.gameObject.sound.playSound(this.deadSoundID);
     }
 }

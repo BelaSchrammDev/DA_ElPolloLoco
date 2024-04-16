@@ -66,7 +66,7 @@ class CollidingObject extends DrawableObject {
         this.gameObject.ctx.fillStyle = 'black';
         this.gameObject.ctx.beginPath();
         this.gameObject.ctx.rect(
-            this.getX(this.x),
+            this.getCanvasX(this.x),
             this.y,
             this.imageObj.width,
             this.imageObj.height
@@ -83,7 +83,7 @@ class CollidingObject extends DrawableObject {
         this.gameObject.ctx.fillStyle = 'blue';
         this.gameObject.ctx.beginPath();
         this.gameObject.ctx.rect(
-            this.getX(this.x) + this.hitBox.offsetleft,
+            this.getCanvasX(this.x) + this.hitBox.offsetleft,
             this.y + this.hitBox.offsettop,
             this.hitBox.offsetright - this.hitBox.offsetleft,
             this.hitBox.offsetbottom - this.hitBox.offsettop
@@ -100,7 +100,7 @@ class CollidingObject extends DrawableObject {
         this.gameObject.ctx.fillStyle = 'blue';
         this.gameObject.ctx.beginPath();
         this.gameObject.ctx.rect(
-            this.getX(this.x),
+            this.getCanvasX(this.x),
             this.y,
             this.imageObj.width,
             this.offsetSpriteGroundFromTop

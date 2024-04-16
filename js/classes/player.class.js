@@ -131,11 +131,11 @@ class Player extends AnimatedObject {
      */
     checkScoreByJump() {
         if (this.enemyDeadByJump > 0) {
-            this.gameObject.uiItems.push(new FlyingScoreText('+' + this.scoreByJump, this.getX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
+            this.gameObject.uiItems.push(new FlyingScoreText('+' + this.scoreByJump, this.getCanvasX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_GREEN));
             let enemyByJumping = this.enemyDeadByJump;
             if (enemyByJumping > 1) {
                 setTimeout(() => {
-                    this.gameObject.uiItems.push(new FlyingScoreText('*' + enemyByJumping, this.getX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
+                    this.gameObject.uiItems.push(new FlyingScoreText('*' + enemyByJumping, this.getCanvasX(this.x) + this.imageObj.width / 2, this.y + this.hitBox.offsettop, COLOR_RED));
                 }, 100);
             }
             this.gameObject.score += this.enemyDeadByJump * this.scoreByJump;
@@ -238,7 +238,7 @@ class Player extends AnimatedObject {
     moveLeft(moveSpeed) {
         this.x -= moveSpeed;
         if (this.x < 0) this.x = 0;
-        if (this.getX(this.x) < 0) this.gameObject.moveCamera(-moveSpeed);
+        if (this.getCanvasX(this.x) < 0) this.gameObject.moveCamera(-moveSpeed);
         this.setWalkAnimation(true);
     }
 
@@ -251,7 +251,7 @@ class Player extends AnimatedObject {
     moveRight(moveSpeed) {
         this.x += moveSpeed;
         if (this.x > this.gameObject.levelWidth - this.imageObj.width) this.x = this.gameObject.levelWidth - this.imageObj.width;
-        if (this.getX(this.x) > this.gameObject.canvas.width / 2) this.gameObject.moveCamera(moveSpeed);
+        if (this.getCanvasX(this.x) > this.gameObject.canvas.width / 4) this.gameObject.moveCamera(moveSpeed);
         this.setWalkAnimation(false);
     }
 

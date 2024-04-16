@@ -87,8 +87,12 @@ class SoundEngine extends Interval {
      * If the sound is muted, the current music is faded out.
      */
     toggleSoundMute() {
-        this.fadeCurrentMusicOut();
         this.soundMute = !this.soundMute;
+        if (!this.soundMute) {
+            if (this.currentMusicID != '') this.playGameMusic(this.currentMusicID);
+        } else {
+            this.fadeCurrentMusicOut();
+        }
     }
 
 
@@ -99,9 +103,15 @@ class SoundEngine extends Interval {
      * @param {number} newSoundID - The ID of the new sound to play.
      */
     startGameMusic(newSoundID) {
-        if (this.soundMute || this.currentMusicID === newSoundID) return;
+        if (this.currentMusicID === newSoundID) return;
         this.fadeCurrentMusicOut();
         this.currentMusicID = newSoundID;
+        this.playGameMusic(newSoundID);
+    }
+
+
+    playGameMusic(newSoundID) {
+        if (this.soundMute) return;
         let newSound = this.soundMusicArray[newSoundID];
         newSound.audio.volume = newSound.volume;
         newSound.audio.loop = newSound.loop;

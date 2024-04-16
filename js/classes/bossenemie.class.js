@@ -145,7 +145,7 @@ class BossAI {
      * @returns {boolean} - True if the boss is out of the canvas on the right side, false otherwise.
      */
     ifOutOfCanvasRight() {
-        return this.boss.getX(this.boss.x) + this.boss.hitBox.offsetright > this.boss.gameObject.canvas.width;
+        return this.boss.getCanvasX(this.boss.x) + this.boss.hitBox.offsetright > this.boss.gameObject.canvas.width;
     }
 
     /**
@@ -176,7 +176,7 @@ class BossAI_Wait extends BossAI {
         this.boss.stopAnimation();
     }
     handleInteractions() {
-        if (this.boss.getX(this.boss.x) < this.boss.gameObject.canvas.width - 20) {
+        if (this.boss.getCanvasX(this.boss.x) < this.boss.gameObject.canvas.width - 20) {
             this.boss.gameObject.uiItems.push(new BossHealth());
             this.boss.gameObject.sound.startGameMusic('boss');
             this.boss.setAI('walk_left');

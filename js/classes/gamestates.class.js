@@ -62,7 +62,6 @@ class GameStateMenu extends GameState {
     entering() {
         this.gameObject.resetLevel(720);
         this.gameObject.backgrounds.push(new BackgroundImageObject('./img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png'));
-        this.gameObject.sound.startGameMusic('normal');
         this.gameObject.startRendering();
         showElements(['menubar']);
     }
