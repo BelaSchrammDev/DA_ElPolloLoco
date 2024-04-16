@@ -65,10 +65,7 @@ body {
 }
 
 .scrolltext {
-    height: calc(95dvh - 20px);
-    width: calc(90vw - 20px);
-    max-height: fit-content;
-    max-width: fit-content;
+    max-height: 90dvh;
     font-family: sans-serif;
     overflow-y: auto;
 }
@@ -102,6 +99,11 @@ body {
     background-color: rgba(256, 200, 120, 1);
     border-radius: 10px;
     color: black;
+}
+
+.btnreturn:hover {
+    background-color: rgba(256, 250, 120, 1);
+    cursor: pointer;
 }
 
 .btnreturn img {
@@ -295,6 +297,13 @@ canvas {
         --btn_fontsize: 16px;
         --h1_fontsize: 25px;
         --h2_fontsize: 17px;
+    }
+}
+
+@media (max-width: 400px) {
+    .scrolltext {
+        height: calc(95dvh - 20px);
+        width: calc(90vw - 20px);
     }
 }
 
