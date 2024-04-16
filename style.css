@@ -19,6 +19,7 @@ body {
     font-family: 'zaBars', sans-serif;
     background-color: rgba(256, 200, 120, 1);
     user-select: none;
+    overflow-y: hidden;
 }
 
 .overlay {
