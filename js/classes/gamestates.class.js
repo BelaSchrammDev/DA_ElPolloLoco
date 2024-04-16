@@ -72,9 +72,6 @@ class GameStateMenu extends GameState {
      */
     handleInteraction(interactionObject) {
         this.checkMobileDeviceOrientation(interactionObject);
-        // if (interactionObject.Enter) {
-        //     this.gameObject.setGameState('level_1');
-        // }
     }
 }
 

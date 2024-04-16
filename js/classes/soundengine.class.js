@@ -111,6 +111,12 @@ class SoundEngine extends Interval {
     }
 
 
+    /**
+     * Plays the game music with the specified sound ID.
+     * If the sound is muted, the music is not played.
+     * The music is played from the beginning if it is not already playing.
+     * @param {number} newSoundID - The ID of the new sound to be played.
+     */
     playGameMusic(newSoundID) {
         if (this.soundMute) return;
         let newSound = this.soundMusicArray[newSoundID];
@@ -124,6 +130,7 @@ class SoundEngine extends Interval {
 
     /**
      * Fades out the current music.
+     * The music is faded out by reducing the volume in intervals until it reaches 0.
      */
     fadeCurrentMusicOut() {
         if (this.currentMusicID === '') return;
