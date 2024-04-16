@@ -64,6 +64,13 @@ body {
     height: 100%;
 }
 
+.turndevice div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+}
+
 .scrolltext {
     max-height: 90dvh;
     font-family: sans-serif;
