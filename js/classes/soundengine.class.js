@@ -93,6 +93,7 @@ class SoundEngine extends Interval {
         } else {
             this.fadeCurrentMusicOut();
         }
+        showMuteButtonImage(this.soundMute ? 'mute-off' : 'mute');
     }
 
 

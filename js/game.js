@@ -77,3 +77,9 @@ function showElements(btnIDArray) {
         element.style.display = btnIDArray.includes(element.id) ? 'flex' : 'none';
     }
 }
+
+
+function showMuteButtonImage(name) {
+    let muteImg = document.getElementById('btnMute').querySelector('img');
+    muteImg.setAttribute('src', './img_pollo_locco/buttons/' + name + '.svg');
+}
