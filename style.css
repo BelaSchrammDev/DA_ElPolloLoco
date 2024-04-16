@@ -235,7 +235,7 @@ canvas {
     font-size: var(--btn_fontsize);
     padding: 10px;
     border: 1px solid black;
-    background-color: rgba(256, 200, 120, 1);
+    background-color: rgba(246, 190, 120, 1);
     border-radius: 10px;
     color: black;
 }

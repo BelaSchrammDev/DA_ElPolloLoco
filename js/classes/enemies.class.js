@@ -58,11 +58,24 @@ class Enemy extends AnimatedObject {
             this.setNewAnimation(this.animationWalk, 200);
             this.addInterval('walk', () => {
                 this.x -= this.walkSpeed;
-                if (this.x < -this.imageObj.width) this.remove = true;
+                if (this.x < -this.imageObj.width) this.setToRemove();
                 if (this.isOnGround()) this.addGroundParticles(this.particlesAtWalk, this.particlesSize);
                 if (this.isCollidingWith(this.gameObject.player)) this.gameObject.player.setPlayerDamage(this.playerDamage);
             });
         }
+    }
+
+
+    /**
+     * Sets the enemy to be removed after a certain interval.
+     * Stops all intervals and sets the remove flag to true.
+     */
+    setToRemove() {
+        this.removeInterval('walk');
+        this.addInterval('remove', () => {
+            this.stop();
+            this.remove = true;
+        }, 2000);
     }
 
 
@@ -78,10 +91,9 @@ class Enemy extends AnimatedObject {
      * Stops walking, sets the dead animation and plays the dead sound.
      */
     enemyDead() {
+        this.setToRemove();
         this.dead = true;
-        this.removeInterval('walk');
         this.setNewAnimation(this.animationDead, 200, true);
-        this.remove = true;
         if (this.deadSound != '') this.gameObject.sound.playSound(this.deadSoundID);
     }
 }
