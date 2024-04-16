@@ -12,12 +12,12 @@ class BossChicken extends AnimatedObject {
 
     aiBehavior = null;
     aiBehaviorList = {
-        'wait': new BossAI_Wait(this),
-        'walk_left': new BossAI_Walk_Left(this),
-        'walk_right': new BossAI_Walk_Right(this),
-        'attack': new BossAI_Attack(this),
-        'hurt': new BossAI_Hurt(this),
-        'dead': new BossAI_Dead(this),
+        'wait': new Wait(this),
+        'walk_left': new WalkLeft(this),
+        'walk_right': new WalkRight(this),
+        'attack': new Attack(this),
+        'hurt': new Hurt(this),
+        'dead': new Dead(this),
     };
 
     constructor() {
@@ -169,7 +169,7 @@ class BossAI {
  * Represents the waiting behavior of a boss enemy.
  * @extends BossAI
  */
-class BossAI_Wait extends BossAI {
+class Wait extends BossAI {
 
     entering() {
         this.boss.walkSpeed = 0;
@@ -188,7 +188,7 @@ class BossAI_Wait extends BossAI {
  * Represents the AI behavior for a hurt boss enemy.
  * @extends BossAI
  */
-class BossAI_Hurt extends BossAI {
+class Hurt extends BossAI {
 
     entering() {
         this.boss.walkSpeed = 0;
@@ -208,7 +208,7 @@ class BossAI_Hurt extends BossAI {
  * Represents the AI behavior for a dead boss enemy.
  * @extends BossAI
  */
-class BossAI_Dead extends BossAI {
+class Dead extends BossAI {
 
     entering() {
         this.boss.setNewAnimation('boss_dead', 300, true);
@@ -228,7 +228,7 @@ class BossAI_Dead extends BossAI {
  * Represents the AI behavior for the boss when walking left.
  * @extends BossAI
  */
-class BossAI_Walk_Left extends BossAI {
+class WalkLeft extends BossAI {
 
     entering() {
         this.boss.setNewAnimation('boss_walk', 200);
@@ -252,7 +252,7 @@ class BossAI_Walk_Left extends BossAI {
  * Represents the AI behavior for the boss enemy when walking to the right.
  * @extends BossAI
  */
-class BossAI_Walk_Right extends BossAI {
+class WalkRight extends BossAI {
 
     entering() {
         this.boss.setNewAnimation('boss_walk', 200);
@@ -281,7 +281,7 @@ class BossAI_Walk_Right extends BossAI {
  * Represents the Boss AI for attacking behavior.
  * @extends BossAI
  */
-class BossAI_Attack extends BossAI {
+class Attack extends BossAI {
 
     entering() {
         this.boss.setNewAnimation('boss_walk', 200);
